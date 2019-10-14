@@ -1,0 +1,17 @@
+
+--190907 Table Modified : 
+--USERHISTORY 컬럼삭제 latitude, longitude, parkinglot_name, parkinglot_addr
+--            컬럼추가 userhistory_parking_code
+--            FK추가 userhistory_parking_code -> parking_seoul.ps_parking_code
+--PAYMENTHISTORY 컬럼명변경 paymenthistory_purchase_amount -> paymenthistory_payment
+--PAYMENTHISTORY 컬럼삭제 instt_name, instt_phone
+--PAYMENTHISTORY 컬럼추가 paymenthistory_parking_code, paymenthistory_userhistory_no, 
+--               FK추가 paymenthistory_userhistory_no -> userhistory_no
+--REIVEW 컬럼추가 review_userhistory_no
+--       FK추가 review_userhistory_no -> userhistory_no
+--BOOKMARK 컬럼삭제 latitude, longitude
+--         컬럼추가 parking_code (엑셀파일에 있는 주차 코드)
+--COUPON + pecent name (cookie로 expiredate jasa logic) issuedate, terminate
+--        mypage 올떄마다 coupon expire 결정
+--각테이블 user_code 컬럼명 변경  user_code -> tablename_user_code
+--PARKING_SEOUL ps_parking_code, ps_addr, ps_parking_name, ps_latitude, ps_longitude

@@ -1,0 +1,123 @@
+@import url('https://fonts.googleapis.com/css?family=Numans');
+html,
+body {
+  /* background-image: url('../images/backgroundimage5.jpg'); */
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100%;
+  font-family: 'Rubik', sans-serif;
+  background-color: whitesmoke;
+}
+
+.site-header {
+  background-color: rgba(19, 37, 53, .9);
+}
+
+.site-header a {
+  color: #999;
+  transition: ease-in-out color .15s;
+}
+
+.container.sns {
+  height: 100%;
+  align-content: center;
+}
+
+.card {
+  height: 400px;
+  margin-top: auto;
+  margin-bottom: auto;
+  width: 500px;
+  box-shadow: 0.5rem 0.5rem 2rem rgba(19, 37, 53, 0.9);
+  background-color: rgb(19, 37, 53) !important;
+}
+
+.social_icon span {
+  font-size: 60px;
+  margin-left: 10px;
+  color: #3b5998;
+}
+
+.social_icon span:hover {
+  color: white;
+  cursor: pointer;
+}
+
+.card-header h3 {
+  color: white;
+}
+
+.social_icon {
+  position: absolute;
+  right: 20px;
+  top: -45px;
+}
+
+.input-group-prepend span {
+  width: 50px;
+  background-color: lightgray;
+  color: black;
+  border: 0 !important;
+}
+
+input:focus {
+  outline: 0 0 0 0 !important;
+  box-shadow: 0 0 0 0 !important;
+}
+
+.remember {
+  color: white;
+}
+
+.remember input {
+  width: 20px;
+  height: 20px;
+  margin-left: 15px;
+  margin-right: 5px;
+}
+
+.login_btn {
+  color: black;
+  background-color: lightgray;
+  width: 100px;
+}
+
+.login_btn:hover {
+  color: black;
+  background-color: white;
+}
+
+.links {
+  color: white;
+}
+
+.links a {
+  margin-left: 4px;
+}
+
+.fa.fa-instagram {
+  color: transparent;
+  background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+  background: -webkit-radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
+.kakaobutton {
+  width: 51.44px;
+  height: 54px;
+}
+
+.fa.fa-instagram:hover {
+  color: white;
+  cursor: pointer;
+}
+
+.fa.fa-google-plus-square {
+  color: #E93F2E;
+}
+
+.fa.fa-google-plus-square:hover {
+  color: white;
+  cursor: pointer;
+}
