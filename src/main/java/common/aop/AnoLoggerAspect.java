@@ -19,8 +19,8 @@ public class AnoLoggerAspect {
   
   // 1. pointcut 실행대상 메소드 표현식 적용
 
-//  @Pointcut("execution(* com.kh.spring..*(..))")
-  @Pointcut("execution(* com.kh.spring..insert*(..))")
+//  @Pointcut("execution(* com.parking..*(..))")
+  @Pointcut("execution(* com.parking..insert*(..))")
   public void beforeAop() {}
 
   // 2. advice 등록
@@ -31,7 +31,7 @@ public class AnoLoggerAspect {
     logger.debug("[before]" + s.getName());
   }
 
-  @Around("execution(* com.kh.spring..*(..))")
+  @Around("execution(* com.parking..*(..))")
   public Object loggerAround(ProceedingJoinPoint joinpoint) throws Throwable {
     logger.debug("[before] Guncheol!!!");
     Object obj = joinpoint.proceed();

@@ -11,7 +11,7 @@
 	</appender>
 	
 	<!-- Application Loggers -->
-	<logger name="com.spring.parkingspring">
+	<logger name="com.parking">
 		<level value="info" />
 	</logger>
 	

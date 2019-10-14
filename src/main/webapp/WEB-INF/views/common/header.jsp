@@ -1,5 +1,17 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
+<c:set var="path" value="${pageContext.request.contextPath}" />
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>${ param.pageTitle }</title>
+  
    
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
@@ -59,9 +71,9 @@
   <!-- CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-  <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/mainpage.css">
-  <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/button.css">
-	<link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/translate.css">
+  <link rel="stylesheet" href="${path}/resources/css/mainpage.css">
+  <link rel="stylesheet" href="${path}/resources/css/button.css">
+	<link rel="stylesheet" href="${path}/resources/css/translate.css">
 	<!-- 폰트 -->
 	<!-- <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet"> -->
   <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic&display=swap" rel="stylesheet">
@@ -126,13 +138,13 @@
       <div class="container d-flex justify-content-center row">
         <!-- Logo -->
         <div class='py-0 mr-auto inline px-0' id="navbar-logo">
-          <a class="navbar-brand" href="<%=request.getContextPath() %>" >
-            <img src="<%=request.getContextPath() %>/resources/images/logo_white.png">
+          <a class="navbar-brand" href="${path}" >
+            <img src="${path}/resources/images/logo_white.png">
           </a>
         </div>
         <!-- Nav search bar -->
         <div id="nav-searchbar" class="col-lg-6 py-0 inline-block px-0 ml-0 mr-1">
-          <form action="<%=request.getContextPath()%>/map/mapListView" method="POST" class='w-100'>
+          <form action="${path}/map/mapListView" method="POST" class='w-100'>
             <input type="hidden" name="userCode" value="<%=userCode %>">
             <div class="input-group">
               <input type="search" placeholder="   Where do you need parking?" aria-describedby="button-addon5" class="form-control" name="search" id="nav-search">
@@ -161,8 +173,8 @@
               <a class="nav-link dropdown-toggle menu-item mt-1 mr-0 text-white" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Help</a>
 
               <div class="dropdown-menu mt-1" aria-labelledby="dropdown01">
-                <a class="dropdown-item" href="<%=request.getContextPath() %>/board/helpBoardList" ><i class="fa fa-info-circle">&nbsp;&nbsp;</i>Help</a>
-                <a class="dropdown-item" href="<%=request.getContextPath() %>/board/qnaBoardList" ><i class="fa fa-question-circle-o">&nbsp;&nbsp;</i>Q&amp;A Board</a>
+                <a class="dropdown-item" href="${path}/board/helpBoardList" ><i class="fa fa-info-circle">&nbsp;&nbsp;</i>Help</a>
+                <a class="dropdown-item" href="${path}/board/qnaBoardList" ><i class="fa fa-question-circle-o">&nbsp;&nbsp;</i>Q&amp;A Board</a>
               </div>
             </li>
             <li class="nav-item dropdown">
@@ -180,9 +192,9 @@
               <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-car">&nbsp;&nbsp;</i>My Vehicle</a> -->
 
               <% } else { %>
-                <a class="dropdown-item" href="<%=request.getContextPath() %>/views/member/memberView.jsp"><i class="fa fa-cog">&nbsp;&nbsp;</i>Settings</a>
-                <a class="dropdown-item" href="<%=request.getContextPath() %>/bookmark/bookmarkView"><i class="fa fa-bookmark">&nbsp;&nbsp;</i>Bookmark</a>
-                <a class="dropdown-item" href="<%=request.getContextPath() %>/board/reviewList"><i class="fa fa-edit">&nbsp;&nbsp;</i>My Reviews</a>
+                <a class="dropdown-item" href="${path}/views/member/memberView.jsp"><i class="fa fa-cog">&nbsp;&nbsp;</i>Settings</a>
+                <a class="dropdown-item" href="${path}/bookmark/bookmarkView"><i class="fa fa-bookmark">&nbsp;&nbsp;</i>Bookmark</a>
+                <a class="dropdown-item" href="${path}/board/reviewList"><i class="fa fa-edit">&nbsp;&nbsp;</i>My Reviews</a>
 
                 <% if(loginMember.getUserEmail().equals("admin@com")) { %>
                   <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-list">&nbsp;&nbsp;</i>Member List</a>
@@ -231,7 +243,7 @@
 
             <% if(loginMember != null) {%>
               <li class="nav-item">
-                <form action="<%=request.getContextPath() %>/logout" method="post">
+                <form action="${path}/logout" method="post">
                   <button type="submit" class="btn btn-sm btn-outline-light mt-2 mr-1" onclick="return logoutSnsAccount();" style="width: 71px;">Log Out</button>
                 </form>
               </li>
@@ -245,12 +257,12 @@
 
             <%} else{%>
               <li class="nav-item">
-                <form action="<%=request.getContextPath() %>/views/member/loginView.jsp" method="post">
+                <form action="${path}/views/member/loginView.jsp" method="post">
                   <button type="submit" class="btn btn-sm btn-outline-light mt-2 mr-1" style="width:67px;">Log In</button>
                 </form>
               </li>
               <li class="nav-item">
-                <button class="btn btn-sm btn-outline-light mt-2" onclick='location.href="${pageContext.request.contextPath}/memberEnroll"' style="width:69px;">Sign Up</button>
+                <button class="btn btn-sm btn-outline-light mt-2" onclick='location.href="${path}/memberEnroll"' style="width:69px;">Sign Up</button>
               </li>
             <%} %>
           </ul>

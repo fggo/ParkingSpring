@@ -1,5 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
+<c:set var="path" value="${pageContext.request.contextPath}" />
 
 <!-------------------------
 'footer.jsp' contains :
@@ -11,8 +16,8 @@
   <footer class="container py-0">
     <div class="row">
       <div class="col-6 col-md">
-        <a class="navbar-brand " href="<%=request.getContextPath()%>" >
-          <img src="<%=request.getContextPath() %>/resources/images/logo_black.png">
+        <a class="navbar-brand " href="${path}" >
+          <img src="${path}/resources/images/logo_black.png">
         </a>
         <small class="d-block mb-3 text-muted">&copy; 2019.09</small>
       </div>
@@ -94,7 +99,7 @@
   <script>
     //Ajax로 sns계정이 DB에 있는지 확인
     function AjaxEmailCheck(snsEmail, snsAccount){
-      var url ="<%=request.getContextPath()%>/member/JsonMemberEmailcheck";
+      var url ="${path}/member/JsonMemberEmailcheck";
       $.ajax ({
           url:url,
           type:"get",
@@ -110,13 +115,13 @@
             //비교후 같다면 바로 로그인 진행
             //아니면 팝업을 이용해 sns가입을 권유 팝업창 띄움
             if(data[d]["userEmail"] == snsEmail) {
-              var frm = $('<form>').attr({"action": "<%=request.getContextPath() %>/member/MemberEmailcheck",
+              var frm = $('<form>').attr({"action": "${path}/member/MemberEmailcheck",
                                           "method": "POST", });
               var input1 = $('<input>').attr({"name": "userEmail", "value": snsEmail});
               frm.append(input1);
               $(document.body).append(frm);
               frm.submit();
-              // location.href="<%=request.getContextPath()%>/member/MemberEmailcheck?userEmail=" + snsEmail 
+              // location.href="${path}/member/MemberEmailcheck?userEmail=" + snsEmail 
               //                 + "&snsAccount=" + snsAccount;
             }else{
               console.log("들어옴");
@@ -235,7 +240,7 @@
 
       $("#main-search").keyup(function(){
         $.ajax({
-          url:"<%=request.getContextPath()%>/ajax/parkingAutoCommit", 
+          url:"${path}/ajax/parkingAutoCommit", 
           type:"post",
           data:{ addr:$("#main-search").val() },
           dataType:"json",
