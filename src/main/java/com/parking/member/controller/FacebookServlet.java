@@ -36,10 +36,10 @@ public class FacebookServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String  user_email = request.getParameter("useremail");
-		System.out.println("user_name 1 :" +user_email);
+		String  useremail = request.getParameter("useremail");
+		System.out.println("username 1 :" +useremail);
 		MemberService service = new MemberService();
-		boolean result = service.fbselectEmail(user_email);
+		boolean result = service.fbselectEmail(useremail);
 		System.out.println("result : " +result);
 		String msg ="";
 		String loc = "";
@@ -49,7 +49,7 @@ public class FacebookServlet extends HttpServlet {
 			loc = "/";
 			String snsaccount = "F";	      
 			 //request.setAttribute("msg", msg); 
-			 request.setAttribute("user_email", user_email); 
+			 request.setAttribute("useremail", useremail); 
 			 request.setAttribute("snsaccount", snsaccount);
 			 //request.setAttribute("loc", loc); 
 		  request.getRequestDispatcher("/views/member/facebookEnroll.jsp").forward(request, response);
@@ -57,7 +57,7 @@ public class FacebookServlet extends HttpServlet {
 			
 		}
 		else {
-		String email = user_email;
+		String email = useremail;
 		Member m = new MemberService().selectEmail(email);
 		m.setUserLoginDate(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
 		request.setAttribute("loginMember", m);
@@ -78,11 +78,11 @@ public class FacebookServlet extends HttpServlet {
 			loc = "/";
 				      
 		request.setAttribute("msg", msg);
-		String saveEmail = user_email; //null or "on"(checked)
+		String saveEmail = useremail; //null or "on"(checked)
 
 	    int duration = (saveEmail != null? 7*12*60*60 : 0); //seconds
 
-	    Cookie c = new Cookie("saveEmail", user_email);
+	    Cookie c = new Cookie("saveEmail", useremail);
 	    c.setMaxAge(duration);
 	    response.addCookie(c);
 	    response.sendRedirect(request.getContextPath() + loc);
@@ -94,7 +94,7 @@ public class FacebookServlet extends HttpServlet {
 		 * 
 		 * request.setAttribute("msg", msg);
 		 * 
-		 * request.setAttribute("user_email", user_email);
+		 * request.setAttribute("useremail", useremail);
 		 * request.getRequestDispatcher("/views/member/EmailPopUp.jsp").forward(request,
 		 * response); //response.sendRedirect(request.getContextPath() +
 		 * "/views/member/memberEnroll.jsp"); //var

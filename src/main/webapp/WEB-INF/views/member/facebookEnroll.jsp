@@ -3,7 +3,7 @@
 
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 <% 
-  String snsEmail = (String)request.getAttribute("user_email");
+  String snsEmail = (String)request.getAttribute("useremail");
   String snsAccount =(String)request.getAttribute("snsaccount");
 %>
 

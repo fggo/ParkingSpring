@@ -47,11 +47,11 @@ public class Member {
   public String toString() {
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-    String user_created_date = sdf.format(userCreatedDate);
-    String user_login_date = userLoginDate !=null? sdf.format(userLoginDate): null;
+    String usercreateddate = sdf.format(userCreatedDate);
+    String userlogindate = userLoginDate !=null? sdf.format(userLoginDate): null;
 
     return "Member [userCode=" + userCode + ", userEmail=" + userEmail + ", userPw=" + userPw + ", userPhone=" + userPhone + ", userName="
-        + userName + ", userAddr=" + userAddr + ", userCreatedDate=" + user_created_date + ", userLoginDate=" + user_login_date + ", userSmsYn="
+        + userName + ", userAddr=" + userAddr + ", userCreatedDate=" + usercreateddate + ", userLoginDate=" + userlogindate + ", userSmsYn="
         + userSmsYn + ", userEmailYn=" + userEmailYn + ", userEmailVerified=" + userEmailVerified + ", userSnsAccount="
         + userSnsAccount + ", userOriginalFilename=" + userOriginalFilename + ",userRenamedFilename=" + userRenamedFilename  + "]";
   }

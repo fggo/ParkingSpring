@@ -180,8 +180,8 @@ public class ParkingApiDao {
 			rs=pstmt.executeQuery();
 			while(rs.next()) {
 				p = new Parking();
-				p.setAddr(rs.getString("ps_addr"));
-				p.setParkingName(rs.getString("ps_name"));
+				p.setAddr(rs.getString("psaddr"));
+				p.setParkingName(rs.getString("psname"));
 				list.add(p);
 			}
 		}catch(SQLException e) {
@@ -209,11 +209,11 @@ public class ParkingApiDao {
 			while(rs.next())
 			{
 				ps = new ParkingSlot();
-				ps.setOwnerNo(rs.getString("owner_business_no"));
-				ps.setOwnerParkingCode(rs.getString("owner_parking_code"));
-				ps.setSlotUserCode(rs.getString("slot_user_code"));
-				ps.setSlotBeginTime(rs.getString("slot_begin_time"));
-				ps.setSlotEndTime(rs.getString("slot_end_time"));
+				ps.setOwnerNo(rs.getString("ownerbusinessno"));
+				ps.setOwnerParkingCode(rs.getString("ownerparkingcode"));
+				ps.setSlotUserCode(rs.getString("slotusercode"));
+				ps.setSlotBeginTime(rs.getString("slotbegintime"));
+				ps.setSlotEndTime(rs.getString("slotendtime"));
 				list.add(ps);
 			}
 		}catch(SQLException e)
@@ -241,11 +241,11 @@ public class ParkingApiDao {
 			while(rs.next())
 			{
 				c = new Coupon();
-				c.setCouponCode(rs.getString("coupon_code"));
-				c.setUserCode(rs.getString("coupon_user_code"));
-				c.setDiscountRate(rs.getInt("coupon_discount_rate"));
-				c.setDuration(rs.getInt("coupon_duration"));
-				c.setExpiredYn(rs.getInt("coupon_expired_yn"));
+				c.setCouponCode(rs.getString("couponcode"));
+				c.setUserCode(rs.getString("couponusercode"));
+				c.setDiscountRate(rs.getInt("coupondiscountrate"));
+				c.setDuration(rs.getInt("couponduration"));
+				c.setExpiredYn(rs.getInt("couponexpiredyn"));
 				list.add(c);
 			}
 		}catch(SQLException e)

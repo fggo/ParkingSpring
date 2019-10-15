@@ -49,17 +49,17 @@ public class ReviewDao {
       while(rs.next()) {
         r = new Review();
 
-        r.setReviewNo(rs.getInt("review_no"));
-        r.setReviewUserHistoryNo(rs.getInt("review_userhistory_no"));
-        r.setReviewTitle(rs.getString("review_title"));
-        r.setReviewContent(rs.getString("review_content"));
+        r.setReviewNo(rs.getInt("reviewno"));
+        r.setReviewUserHistoryNo(rs.getInt("reviewuserhistoryno"));
+        r.setReviewTitle(rs.getString("reviewtitle"));
+        r.setReviewContent(rs.getString("reviewcontent"));
 
-        Timestamp timestamp = rs.getTimestamp("review_created_date");
+        Timestamp timestamp = rs.getTimestamp("reviewcreateddate");
         java.util.Date date = new java.util.Date(timestamp.getTime());
         r.setReviewCreatedDate(new java.sql.Date(date.getTime()));
 
-        r.setReviewRating(rs.getInt("review_rating"));
-        r.setReviewReadcount(rs.getInt("review_readcount"));
+        r.setReviewRating(rs.getInt("reviewrating"));
+        r.setReviewReadcount(rs.getInt("reviewreadcount"));
         
         list.add(r);
       }
@@ -91,17 +91,17 @@ public class ReviewDao {
       if(rs.next()) {
         r = new Review();
 
-        r.setReviewNo(rs.getInt("review_no"));
-        r.setReviewUserHistoryNo(rs.getInt("review_userhistory_no"));
-        r.setReviewTitle(rs.getString("review_title"));
-        r.setReviewContent(rs.getString("review_content"));
+        r.setReviewNo(rs.getInt("reviewno"));
+        r.setReviewUserHistoryNo(rs.getInt("reviewuserhistoryno"));
+        r.setReviewTitle(rs.getString("reviewtitle"));
+        r.setReviewContent(rs.getString("reviewcontent"));
 
-        Timestamp timestamp = rs.getTimestamp("review_created_date");
+        Timestamp timestamp = rs.getTimestamp("reviewcreateddate");
         java.util.Date date = new java.util.Date(timestamp.getTime());
         r.setReviewCreatedDate(new java.sql.Date(date.getTime()));
 
-        r.setReviewRating(rs.getInt("review_rating"));
-        r.setReviewReadcount(rs.getInt("review_readcount"));
+        r.setReviewRating(rs.getInt("reviewrating"));
+        r.setReviewReadcount(rs.getInt("reviewreadcount"));
       }
       
     } catch(SQLException e) {
@@ -145,7 +145,7 @@ public class ReviewDao {
     try {
       pstmt = conn.prepareStatement(sql);
 
-      pstmt.setInt(1, r.getReviewUserHistoryNo()); //user_code (assigned by sequence)
+      pstmt.setInt(1, r.getReviewUserHistoryNo()); //usercode (assigned by sequence)
       pstmt.setString(2, r.getReviewTitle());
       pstmt.setString(3, r.getReviewContent());
       pstmt.setInt(4, r.getReviewRating());

@@ -26,15 +26,6 @@ public class QnaBoardWriteServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//	  qna_no NUMBER(5) NOT NULL,
-//	  qna_title VARCHAR2(50) NOT NULL,
-//	  qna_user_code CHAR(6) NOT NULL,
-//	  qna_content VARCHAR2(300) NOT NULL,
-//	  qna_original_filename VARCHAR2(100),
-//	  qna_renamed_filename VARCHAR2(100),
-//	  qna_created_date DATE DEFAULT SYSDATE,
-//	  qna_readcount NUMBER DEFAULT 0
-
 	  request.getRequestDispatcher("/views/board/qnaBoardWrite.jsp").forward(request, response);
 	}
 

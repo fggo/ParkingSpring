@@ -8,11 +8,11 @@ import static common.template.JDBCTemplate.rollback;
 import java.sql.Connection;
 import java.util.Map;
 
-import com.parking.member.model.dao.MemberDao;
+import com.parking.member.model.dao.MemberDaoImpl;
 import com.parking.member.model.vo.Member;
 
 public class MemberService {
-  MemberDao dao = new MemberDao();
+  MemberDaoImpl dao = new MemberDaoImpl();
   
 
   public Member selectEmail(String email) {
@@ -146,9 +146,9 @@ public class MemberService {
 		
 	}
 
-	public boolean fbselectEmail(String user_email) {
+	public boolean fbselectEmail(String useremail) {
 		Connection conn = getConnection();
-		boolean result = dao.fbselectEmail(conn, user_email);
+		boolean result = dao.fbselectEmail(conn, useremail);
 		if (result)
 		      commit(conn);
 		    else

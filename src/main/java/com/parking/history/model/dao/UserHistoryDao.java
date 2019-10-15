@@ -43,15 +43,15 @@ public class UserHistoryDao {
       if(rs.next()) {
         h = new UserHistory();
 
-        h.setUserHistoryNo(rs.getInt("userhistory_no"));
-        h.setUserHistoryUserCode(rs.getString("userhistory_user_code"));
-        h.setUserHistoryParkingCode(rs.getString("userhistory_parking_code"));
+        h.setUserHistoryNo(rs.getInt("userhistoryno"));
+        h.setUserHistoryUserCode(rs.getString("userhistoryusercode"));
+        h.setUserHistoryParkingCode(rs.getString("userhistoryparkingcode"));
 
-        Timestamp timestamp = rs.getTimestamp("userhistory_parking_date");
+        Timestamp timestamp = rs.getTimestamp("userhistoryparkingdate");
         java.util.Date date = new java.util.Date(timestamp.getTime());
         h.setUserHistoryParkingDate(new java.sql.Date(date.getTime()));
 
-        h.setUserHistoryPayment(rs.getInt("userhistory_payment"));
+        h.setUserHistoryPayment(rs.getInt("userhistorypayment"));
       }
     } catch(SQLException e) {
       e.printStackTrace();
@@ -78,15 +78,15 @@ public class UserHistoryDao {
       if(rs.next()) {
         h = new UserHistory();
 
-        h.setUserHistoryNo(rs.getInt("userhistory_no"));
-        h.setUserHistoryUserCode(rs.getString("userhistory_user_code"));
-        h.setUserHistoryParkingCode(rs.getString("userhistory_parking_code"));
+        h.setUserHistoryNo(rs.getInt("userhistoryno"));
+        h.setUserHistoryUserCode(rs.getString("userhistoryusercode"));
+        h.setUserHistoryParkingCode(rs.getString("userhistoryparkingcode"));
 
-        Timestamp timestamp = rs.getTimestamp("userhistory_parking_date");
+        Timestamp timestamp = rs.getTimestamp("userhistoryparkingdate");
         java.util.Date date = new java.util.Date(timestamp.getTime());
         h.setUserHistoryParkingDate(new java.sql.Date(date.getTime()));
 
-        h.setUserHistoryPayment(rs.getInt("userhistory_payment"));
+        h.setUserHistoryPayment(rs.getInt("userhistorypayment"));
       }
     } catch(SQLException e) {
       e.printStackTrace();
@@ -113,11 +113,11 @@ public class UserHistoryDao {
       while(rs.next()) {
         p = new Parking();
 
-        p.setParkingCode(rs.getString("ps_parking_code"));
-        p.setParkingName(rs.getString("ps_name"));
-        p.setAddr(rs.getString("ps_addr"));
-        p.setLatitude(rs.getDouble("ps_latitude"));
-        p.setLongitude(rs.getDouble("ps_longitude"));
+        p.setParkingCode(rs.getString("psparkingcode"));
+        p.setParkingName(rs.getString("psname"));
+        p.setAddr(rs.getString("psaddr"));
+        p.setLatitude(rs.getDouble("pslatitude"));
+        p.setLongitude(rs.getDouble("pslongitude"));
       }
     } catch(SQLException e) {
       e.printStackTrace();
@@ -144,15 +144,15 @@ public class UserHistoryDao {
       while(rs.next()) {
         h = new UserHistory();
 
-        h.setUserHistoryNo(rs.getInt("userhistory_no"));
-        h.setUserHistoryUserCode(rs.getString("userhistory_user_code"));
-        h.setUserHistoryParkingCode(rs.getString("userhistory_parking_code"));
+        h.setUserHistoryNo(rs.getInt("userhistoryno"));
+        h.setUserHistoryUserCode(rs.getString("userhistoryusercode"));
+        h.setUserHistoryParkingCode(rs.getString("userhistoryparkingcode"));
 
-        Timestamp timestamp = rs.getTimestamp("userhistory_parking_date");
+        Timestamp timestamp = rs.getTimestamp("userhistoryparkingdate");
         java.util.Date date = new java.util.Date(timestamp.getTime());
         h.setUserHistoryParkingDate(new java.sql.Date(date.getTime()));
         
-        h.setUserHistoryPayment(rs.getInt("userhistory_payment"));
+        h.setUserHistoryPayment(rs.getInt("userhistorypayment"));
 
         list.add(h);
       }
@@ -181,11 +181,11 @@ public class UserHistoryDao {
       while(rs.next()) {
         p = new Parking();
 
-        p.setParkingCode(rs.getString("ps_parking_code"));
-        p.setParkingName(rs.getString("ps_name"));
-        p.setAddr(rs.getString("ps_addr"));
-        p.setLatitude(rs.getDouble("ps_latitude"));
-        p.setLongitude(rs.getDouble("ps_longitude"));
+        p.setParkingCode(rs.getString("psparkingcode"));
+        p.setParkingName(rs.getString("psname"));
+        p.setAddr(rs.getString("psaddr"));
+        p.setLatitude(rs.getDouble("pslatitude"));
+        p.setLongitude(rs.getDouble("pslongitude"));
 
         list.add(p);
       }

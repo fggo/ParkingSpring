@@ -32,12 +32,6 @@ public class ReviewWriteEndServlet extends HttpServlet {
    * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
    */
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//    review_no NUMBER(5) NOT NULL,
-//    review_userhistory_no CHAR(7) NOT NULL,
-//    review_title VARCHAR2(50) NOT NULL,
-//    review_content VARCHAR2(300) NOT NULL,
-//    review_created_date DATE DEFAULT SYSDATE,
-//    review_rating NUMBER(1) NOT NULL
 
     String userCode = request.getParameter("userCode");
     String reviewTitle = request.getParameter("reviewTitle");

@@ -30,24 +30,24 @@
         <div id="search-container">
           SEARCH TYPE : 
           <select id="searchType">
-            <option value="user_Email" <%="user_Email".equals(searchType)?"selected":"" %>>Email</option>
-            <option value="user_Name" <%="user_Name".equals(searchType)?"selected":"" %>>UserName</option>
+            <option value="userEmail" <%="userEmail".equals(searchType)?"selected":"" %>>Email</option>
+            <option value="userName" <%="userName".equals(searchType)?"selected":"" %>>UserName</option>
           </select>
-          <div id="search-user_Email">
+          <div id="search-userEmail">
             <form action="<%=request.getContextPath() %>/admin/memberFinder">
-              <input type="hidden" name="searchType" value="user_Email"/>
+              <input type="hidden" name="searchType" value="userEmail"/>
               <input type="hidden" name="cPage" value="<%=cPage%>"/>
               <input type="text" placeholder="Search Email" name="searchKeyword"
-                     value='<%="user_Email".equals(searchType)? searchKeyword:"" %>' size="25"/>
+                     value='<%="userEmail".equals(searchType)? searchKeyword:"" %>' size="25"/>
               <button type="submit" class="btn btn-sm btn-outline-primary mb-1">SEARCH</button>
             </form>
           </div>
-          <div id="search-user_Name">
+          <div id="search-userName">
             <form action="<%=request.getContextPath() %>/admin/memberFinder">
-              <input type="hidden" name="searchType" value="user_Name"/>
+              <input type="hidden" name="searchType" value="userName"/>
               <input type="hidden" name="cPage" value="<%=cPage%>"/>
               <input type="text" placeholder="Search User Name" name="searchKeyword"
-                     value='<%="user_Name".equals(searchType)? searchKeyword: ""%>' size="25"/>
+                     value='<%="userName".equals(searchType)? searchKeyword: ""%>' size="25"/>
               <button type="submit" class="btn btn-sm btn-outline-primary mb-1">SEARCH</button>
             </form>
           </div>
@@ -55,8 +55,8 @@
       </div>
       <script>
         $(function(){
-          var sEmail=$("#search-user_Email");
-          var sUserName=$("#search-user_Name");
+          var sEmail=$("#search-userEmail");
+          var sUserName=$("#search-userName");
           var searchType=$("#searchType"); //<select>
   
           searchType.change(function(){ //add 'change' event on searchType <select>

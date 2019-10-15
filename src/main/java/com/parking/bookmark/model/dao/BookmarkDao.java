@@ -43,9 +43,9 @@ public class BookmarkDao {
       if(rs.next()) {
         b = new Bookmark();
         
-        b.setBookmarkNo(rs.getInt("bookmark_no"));
-        b.setBookmarkUserCode(rs.getString("bookmark_user_code"));
-        b.setBookmarkParkingCode(rs.getString("bookmark_parking_code"));
+        b.setBookmarkNo(rs.getInt("bookmarkno"));
+        b.setBookmarkUserCode(rs.getString("bookmarkusercode"));
+        b.setBookmarkParkingCode(rs.getString("bookmarkparkingcode"));
       }
     } catch(SQLException e) {
       e.printStackTrace();
@@ -72,9 +72,9 @@ public class BookmarkDao {
       while(rs.next()) {
         b = new Bookmark();
 
-        b.setBookmarkNo(rs.getInt("bookmark_no"));
-        b.setBookmarkParkingCode(rs.getString("bookmark_parking_code"));
-        b.setBookmarkUserCode(rs.getString("bookmark_user_code"));
+        b.setBookmarkNo(rs.getInt("bookmarkno"));
+        b.setBookmarkParkingCode(rs.getString("bookmarkparkingcode"));
+        b.setBookmarkUserCode(rs.getString("bookmarkusercode"));
         
         list.add(b);
       }
@@ -103,11 +103,11 @@ public class BookmarkDao {
       while(rs.next()) {
         p = new Parking();
 
-        p.setParkingCode(rs.getString("ps_parking_code"));
-        p.setParkingName(rs.getString("ps_name"));
-        p.setAddr(rs.getString("ps_addr"));
-        p.setLatitude(rs.getDouble("ps_latitude"));
-        p.setLongitude(rs.getDouble("ps_longitude"));
+        p.setParkingCode(rs.getString("psparkingcode"));
+        p.setParkingName(rs.getString("psname"));
+        p.setAddr(rs.getString("psaddr"));
+        p.setLatitude(rs.getDouble("pslatitude"));
+        p.setLongitude(rs.getDouble("pslongitude"));
 
         list.add(p);
       }

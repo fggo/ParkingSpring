@@ -70,29 +70,29 @@ public class AdminDao {
       while(rs.next()) {
         m = new Member();
 
-        m.setUserCode(rs.getString("user_code"));
-        m.setUserEmail(rs.getString("user_email"));
-        m.setUserPw(rs.getString("user_pw"));
-        m.setUserPhone(rs.getString("user_phone"));
-        m.setUserName(rs.getString("user_name"));
-        m.setUserAddr(rs.getString("user_addr"));
+        m.setUserCode(rs.getString("usercode"));
+        m.setUserEmail(rs.getString("useremail"));
+        m.setUserPw(rs.getString("userpw"));
+        m.setUserPhone(rs.getString("userphone"));
+        m.setUserName(rs.getString("username"));
+        m.setUserAddr(rs.getString("useraddr"));
 
-        Timestamp timestamp = rs.getTimestamp("user_created_date");
+        Timestamp timestamp = rs.getTimestamp("usercreateddate");
         java.util.Date date = new java.util.Date(timestamp.getTime());
         m.setUserCreatedDate(new java.sql.Date(date.getTime()));
 
-        timestamp = rs.getTimestamp("user_login_date");
+        timestamp = rs.getTimestamp("userlogindate");
         if(timestamp != null) {
           date = new java.util.Date(timestamp.getTime());
           m.setUserLoginDate(new java.sql.Date(date.getTime()));
         }
 
-        m.setUserSmsYn(rs.getInt("user_sms_yn"));
-        m.setUserEmailYn(rs.getInt("user_email_yn"));
-        m.setUserEmailVerified(rs.getInt("user_email_verified"));
-        m.setUserSnsAccount(rs.getString("user_sns_account"));
-        m.setUserOriginalFilename(rs.getString("user_original_filename"));
-        m.setUserRenamedFilename(rs.getString("user_renamed_filename"));
+        m.setUserSmsYn(rs.getInt("usersmsyn"));
+        m.setUserEmailYn(rs.getInt("useremailyn"));
+        m.setUserEmailVerified(rs.getInt("useremailverified"));
+        m.setUserSnsAccount(rs.getString("usersnsaccount"));
+        m.setUserOriginalFilename(rs.getString("useroriginalfilename"));
+        m.setUserRenamedFilename(rs.getString("userrenamedfilename"));
         
         list.add(m);
       }
@@ -163,29 +163,29 @@ public class AdminDao {
       while(rs.next()) {
         m = new Member();
 
-        m.setUserCode(rs.getString("user_code"));
-        m.setUserEmail(rs.getString("user_email"));
-        m.setUserPw(rs.getString("user_pw"));
-        m.setUserPhone(rs.getString("user_phone"));
-        m.setUserName(rs.getString("user_name"));
-        m.setUserAddr(rs.getString("user_addr"));
+        m.setUserCode(rs.getString("usercode"));
+        m.setUserEmail(rs.getString("useremail"));
+        m.setUserPw(rs.getString("userpw"));
+        m.setUserPhone(rs.getString("userphone"));
+        m.setUserName(rs.getString("username"));
+        m.setUserAddr(rs.getString("useraddr"));
 
-        Timestamp timestamp = rs.getTimestamp("user_created_date");
+        Timestamp timestamp = rs.getTimestamp("usercreateddate");
         java.util.Date date = new java.util.Date(timestamp.getTime());
         m.setUserCreatedDate(new java.sql.Date(date.getTime()));
 
-        timestamp = rs.getTimestamp("user_login_date");
+        timestamp = rs.getTimestamp("userlogindate");
         if(timestamp != null) {
           date = new java.util.Date(timestamp.getTime());
           m.setUserLoginDate(new java.sql.Date(date.getTime()));
         }
 
-        m.setUserSmsYn(rs.getInt("user_sms_yn"));
-        m.setUserEmailYn(rs.getInt("user_email_yn"));
-        m.setUserEmailVerified(rs.getInt("user_email_verified"));
-        m.setUserSnsAccount(rs.getString("user_sns_account"));
-        m.setUserOriginalFilename(rs.getString("user_original_filename"));
-        m.setUserRenamedFilename(rs.getString("user_renamed_filename"));
+        m.setUserSmsYn(rs.getInt("usersmsyn"));
+        m.setUserEmailYn(rs.getInt("useremailyn"));
+        m.setUserEmailVerified(rs.getInt("useremailverified"));
+        m.setUserSnsAccount(rs.getString("usersnsaccount"));
+        m.setUserOriginalFilename(rs.getString("useroriginalfilename"));
+        m.setUserRenamedFilename(rs.getString("userrenamedfilename"));
         
         list.add(m);
       }
