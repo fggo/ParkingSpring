@@ -6,7 +6,6 @@ Spring FrameWork를 사용해 프로젝트를 진행
 DB서버는 AWS를 가용 현재는 프리웨어 만료로인해 사용중지
 
 * [Parking pdf 링크](https://github.com/YoonYeoSong/YoonYeoSong.github.io/blob/master/pdf/Semi-Project.pdf)
-* [github 주소](https://github.com/YoonYeoSong/ParkingSpring)
 
 - 사용 기술 및 툴
   - JAVA, JS, HTML, Jquery, CSS, BootStrap4, JSP, SpringFrameWork, AWS(ubuntu), Tomcat 8.5, Git, Oracle, OpenAPI(REST or JS)
