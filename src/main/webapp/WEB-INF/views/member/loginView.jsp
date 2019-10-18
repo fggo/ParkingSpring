@@ -58,14 +58,14 @@
               <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fa fa-user"></i></span>
               </div>
-              <input type="email" class="form-control" placeholder="Email" name="email" id="email"
+              <input type="useremail" class="form-control" placeholder="Email" name="useremail" id="useremail"
                      value='<%=saveEmail != null? saveEmail : "" %>' />
             </div>
             <div class="input-group form-group">
               <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fa fa-key"></i></span>
               </div>
-              <input type="password" class="form-control" placeholder="Password" name="pwLogin" id="pwLogin">
+              <input type="password" class="form-control" placeholder="Password" name="userpw" id="userpw">
             </div>
             <div class="row align-items-center remember">
               <label for="saveEmail">
@@ -217,14 +217,14 @@
       }
   
     function validateLogin(){
-      if($('#email').val().length==0){
+      if($('#useremail').val().length==0){
         alert("Please type Email for login");
-        $('#email').focus();
+        $('#useremail').focus();
         return false; //prevent form submit
       }
-    	if($('#pwLogin').val().length==0){
+    	if($('#userpw').val().length==0){
         alert("Please type Password for login");
-        $('#pwLogin').focus();
+        $('#userpw').focus();
         return false; //prevent form submit
       }
     	return true;

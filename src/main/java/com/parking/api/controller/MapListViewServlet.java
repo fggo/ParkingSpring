@@ -17,8 +17,7 @@ import com.parking.api.model.service.ParkingApiService;
 import com.parking.api.model.vo.Coupon;
 import com.parking.bookmark.model.service.BookmarkService;
 import com.parking.bookmark.model.vo.Bookmark;
-
-import common.api.CouponCreate;
+import com.parking.common.api.CouponCreate;
 
 /**
  * Servlet implementation class MapListViewServlet

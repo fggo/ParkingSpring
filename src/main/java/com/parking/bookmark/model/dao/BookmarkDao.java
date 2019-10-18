@@ -1,6 +1,6 @@
 package com.parking.bookmark.model.dao;
 
-import static common.template.JDBCTemplate.close;
+import static com.parking.common.template.JDBCTemplate.close;
 
 import java.io.FileReader;
 import java.io.IOException;

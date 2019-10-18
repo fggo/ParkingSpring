@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="member">
+  <select id="selectUserCode" resultType="map" >
+    select * from member where usercode=#{usercode}
+  </select>
+  <select id="selectMemberEmail" resultType="member" >
+    select * from member where useremail=#{useremail}
+  </select>
+  <select id="selectEmail" resultType="map">
+    select * from member where useremail= #{useremail}
+  </select>
+  <select id="selectEmailPw" resultType="map">
+    select * from member where useremail= #{useremail} and userpw=#{userpw}
+  </select>
+
+  <!-- resultType="_int" -->
+  <insert id="insertMember" parameterType="member">
+    insert into member values(#{userCode}, #{userEmail}, #{userPw}, #{userPhone},
+        #{userName}, #{userAddr}, SYSDATE, #{userLoginDate}, #{userSmsYn},
+        #{userEmailYn}, #{userEmailVerified}, #{userSnsAccount}, #{userOriginalFilename},
+        #{userRenamedFilename})
+  </insert>
+  <delete id="deleteMember" >
+    delete from member where usercode=#{usercode}
+  </delete>
+  <update id="updateLoginDate">
+    update member set userlogindate=SYSDATE where usercode=#{usercode}
+  </update>
+  <update id="updateMember">
+    update member set userphone=#{userphone}, username=#{username},
+                  useraddr=#{useraddr}, usersmsyn=#{usersmsyn}, useremailyn=#{useremailyn},
+                  useroriginalfilename=#{useroriginalfilename}, userrenamedfilename=#{userrenamedfilename}
+                  where usercode=#{usercode}
+   </update>
+
+  <update id="activateMember">
+    update member set useremailverified=1 where useremail=#{useremail}
+   </update>
+
+  <update id="changepassword">
+    update member set userpw=#{userpw} where useremail=#{useremail}
+   </update>
+
+</mapper>
+
+<!--
+selectUserCode=select * from member where usercode=?
+selectEmail=select * from member where useremail=?
+selectEmailPw=select * from member where useremail=? and userpw=?
+insertMember=insert into member values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+deleteMember=delete from member where usercode=?
+updateLoginDate=update member set userlogindate=? where useremail=?
+updateMember=update member set userphone=?, username=?, useraddr=?, usersmsyn=?, useremailyn=?, useroriginalfilename=?, userrenamedfilename=? where usercode=?
+activateMember = update member set useremailverified=1 where useremail=?
+changepassword= update member set userpw=? where useremail=?
+-->

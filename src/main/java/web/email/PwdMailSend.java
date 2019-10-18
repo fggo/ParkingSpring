@@ -19,7 +19,7 @@ import javax.mail.internet.MimeMessage;
 public class PwdMailSend {
 	
 
-    public static String PwdMailSend(String email) {
+    public String PwdMailSend(String email) {
     	Properties prop = System.getProperties();
 		prop.put("mail.smtp.starttls.enable", "true");
 		prop.put("mail.smtp.host", "smtp.gmail.com");

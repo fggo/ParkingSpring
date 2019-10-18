@@ -12,7 +12,7 @@ SELECT usercode, useremail, userphone, username, useraddr,
   useroriginalfilename AS ori, userrenamedfilename AS re,
   userpw
 FROM MEMBER;
-
+kj
 select ps.*,h.*, TO_CHAR(h.userhistoryparkingdate, 'yyyy-MM-dd hh24:mi:ss')  from userhistory h join parkingseoul ps on h.userhistoryparkingcode = ps.psparkingcode 
 order by h.userhistoryparkingdate desc;
 --update member set useremailverified=1 where useremail='baba@com';

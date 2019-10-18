@@ -1,5 +1,10 @@
 package com.parking.api.model.service;
 
+import static com.parking.common.template.JDBCTemplate.close;
+import static com.parking.common.template.JDBCTemplate.commit;
+import static com.parking.common.template.JDBCTemplate.getConnection;
+import static com.parking.common.template.JDBCTemplate.rollback;
+
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,14 +14,8 @@ import com.parking.api.dao.ParkingApiDao;
 import com.parking.api.model.vo.Coupon;
 import com.parking.api.model.vo.Parking;
 import com.parking.api.model.vo.ParkingSlot;
+import com.parking.common.api.ParseJsonSeoulParking;
 import com.sun.org.apache.bcel.internal.generic.CPInstruction;
-
-import common.api.ParseJsonSeoulParking;
-
-import static common.template.JDBCTemplate.close;
-import static common.template.JDBCTemplate.commit;
-import static common.template.JDBCTemplate.getConnection;
-import static common.template.JDBCTemplate.rollback;
 
 public class ParkingApiService {
 	

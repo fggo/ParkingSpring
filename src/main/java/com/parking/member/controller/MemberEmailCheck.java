@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.parking.member.model.service.MemberService;
 import com.parking.member.model.vo.Member;
 
@@ -19,6 +21,9 @@ import com.parking.member.model.vo.Member;
 @WebServlet("/member/MemberEmailcheck")
 public class MemberEmailCheck extends HttpServlet {
   private static final long serialVersionUID = 1L;
+  
+  @Autowired
+  private MemberService service;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -34,17 +39,15 @@ public class MemberEmailCheck extends HttpServlet {
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     String email = request.getParameter("userEmail");
 
-    Member m = new MemberService().selectEmail(email);
+    Member m = service.selectMemberEmail(email);
     m.setUserLoginDate(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
-    new MemberService().updateLoginDate(email);
+    service.updateLoginDate(m);
 
-//    System.out.println(m);
     HttpSession session = request.getSession();
     String view="";
       session.setAttribute("loginMember", m);
       view = "/"; //return to index.jsp
       request.getRequestDispatcher(view).forward(request,response);
-    
   }
 
   /**

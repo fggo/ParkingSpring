@@ -14,7 +14,7 @@ public class AES256D {
 	private static String secretKey = "hojunchoi";
 	private static String salt = "hojun";
 	 
-	public static String decrypt(String strToDecrypt, String secret) {
+	public String decrypt(String strToDecrypt, String secret) {
 	    try
 	    {	byte[] base64decodedbyte = (Base64.getDecoder().decode(strToDecrypt));
 	        byte[] iv = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };

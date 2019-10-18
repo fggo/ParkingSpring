@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -14,12 +15,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.parking.api.model.service.ParkingApiService;
 import com.parking.api.model.vo.Coupon;
+import com.parking.common.api.CouponCreate;
 import com.parking.member.model.service.MemberService;
 import com.parking.member.model.vo.Member;
 
-import common.api.CouponCreate;
 import web.email.MailSend;
 
 /**
@@ -28,6 +31,9 @@ import web.email.MailSend;
 @WebServlet(name="MemberEnroll", urlPatterns="/memberEnrollEnd")
 public class MemberEnrollEnd extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	@Autowired
+	private MemberService service;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -58,7 +64,7 @@ public class MemberEnrollEnd extends HttpServlet {
 	  Member m = new Member(userCode, email, pwEnroll, phone, userName, userAddr,
                           createdDate, loginDate, smsYn, emailYn, emailVerified, snsAccount, null, null);
 
-	  int result = new MemberService().insertMember(m);
+	  int result = service.insertMember(m);
 	  
 	  MailSend ms = new MailSend();
 	  ms.SendingMail(email);
@@ -104,13 +110,18 @@ public class MemberEnrollEnd extends HttpServlet {
 	  int rand = 0;
 	  String randDigit ="";
 	  Member m = null;
+	  Map<String, Object> map = null;
 
 	  do {
       // assign 'user_code' unique random digit string : 000001 ~ 999999
 	    rand = ThreadLocalRandom.current().nextInt(1, 999999 + 1);
 	    randDigit = String.format("%06d",  rand);
-	    m = new MemberService().selectUserCode(randDigit);
-	  } while(m != null);
+
+	    m = new Member();
+	    m.setUserCode(randDigit);
+
+	    map = service.selectUserCode(m);
+	  } while(map != null && map.get("USEREMAIL") !=null);
 
 	  return randDigit;
 	}

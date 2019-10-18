@@ -34,7 +34,7 @@
       <br><br>
       <form action="<%=request.getContextPath() %>/checkEmailDuplicate"
         method="post" name="checkEmail">
-        <input type="email" name="email_" id="email_"
+        <input type="email" name="useremail" id="useremail"
           placeholder="Type new email"/>&nbsp;&nbsp;
         <button type="button" onclick="checkEmailDuplicate();">Check for duplication</button>
       </form>
@@ -43,10 +43,10 @@
 
   <script>
     function checkEmailDuplicate(){
-      var email = $('#email_').val();
+      var email = $('#useremail').val();
 
       //update form tag
-      checkEmail.email_.value = email.trim();
+      checkEmail.useremail.value = email.trim();
       checkEmail.submit();
     }
 

@@ -13,8 +13,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.parking.api.model.vo.Parking;
-
-import common.template.JDBCTemplate;
+import com.parking.common.template.JDBCTemplate;
 
 public class ParseJSON2 {
 

@@ -13,12 +13,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.oreilly.servlet.MultipartRequest;
+import com.parking.common.file.rename.MyFileRenamePolicy;
 import com.parking.member.model.service.MemberService;
 import com.parking.member.model.vo.Member;
-
-import common.file.rename.MyFileRenamePolicy;
 
 /**
  * Servlet implementation class MemberUpdateEndServlet
@@ -26,6 +26,9 @@ import common.file.rename.MyFileRenamePolicy;
 @WebServlet("/member/memberUpdateEnd")
 public class MemberUpdateEndServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
+  
+  @Autowired
+  private MemberService service;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -66,26 +69,23 @@ public class MemberUpdateEndServlet extends HttpServlet {
     String userAddr = mr.getParameter("addr");
     String userSmsYn = mr.getParameter("smsYn"); //null or "on"(checked)
     String userEmailYn = mr.getParameter("emailYn"); //null or "on"(checked)
-
     String old_ori = mr.getParameter("old_up_file_ori");
     String old_re = mr.getParameter("old_up_file_re");
     String new_ori = mr.getOriginalFileName("new_up_file");
     String new_re = mr.getFilesystemName("new_up_file");
 
-
-    Map<String, String> newAttr = new HashMap<String, String>();
-    newAttr.put("userPhone", userPhone);
-    newAttr.put("userName", userName);
-    newAttr.put("userAddr", userAddr);
-    newAttr.put("userSmsYn", userSmsYn==null? "0" : "1");
-    newAttr.put("userEmailYn", userEmailYn==null? "0" : "1");
-    newAttr.put("ori", new_ori==null? old_ori : new_ori);
-    newAttr.put("re", new_re==null? old_re : new_re);
-    
     HttpSession session = request.getSession();
-    Member m = (Member)session.getAttribute("loginMember");
 
-    int result = new MemberService().updateMember(m, newAttr);
+    Member m = (Member)session.getAttribute("loginMember");
+    m.setUserPhone(userPhone);
+    m.setUserName(userName);
+    m.setUserAddr(userAddr);
+    m.setUserSmsYn(userSmsYn != null? 1:0);
+    m.setUserEmailYn(userEmailYn != null? 1:0);
+    m.setUserOriginalFilename(new_ori==null? old_ori:new_ori);
+    m.setUserRenamedFilename(new_re==null? old_re:new_re);
+
+    int result = service.updateMember(m);
 
     String msg = "";
     String loc = "";

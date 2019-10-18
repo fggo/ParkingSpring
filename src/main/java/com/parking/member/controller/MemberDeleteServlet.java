@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.parking.member.model.service.MemberService;
 import com.parking.member.model.vo.Member;
 
@@ -19,6 +21,9 @@ import com.parking.member.model.vo.Member;
 @WebServlet("/member/memberDelete")
 public class MemberDeleteServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
+  
+  @Autowired
+  private MemberService service;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -35,9 +40,8 @@ public class MemberDeleteServlet extends HttpServlet {
     HttpSession session = request.getSession();
 
     Member m = (Member)session.getAttribute("loginMember");
-    String userCode = m.getUserCode();
     
-    int result = new MemberService().deleteMember(userCode);
+    int result = service.deleteMember(m);
 
     String view = "/views/common/msg.jsp";
     String msg = "";

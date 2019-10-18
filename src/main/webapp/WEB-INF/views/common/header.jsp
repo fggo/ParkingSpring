@@ -257,7 +257,7 @@
 
             <%} else{%>
               <li class="nav-item">
-                <form action="${path}/views/member/loginView.jsp" method="post">
+                <form action="${path}/MemberLogin" method="post">
                   <button type="submit" class="btn btn-sm btn-outline-light mt-2 mr-1" style="width:67px;">Log In</button>
                 </form>
               </li>

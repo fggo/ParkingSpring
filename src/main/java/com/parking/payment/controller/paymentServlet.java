@@ -17,8 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.parking.api.model.service.ParkingApiService;
 import com.parking.api.model.vo.Coupon;
-
-import common.api.CouponCreate;
+import com.parking.common.api.CouponCreate;
 
 /**
  * Servlet implementation class paymentServlet

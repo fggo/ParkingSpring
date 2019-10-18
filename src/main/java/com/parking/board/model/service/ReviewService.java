@@ -1,9 +1,9 @@
 package com.parking.board.model.service;
 
-import static common.template.JDBCTemplate.close;
-import static common.template.JDBCTemplate.commit;
-import static common.template.JDBCTemplate.rollback;
-import static common.template.JDBCTemplate.getConnection;
+import static com.parking.common.template.JDBCTemplate.close;
+import static com.parking.common.template.JDBCTemplate.commit;
+import static com.parking.common.template.JDBCTemplate.getConnection;
+import static com.parking.common.template.JDBCTemplate.rollback;
 
 import java.sql.Connection;
 import java.util.List;
