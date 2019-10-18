@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
-import com.parking.bookmark.model.service.BookmarkService;
+import com.parking.bookmark.model.service.BookmarkServiceImpl;
 import com.parking.bookmark.model.vo.Bookmark;
 
 /**
@@ -33,18 +33,18 @@ public class BookmarkCheckServlet extends HttpServlet {
    * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
    */
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    String userCode = request.getParameter("userCode");
-    String parkingCode = request.getParameter("parkingCode");
-    Bookmark b = new BookmarkService().selectBookmark(userCode, parkingCode);
-    int result = b!=null? 1 : 0;
-    
-    response.setContentType("application/json;charset=UTF-8");
-    List<Bookmark> list = new ArrayList<Bookmark>();
-    if (result == 1) {
-      list.add(b);
-    }
-
-    new Gson().toJson(list,response.getWriter());
+//    String userCode = request.getParameter("userCode");
+//    String parkingCode = request.getParameter("parkingCode");
+//    Bookmark b = new BookmarkServiceImpl().selectBookmark(userCode, parkingCode);
+//    int result = b!=null? 1 : 0;
+//    
+//    response.setContentType("application/json;charset=UTF-8");
+//    List<Bookmark> list = new ArrayList<Bookmark>();
+//    if (result == 1) {
+//      list.add(b);
+//    }
+//
+//    new Gson().toJson(list,response.getWriter());
   }
 
   /**

@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.parking.api.model.service.ParkingApiService;
+import com.parking.api.model.service.ParkingApiServiceImpl;
 import com.parking.api.model.vo.Coupon;
 import com.parking.common.api.CouponCreate;
 import com.parking.member.model.service.MemberService;
@@ -81,7 +81,7 @@ public class MemberEnrollEnd extends HttpServlet {
          Coupon c= new Coupon();
          Iterator<Coupon> it = set.iterator();
          
-         ParkingApiService service = new ParkingApiService();
+         ParkingApiServiceImpl service = new ParkingApiServiceImpl();
          while(it.hasNext())
          {
             Coupon obj = it.next();
@@ -90,7 +90,7 @@ public class MemberEnrollEnd extends HttpServlet {
             c.setDuration(1);
             c.setExpiredYn(0);
          }
-         resultCoupon = service.insertCoupon(c);
+         //resultCoupon = service.insertCoupon(c);
          
          if(result > 0)
             System.out.println("쿠폰등록완료");

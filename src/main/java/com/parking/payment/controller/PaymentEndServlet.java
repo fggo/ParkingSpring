@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.parking.api.model.service.ParkingApiService;
+import com.parking.api.model.service.ParkingApiServiceImpl;
 
 /**
  * Servlet implementation class PaymentEndServlet
@@ -46,9 +46,9 @@ public class PaymentEndServlet extends HttpServlet {
 		String endT = String.valueOf(sdf.format(cal.getTime()));
 		
 		
-		ParkingApiService service = new ParkingApiService();
+		ParkingApiServiceImpl service = new ParkingApiServiceImpl();
 		int result = 0;
-		result = service.insertParkingSlot(pCode,userCode,beginT,endT);
+		//result = service.insertParkingSlot(pCode,userCode,beginT,endT);
 		System.out.println("dis"+discountCoupon);
 		if(result > 0)
 		{
@@ -62,7 +62,7 @@ public class PaymentEndServlet extends HttpServlet {
 				discountAmount = Integer.parseInt(amount)-(1-(int)(Integer.parseInt(discountCoupon.substring(0,2))*0.01));
 			}
 //			discountAmount = Integer.parseInt(amount)+(int)( Integer.parseInt(discountCoupon.substring(0,2))*0.1*Integer.parseInt(amount));
-			result = service.insertParkingUserHistory(pCode,userCode, String.valueOf(discountAmount));
+			//result = service.insertParkingUserHistory(pCode,userCode, String.valueOf(discountAmount));
 			if(result > 0)
 			{
 				request.getRequestDispatcher("index.jsp").forward(request, response);

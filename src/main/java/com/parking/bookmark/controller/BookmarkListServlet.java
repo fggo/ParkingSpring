@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.parking.api.model.vo.Parking;
-import com.parking.bookmark.model.service.BookmarkService;
+import com.parking.bookmark.model.service.BookmarkServiceImpl;
 
 /**
  * Servlet implementation class BookmarkListServlet
@@ -34,9 +34,9 @@ public class BookmarkListServlet extends HttpServlet {
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     String userCode = request.getParameter("userCode");
 
-    List<Parking> list = new BookmarkService().selectBookmarkParkingList(userCode);
-    
-    new Gson().toJson(list, response.getWriter());
+//    List<Parking> list = new BookmarkServiceImpl().selectBookmarkParkingList(userCode);
+//    
+//    new Gson().toJson(list, response.getWriter());
   }
 
   /**
