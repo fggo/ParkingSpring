@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.parking.api.model.service.ParkingApiService;
+import com.parking.api.model.service.ParkingApiServiceImpl;
 import com.parking.api.model.vo.Coupon;
 import com.parking.common.api.CouponCreate;
 
@@ -50,12 +50,12 @@ public class paymentServlet extends HttpServlet {
 		
 		System.out.println(parkingnum);
 		
-		ParkingApiService service = new ParkingApiService();
+		ParkingApiServiceImpl service = new ParkingApiServiceImpl();
 				
-		List<Coupon> list = service.selectCouponList();	
-		System.out.println("쿠폰리스트 : "+ list.size());
+		//List<Coupon> list = service.selectCouponList();	
+		//System.out.println("쿠폰리스트 : "+ list.size());
 		
-		request.setAttribute("CouponList", list);
+		//request.setAttribute("CouponList", list);
 		request.setAttribute("parkingNum", parkingnum);
 		request.setAttribute("today", sdf.format(cal.getTime()));
 		request.getRequestDispatcher("/views/payment/paymentView.jsp").forward(request, response);

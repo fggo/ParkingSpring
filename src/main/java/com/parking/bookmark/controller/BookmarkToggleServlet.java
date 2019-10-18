@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
-import com.parking.bookmark.model.service.BookmarkService;
+import com.parking.bookmark.model.service.BookmarkServiceImpl;
 import com.parking.bookmark.model.vo.Bookmark;
 
 /**
@@ -38,14 +38,14 @@ public class BookmarkToggleServlet extends HttpServlet {
     
     int result = 0;
 
-    if(toggleOption.equals("insert")) {
-      result = new BookmarkService().insertBookmark(userCode, parkingCode);
-    }
-    else if(toggleOption.equals("delete")) {
-      result = new BookmarkService().deleteBookmark(userCode, parkingCode);
-    }
+//    if(toggleOption.equals("insert")) {
+//      result = new BookmarkServiceImpl().insertBookmark(userCode, parkingCode);
+//    }
+//    else if(toggleOption.equals("delete")) {
+//      result = new BookmarkServiceImpl().deleteBookmark(userCode, parkingCode);
+//    }
     
-    List<Bookmark> bookmarkList = new BookmarkService().selectBookmarkList(userCode);
+    List<Bookmark> bookmarkList = new BookmarkServiceImpl().selectBookmarkList(userCode);
 
 
     response.setContentType("application/json");

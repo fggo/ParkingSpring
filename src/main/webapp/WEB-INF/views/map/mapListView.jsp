@@ -7,7 +7,7 @@
 <%@ page import="com.parking.board.model.vo.QnaBoard"%>
 <%@ page import="com.parking.bookmark.model.vo.Bookmark"%>
 
-<%-- <%@ include file="/views/common/header.jsp"%> --%>
+<%-- <%@ include file="/WEB-INF/views/common/header.jsp"%> --%>
 
 <% /* List<Parking> list = (List)request.getAttribute("list"); */
 	String search = (String)request.getAttribute("search");
@@ -60,9 +60,9 @@
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
     integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-  <link rel="stylesheet" href="<%=request.getContextPath() %>/css/mainpage.css">
-  <link rel="stylesheet" href="<%=request.getContextPath() %>/css/button.css">
-  <link rel="stylesheet" href="<%=request.getContextPath() %>/css/translate.css">
+  <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/mainpage.css">
+  <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/button.css">
+  <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/translate.css">
 
   <!-- JQUERY -->
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"
@@ -81,9 +81,6 @@
   <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 
   <script>
-  
-  	
-  
   	
   	$(function(){
   		<%if(search != null){%>
