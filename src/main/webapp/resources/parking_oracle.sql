@@ -3,6 +3,7 @@
 -- GRANT CONNECT, RESOURCE TO parking;
 -- CONN parking/1234;
 
+select * from member where username=NULL;
 -----------------------------------------------------------------------------------
 select * from member m join bookmark b ON m.usercode = b.bookmarkusercode;
 SELECT usercode, useremail, userphone, username, useraddr,
@@ -12,7 +13,7 @@ SELECT usercode, useremail, userphone, username, useraddr,
   useroriginalfilename AS ori, userrenamedfilename AS re,
   userpw
 FROM MEMBER;
-kj
+
 select ps.*,h.*, TO_CHAR(h.userhistoryparkingdate, 'yyyy-MM-dd hh24:mi:ss')  from userhistory h join parkingseoul ps on h.userhistoryparkingcode = ps.psparkingcode 
 order by h.userhistoryparkingdate desc;
 --update member set useremailverified=1 where useremail='baba@com';
@@ -46,8 +47,9 @@ COMMIT;
 SELECT * FROM COUPON;
 SELECT * FROM PARKINGSEOUL;
 SELECT * FROM PARKINGOWNER;
---SELECT * FROM PARKINGSLOT;
+SELECT * FROM PARKINGSLOT;
 
+desc parkingslot;
 select * from tab;
 -- TABLE
 --DROP TABLE MEMBER CASCADE CONSTRAINTS;
@@ -178,7 +180,7 @@ CREATE TABLE PARKINGSLOT(
 );
 COMMENT ON COLUMN PARKINGSLOT.slotbusinessno IS '주차장사업자번호';
 COMMENT ON COLUMN PARKINGSLOT.slotusercode IS '회원코드';
-COMMENT ON COLUMN PARKINGSLOT.slotbegintime IS '주차시작시간';
+COMMENT ON COLUMN PARKINGSLOT.x`slotbegintime IS '주차시작시간';
 COMMENT ON COLUMN PARKINGSLOT.slotendtime IS '주차종료시간';
 
 ALTER TABLE PARKINGSLOT

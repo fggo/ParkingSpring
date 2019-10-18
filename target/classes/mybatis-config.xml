@@ -3,7 +3,7 @@
 <!-- connection info는 root-context에서 설정됨. 여기서는 type alias 등 설정 -->
 <configuration>
   <settings>
-  <setting name="jdbcTypeForNull" value="NULL"/>
+    <setting name="jdbcTypeForNull" value="NULL"/>
   </settings>
   <typeAliases>
     <typeAlias type="com.parking.member.model.vo.Member" alias="member" />

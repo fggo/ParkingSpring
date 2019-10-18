@@ -19,7 +19,7 @@
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
  <!-- API -->
 
-  <link rel="stylesheet" href="<%=request.getContextPath() %>/css/login.css">
+  <link rel="stylesheet" href="${path }/resources/css/login.css">
 
   <div class="container sns ">
     <div class="d-flex justify-content-center h-100">
@@ -49,9 +49,7 @@
           </div>
         </div>
         <div class="card-body">
-          <form class="form-signin"
-            action="<%=request.getContextPath() %>/login" 
-            method="post"
+          <form class="form-signin" action="${path}/member/loginEnd.do" method="post"
             onsubmit="return validateLogin()">
 
             <div class="input-group form-group">
@@ -81,10 +79,10 @@
         </div>
         <div class="card-footer">
           <div class="d-flex justify-content-center links">
-            Don't have an account?<a href="<%=request.getContextPath() %>/views/member/memberEnroll.jsp">Sign up</a>
+            Don't have an account?<a href="${path }/member/memberEnroll">Sign up</a>
           </div>
           <div class="d-flex justify-content-center">
-            <a href="<%=request.getContextPath() %>/views/member/pwdresetstart.jsp">Forgot your password?</a>
+            <a href="${path }/member/pwdresetstart">Forgot your password?</a>
 
           </div>
         </div>
@@ -208,12 +206,12 @@
       
       function loginViewEmailCheck(snsEmail, snsAccount)
       {
-      	location.href="<%=request.getContextPath()%>/memberEnroll?userEmail="+snsEmail +"&snsAccount=" + snsAccount;
+      	location.href="${path}/memberEnroll?userEmail="+snsEmail +"&snsAccount=" + snsAccount;
       }
       
       function indexPage()
       {
-      	location.href="<%=request.getContextPath()%>/member/checktrueEmail";
+      	location.href="${path}/member/checktrueEmail";
       }
   
     function validateLogin(){
@@ -231,7 +229,4 @@
     }
     </script>
 
-
-
-    
-<%@ include file="/WEB-INF/views/common/footer.jsp" %>
+<jsp:include page="/WEB-INF/views/common/footer.jsp" />

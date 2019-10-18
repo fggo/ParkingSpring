@@ -116,16 +116,16 @@
   <header>
     <!-- following icon images are from https://icons8.com/ -->
       <style>
-        #icons8{ display:none; }
+        .icons8{ display:none; }
       </style>
-      <a id='icons8' href="https://icons8.com/icon/15182/parking">Parking icon by Icons8</a>
-      <a id='icons8' href="https://icons8.com/icon/36738/fiat-500">Fiat 500 icon by Icons8</a>
-      <a id='icons8' href="https://icons8.com/icon/8800/list">List icon by Icons8</a>
-      <a id='icons8' href="https://icons8.com/icon/20193/skyscrapers">Skyscrapers icon by Icons8</a>
-      <a id='icons8' href="https://icons8.com/icon/10726/parking">Parking icon by Icons8</a>
-      <a id='icons8' href="https://icons8.com/icon/32722/tesla-model-x">Tesla Model X icon by Icons8</a>
-      <a id='icons8' href="https://icons8.com/icon/9192/dog-house">Dog House icon by Icons8</a>
-      <a id='icons8' href="https://icons8.com/icon/5471/faq">FAQ icon by Icons8</a>
+      <a class='icons8' href="https://icons8.com/icon/15182/parking">Parking icon by Icons8</a>
+      <a class='icons8' href="https://icons8.com/icon/36738/fiat-500">Fiat 500 icon by Icons8</a>
+      <a class='icons8' href="https://icons8.com/icon/8800/list">List icon by Icons8</a>
+      <a class='icons8' href="https://icons8.com/icon/20193/skyscrapers">Skyscrapers icon by Icons8</a>
+      <a class='icons8' href="https://icons8.com/icon/10726/parking">Parking icon by Icons8</a>
+      <a class='icons8' href="https://icons8.com/icon/32722/tesla-model-x">Tesla Model X icon by Icons8</a>
+      <a class='icons8' href="https://icons8.com/icon/9192/dog-house">Dog House icon by Icons8</a>
+      <a class='icons8' href="https://icons8.com/icon/5471/faq">FAQ icon by Icons8</a>
    
 
     <a id="back-to-top" href="#" class="btn btn-info border-light back-to-top py-1 px-2" role="button">
@@ -257,12 +257,12 @@
 
             <%} else{%>
               <li class="nav-item">
-                <form action="${path}/MemberLogin" method="post">
+                <form action="${path}/member/loginView" method="post">
                   <button type="submit" class="btn btn-sm btn-outline-light mt-2 mr-1" style="width:67px;">Log In</button>
                 </form>
               </li>
               <li class="nav-item">
-                <button class="btn btn-sm btn-outline-light mt-2" onclick='location.href="${path}/memberEnroll"' style="width:69px;">Sign Up</button>
+                <button class="btn btn-sm btn-outline-light mt-2" onclick='location.href="${path}/member/memberEnroll"' style="width:69px;">Sign Up</button>
               </li>
             <%} %>
           </ul>
