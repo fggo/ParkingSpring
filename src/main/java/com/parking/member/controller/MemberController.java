@@ -4,17 +4,19 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -26,10 +28,8 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
-import com.parking.api.model.service.ParkingApiService;
-import com.parking.api.model.service.ParkingApiServiceImpl;
-import com.parking.api.model.vo.Coupon;
-import com.parking.common.api.CouponCreate;
+import com.oreilly.servlet.MultipartRequest;
+import com.parking.common.file.rename.MyFileRenamePolicy;
 import com.parking.member.model.service.MemberService;
 import com.parking.member.model.vo.Member;
 
@@ -72,20 +72,21 @@ public class MemberController {
   }
 
   @RequestMapping("checkEmailDuplicate")
-  public ModelAndView checkEmailDuplicate(HttpServletRequest request){
+  public ModelAndView checkEmailDuplicate(Member m, 
+                               @RequestParam(value = "emailHidden") String emailHidden) {
+
+    String emailToChk = m.getUserEmail() ==null? emailHidden : m.getUserEmail();
 
     ModelAndView mv = new ModelAndView();
-    String emailToChk = request.getParameter("useremail") ==null? 
-                          request.getParameter("emailHidden"): request.getParameter("useremail");
-    Member m = new Member();
 
     if(emailToChk != null && emailToChk.length() > 0) {
       m.setUserEmail(emailToChk);
       
       Map<String, Object> result = service.selectEmail(m);
+
       
-      mv.addObject("email", emailToChk);
-      mv.addObject("isUseable", result !=null);
+      mv.addObject("userEmail", emailToChk);
+      mv.addObject("isUseable", result ==null);
       mv.setViewName("member/checkEmailDuplicate");
     }
     return mv;
@@ -222,24 +223,6 @@ public class MemberController {
     return mv;
   }
   
-  @RequestMapping("/member/memberEnroll")
-  public ModelAndView memberEnroll(@RequestParam(value = "userEmail", required=false) String userEmail,
-                                   @RequestParam(value = "snsAccount", required=false) String snsAccount) {
-
-    ModelAndView mv = new ModelAndView();
-
-    if(userEmail !=null) {
-      mv.addObject("userEmail", userEmail);
-      mv.addObject("snsAccount", snsAccount);
-      mv.setViewName("member/memberEnroll");
-        
-    }
-    else {
-      mv.setViewName("redirect:/member/memberEnroll");
-    }
-    return mv;
-  }
-  
 	public String generateUserCode() {
 	  int rand = 0;
 	  String randDigit ="";
@@ -260,6 +243,21 @@ public class MemberController {
 	  return randDigit;
 	}
 
+  @RequestMapping("/member/memberEnroll")
+  public ModelAndView memberEnroll(@RequestParam(value = "userEmail", required=false) String userEmail,
+                                   @RequestParam(value = "snsAccount", required=false) String snsAccount) {
+
+    ModelAndView mv = new ModelAndView();
+
+    if(userEmail !=null) {
+      mv.addObject("userEmail", userEmail);
+      mv.addObject("snsAccount", snsAccount);
+        
+    }
+    mv.setViewName("member/memberEnroll");
+    return mv;
+  }
+  
   @RequestMapping("/member/memberEnrollEnd.do")
   public ModelAndView memberEnrollEnd(Member m, 
                                       @RequestParam(value = "roadAddress") String roadAddress,
@@ -314,6 +312,7 @@ public class MemberController {
 
 	  return mv;
   }
+
   @RequestMapping("privacyPolicy")
   public String privacyPolicy() {
     return "member/privacyPolicy";
@@ -347,7 +346,6 @@ public class MemberController {
       loc = "/member/memberUpdate";
     }
 
-
     if(!status.isComplete()) //check if session is closed
       status.setComplete(); //httpsessison.invalidate()와 같은기능
 
@@ -358,4 +356,97 @@ public class MemberController {
 
     return mv;
   }
+  
+  @RequestMapping("/member/memberView")
+  public String memberView() {
+    return "member/memberView";
+  }
+  
+  @RequestMapping("/member/memberUpdate")
+  public String memberUpdate() {
+    return "member/memberUpdateView";
+  }
+  
+  @RequestMapping("/member/memberUpdateEnd.do")
+  public ModelAndView memberUpdateEnd(HttpServletRequest request) throws IOException {
+    ModelAndView mv = new ModelAndView();
+	  if(!ServletFileUpload.isMultipartContent(request)) {
+	    mv.addObject("msg", "enctype ERROR");
+	    mv.addObject("loc", "/");
+	    mv.setViewName("common/msg");
+	    return mv;
+	  }
+	  
+	  String saveDir = request.getServletContext().getRealPath(File.separator + "upload" + File.separator + "member");
+	  File dir = new File(saveDir);
+	  if(!dir.exists()) {
+	    dir.mkdirs(); //mkdirs 서브 dir 경로까지 전부
+	  }
+	  
+	  int maxSize = 1024*1024*1024; // 1GB
+	  
+	  //MultipartRequest객체 생성
+	  MultipartRequest mr = new MultipartRequest(
+	      request,
+	      saveDir,
+	      maxSize,
+	      "UTF-8",
+	      new MyFileRenamePolicy()); //new DefaultRenamePolicy() 대신 커스텀 rename policy
+
+    String userPhone = mr.getParameter("phone");
+    String userName = mr.getParameter("name");
+    String userAddr = mr.getParameter("addr");
+    String userSmsYn = mr.getParameter("smsYn"); //null or "on"(checked)
+    String userEmailYn = mr.getParameter("emailYn"); //null or "on"(checked)
+    String old_ori = mr.getParameter("old_up_file_ori");
+    String old_re = mr.getParameter("old_up_file_re");
+    String new_ori = mr.getOriginalFileName("new_up_file");
+    String new_re = mr.getFilesystemName("new_up_file");
+
+    HttpSession session = request.getSession();
+
+    Member m = (Member)session.getAttribute("loginMember");
+    m.setUserPhone(userPhone);
+    m.setUserName(userName);
+    m.setUserAddr(userAddr);
+    m.setUserSmsYn(userSmsYn != null? 1:0);
+    m.setUserEmailYn(userEmailYn != null? 1:0);
+    m.setUserOriginalFilename(new_ori==null? old_ori:new_ori);
+    m.setUserRenamedFilename(new_re==null? old_re:new_re);
+
+    int result = service.updateMember(m);
+
+    String msg = "";
+    String loc = "";
+
+    if(result > 0) {
+	    //update 성공하여 이전 파일 삭제 (update할 새로운 파일을 지정한 경우에만 삭제)
+      msg ="Member update Successful!";
+      loc = "/member/memberView";
+
+      if(new_ori != null && new_re != null) {
+        File remove = new File(saveDir + File.separator + old_re);
+        remove.delete();
+      }
+
+      session.setAttribute("loginMember", m);
+    }
+    else {
+	    //update 실패했으니 MultipartRequest로 생성된 파일을 지워줌
+      msg ="Member update Failed.";
+      loc = "/member/memberUpdate";
+
+      File remove = new File(saveDir + File.separator + new_re);
+      remove.delete();
+      
+      m = (Member)session.getAttribute("loginMember"); //revert changes
+    }
+
+    mv.addObject("msg", msg);
+    mv.addObject("loc", loc);
+    mv.setViewName("common/msg");
+
+    return mv;
+  }
+
 }

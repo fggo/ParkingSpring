@@ -3,7 +3,7 @@
 
 <%
   boolean isUseable = (boolean)request.getAttribute("isUseable");
-  String email = (String)request.getAttribute("email");
+  String userEmail = (String)request.getAttribute("userEmail");
 %>
 
 <!DOCTYPE html>
@@ -26,15 +26,15 @@
 <body>
   <div id="checkemail-container">
     <% if(isUseable){ %>
-      [<span><%=email %></span>] is OK to use!
+      [<span><%=userEmail %></span>] is OK to use!
       <br><br>
       <button type="button" onclick="setEmail()">close</button>
     <% } else{ %>
-      [<span id="duplicated"><%=email %></span>] is already is use!
+      [<span id="duplicated"><%=userEmail %></span>] is already is use!
       <br><br>
       <form action="<%=request.getContextPath() %>/checkEmailDuplicate"
         method="post" name="checkEmail">
-        <input type="email" name="useremail" id="useremail"
+        <input type="email" name="userEmail" id="userEmail"
           placeholder="Type new email"/>&nbsp;&nbsp;
         <button type="button" onclick="checkEmailDuplicate();">Check for duplication</button>
       </form>
@@ -43,16 +43,16 @@
 
   <script>
     function checkEmailDuplicate(){
-      var email = $('#useremail').val();
+      var userEmail = $('#userEmail').val();
 
       //update form tag
-      checkEmail.useremail.value = email.trim();
+      checkEmail.userEmail.value = userEmail.trim();
       checkEmail.submit();
     }
 
     function setEmail(){
-      opener.document.getElementById("email").value = "<%= email %>";
-      // opener.document.getElementById("email").setAttribute("disabled", "true");
+      opener.document.getElementById("userEmail").value = "<%= userEmail %>";
+      // opener.document.getElementById("userEmail").setAttribute("disabled", "true");
       opener.document.getElementById("pwEnroll").focus();
       self.close();
     }

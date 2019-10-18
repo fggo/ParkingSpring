@@ -5,14 +5,15 @@
 
 select * from member where username=NULL;
 -----------------------------------------------------------------------------------
-select * from member m join bookmark b ON m.usercode = b.bookmarkusercode;
 SELECT usercode, useremail, userphone, username, useraddr,
-  TO_CHAR(usercreateddate, 'yyyy-MM-dd hh24:mi:ss') AS createddate,
-  TO_CHAR(userlogindate, 'yyyy-MM-dd hh24:mi:ss') AS logindate,
+  TO_CHAR(usercreateddate, 'yyyy-MM-dd hh24:mi:ss') AS created,
+  TO_CHAR(userlogindate, 'yyyy-MM-dd hh24:mi:ss') AS logged,
   usersmsyn, useremailyn, useremailverified AS emailVerified, usersnsaccount AS sns,
   useroriginalfilename AS ori, userrenamedfilename AS re,
   userpw
 FROM MEMBER;
+
+select * from member m join bookmark b ON m.usercode = b.bookmarkusercode;
 
 select ps.*,h.*, TO_CHAR(h.userhistoryparkingdate, 'yyyy-MM-dd hh24:mi:ss')  from userhistory h join parkingseoul ps on h.userhistoryparkingcode = ps.psparkingcode 
 order by h.userhistoryparkingdate desc;

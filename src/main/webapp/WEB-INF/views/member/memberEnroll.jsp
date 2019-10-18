@@ -11,7 +11,7 @@
 
 <c:set var="path" value="${pageContext.request.contextPath}" />
 
-  <link rel="stylesheet" href="/css/signup.css">
+  <link rel="stylesheet" href="${path }/resources/css/signup.css">
 
   <%if(snsEmail != null){ %>
   <div class="container sns">
@@ -28,16 +28,16 @@
 
             <div class="input-group form-group">
             
-              <input type="email" class="form-control form-group mr-3" placeholder="Email" id="useremail" name="useremail" value="<%=snsEmail%>" readonly>
+              <input type="email" class="form-control form-group mr-3" placeholder="Email" id="userEmail" name="userEmail" value="<%=snsEmail%>" readonly>
               <input type="button" class="btn btn-secondary form-group form-control" value="check duplication" onclick="checkEmailDuplicate();" disabled>
             </div>
 
             <div class="input-group form-group">
-              <input type="password" class="form-control" placeholder="Password" id="userpw" name="userpw" readonly>
+              <input type="password" class="form-control" placeholder="Password" id="userPw" name="userPw" readonly>
             </div>
 
             <div class="input-group form-group">
-              <input type="password" class="form-control" placeholder="Confirm password" id="userpwChk" name="userpwChk" readonly>
+              <input type="password" class="form-control" placeholder="Confirm password" id="userPwChk" name="userPwChk" readonly>
             </div>
 
             <div class="input-group form-group">
@@ -100,29 +100,29 @@
 
             <div class="input-group form-group">
       
-              	<input type="email" class="form-control form-group mr-3" placeholder="Email" id="useremail" name="useremail" required>      
+              	<input type="email" class="form-control form-group mr-3" placeholder="Email" id="userEmail" name="userEmail" required>      
               <input type="button" class="btn btn-secondary form-group form-control" value="check duplication" onclick="checkEmailDuplicate();">
             </div>
 
             <div class="input-group form-group">
-              <input type="password" class="form-control" placeholder="Password" id="userpw" name="userpw" required>
+              <input type="password" class="form-control" placeholder="Password" id="userPw" name="userPw" required>
             </div>
 
             <div class="input-group form-group">
-              <input type="password" class="form-control" placeholder="Confirm password" id="userpwChk" name="userpwChk" required>
+              <input type="password" class="form-control" placeholder="Confirm password" id="userPwChk" name="userPwChk" required>
             </div>
 
             <script>
               console.log($('#userSnsAccount').val());
               $(function(){
                 //check if pw and pw confirmation input match
-                $('#userpwChk').blur(function(){
-                  var userpw = $('#userpw').val();
-                  var userpwChk = $(this).val();
-                  if(userpwChk != userpw){
+                $('#userPwChk').blur(function(){
+                  var userPw = $('#userPw').val();
+                  var userPwChk = $(this).val();
+                  if(userPwChk != userPw){
                     alert("password does not match");
                     $(this).val("");
-                    $('#userpw').val("").focus();
+                    $('#userPw').val("").focus();
                   }
                 });
               });
@@ -237,7 +237,7 @@
     }
   
     function checkEmailDuplicate(){
-      if($("#useremail").val().trim() == ""){
+      if($("#userEmail").val().trim() == ""){
         alert("Type email!");
         return;
       }
@@ -248,7 +248,7 @@
       var url = "${path}/checkEmailDuplicate";
 
       checkEmailDuplicateHiddenFrm.action = url;
-      checkEmailDuplicateHiddenFrm.emailHidden.value = $("#useremail").val().trim();
+      checkEmailDuplicateHiddenFrm.emailHidden.value = $("#userEmail").val().trim();
       checkEmailDuplicateHiddenFrm.target = title;
       checkEmailDuplicateHiddenFrm.submit();
     }
@@ -272,10 +272,10 @@
           min 6-char, at least one letter and one number 
           may contain special characters
       */
-      var result = regexCheckPw($('#userpwChk').val());
+      var result = regexCheckPw($('#userPwChk').val());
       if(result != "ok" && $('#userSnsAccount').val() == "N/A"){
-        $('#userpwChk').val("");
-        $('#userpw').val("").focus();
+        $('#userPwChk').val("");
+        $('#userPw').val("").focus();
         alert(result);
         return false;
       }

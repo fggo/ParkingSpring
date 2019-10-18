@@ -2,16 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="member">
   <select id="selectUserCode" resultType="map" >
-    select * from member where usercode=#{usercode}
+    select * from member where userCode=#{userCode/
   </select>
   <select id="selectMemberEmail" resultType="member" >
-    select * from member where useremail=#{useremail}
+    select * from member where userEmail=#{userEmail}
   </select>
   <select id="selectEmail" resultType="map">
-    select * from member where useremail= #{useremail}
+    select * from member where userEmail= #{userEmail}
   </select>
   <select id="selectEmailPw" resultType="map">
-    select * from member where useremail= #{useremail} and userpw=#{userpw}
+    select * from member where userEmail= #{userEmail} and userPw=#{userPw}
   </select>
 
   <!-- resultType="_int" -->
@@ -22,36 +22,36 @@
         #{userRenamedFilename})
   </insert>
   <delete id="deleteMember" >
-    delete from member where usercode=#{usercode}
+    delete from member where userCode=#{userCode}
   </delete>
   <update id="updateLoginDate">
-    update member set userlogindate=SYSDATE where usercode=#{usercode}
+    update member set userlogindate=SYSDATE where userCode=#{userCode}
   </update>
   <update id="updateMember">
-    update member set userphone=#{userphone}, username=#{username},
-                  useraddr=#{useraddr}, usersmsyn=#{usersmsyn}, useremailyn=#{useremailyn},
-                  useroriginalfilename=#{useroriginalfilename}, userrenamedfilename=#{userrenamedfilename}
-                  where usercode=#{usercode}
+    update member set userPhone=#{userPhone}, userName=#{userName},
+                  userAddr=#{userAddr}, userSmsYn=#{userSmsYn}, userEmailYn=#{userEmailYn},
+                  userOriginalFilename=#{userOriginalFilename}, userRenamedFilename=#{userRenamedFilename}
+                  where userCode=#{userCode}
    </update>
 
   <update id="activateMember">
-    update member set useremailverified=1 where useremail=#{useremail}
+    update member set userEmailverified=1 where userEmail=#{userEmail}
    </update>
 
   <update id="changepassword">
-    update member set userpw=#{userpw} where useremail=#{useremail}
+    update member set userPw=#{userPw} where userEmail=#{userEmail}
    </update>
 
 </mapper>
 
 <!--
-selectUserCode=select * from member where usercode=?
-selectEmail=select * from member where useremail=?
-selectEmailPw=select * from member where useremail=? and userpw=?
+selectUserCode=select * from member where userCode=?
+selectEmail=select * from member where userEmail=?
+selectEmailPw=select * from member where userEmail=? and userPw=?
 insertMember=insert into member values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)
-deleteMember=delete from member where usercode=?
-updateLoginDate=update member set userlogindate=? where useremail=?
-updateMember=update member set userphone=?, username=?, useraddr=?, usersmsyn=?, useremailyn=?, useroriginalfilename=?, userrenamedfilename=? where usercode=?
-activateMember = update member set useremailverified=1 where useremail=?
-changepassword= update member set userpw=? where useremail=?
+deleteMember=delete from member where userCode=?
+updateLoginDate=update member set userlogindate=? where userEmail=?
+updateMember=update member set userphone=?, username=?, useraddr=?, usersmsyn=?, userEmailyn=?, useroriginalfilename=?, userrenamedfilename=? where userCode=?
+activateMember = update member set userEmailverified=1 where userEmail=?
+changepassword= update member set userPw=? where userEmail=?
 -->
