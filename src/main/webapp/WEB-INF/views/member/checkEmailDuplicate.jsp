@@ -51,9 +51,10 @@
     }
 
     function setEmail(){
+      console.log("here");
       opener.document.getElementById("userEmail").value = "<%= userEmail %>";
       // opener.document.getElementById("userEmail").setAttribute("disabled", "true");
-      opener.document.getElementById("pwEnroll").focus();
+      opener.document.getElementById("userPw").focus();
       self.close();
     }
   </script>

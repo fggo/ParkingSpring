@@ -6,9 +6,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 import javax.servlet.http.Cookie;
@@ -133,8 +130,8 @@ public class MemberController {
   }
 
   @RequestMapping("/member/loginEnd.do")
-  public ModelAndView loginEnd(Member m, HttpServletResponse response,
-                               @RequestParam(value = "saveEmail") String saveEmail) {
+  public ModelAndView loginEnd(Member m, HttpServletResponse response, HttpSession session,
+                               @RequestParam(value = "saveEmail", required=false) String saveEmail) {
 
     ModelAndView mv = new ModelAndView();
 
@@ -145,6 +142,7 @@ public class MemberController {
 
     if(loginMember != null && pwEncoder.matches(m.getUserPw(), loginMember.getUserPw())) {
       msg ="login success";
+      session.setAttribute("loginMember", loginMember);
       service.updateLoginDate(loginMember);
 
       loginMember.setUserLoginDate(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
@@ -170,7 +168,7 @@ public class MemberController {
   }
   
   @RequestMapping("/logout")
-  public String logout(Member m, Model model, SessionStatus status) {
+  public String logout(Member m, Model model, HttpSession session, SessionStatus status) {
     if(!status.isComplete()) //check if session is closed
       status.setComplete(); //httpsessison.invalidate()와 같은기능
 
@@ -261,12 +259,12 @@ public class MemberController {
   @RequestMapping("/member/memberEnrollEnd.do")
   public ModelAndView memberEnrollEnd(Member m, 
                                       @RequestParam(value = "roadAddress") String roadAddress,
-                                      @RequestParam(value = "postcode") String postcode,
-                                      @RequestParam(value = "smsYn") String smsChk,
-                                      @RequestParam(value = "emailYn") String emailChk) {
+                                      @RequestParam(value = "postCode") String postCode,
+                                      @RequestParam(value = "smsChk", required=false) String smsChk,
+                                      @RequestParam(value = "emailChk", required=false) String emailChk) {
 
 	  m.setUserCode(this.generateUserCode());
-	  m.setUserAddr(roadAddress + postcode);
+	  m.setUserAddr(roadAddress + postCode);
 	  m.setUserPw(pwEncoder.encode(m.getUserPw()));
 	  m.setUserSmsYn(smsChk !=null? 1:0);
 	  m.setUserEmailYn(emailChk != null? 1:0);
@@ -368,7 +366,7 @@ public class MemberController {
   }
   
   @RequestMapping("/member/memberUpdateEnd.do")
-  public ModelAndView memberUpdateEnd(HttpServletRequest request) throws IOException {
+  public ModelAndView memberUpdateEnd(HttpServletRequest request, HttpSession session) throws IOException {
     ModelAndView mv = new ModelAndView();
 	  if(!ServletFileUpload.isMultipartContent(request)) {
 	    mv.addObject("msg", "enctype ERROR");
@@ -403,7 +401,6 @@ public class MemberController {
     String new_ori = mr.getOriginalFileName("new_up_file");
     String new_re = mr.getFilesystemName("new_up_file");
 
-    HttpSession session = request.getSession();
 
     Member m = (Member)session.getAttribute("loginMember");
     m.setUserPhone(userPhone);

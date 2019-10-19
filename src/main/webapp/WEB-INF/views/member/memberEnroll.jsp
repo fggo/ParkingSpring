@@ -45,7 +45,7 @@
             </div>
 
             <div class=" input-group form-group">
-             <input type="postcode" class="mr-3 col-md-3 form-control" placeholder="Postcode" id="postcode" name="postcode">
+             <input type="postCode" class="mr-3 col-md-3 form-control" placeholder="Postcode" id="postCode" name="postCode">
               <input type="address" class="form-control" placeholder="roadAddress" id="roadAddress" name="roadAddress" required>
               <input type="hidden" class="form-control" placeholder="jibunAddress" id="jibunAddress" name="jibunAddress">
               <span class="form-control" id="guide" style="color:#999;display:none"></span>
@@ -59,11 +59,11 @@
               </label>
 
               <label class="spam_sms">
-                <input type="checkbox" id="userSmsYn" name="userSmsYn" > By clicking the box, you agree to receive our latest news and special offers by phone!
+                <input type="checkbox" id="smsChk" name="smsChk" > By clicking the box, you agree to receive our latest news and special offers by phone!
               </label> 
 
               <label class="spam_email">
-                <input type="checkbox" id="userEmailYn" name="userEmailYn" > By clicking the box, you agree to receive our latest news and special offers by email!
+                <input type="checkbox" id="emailChk" name="emailChk" > By clicking the box, you agree to receive our latest news and special offers by email!
               </label>
             </div>
 
@@ -133,7 +133,7 @@
             </div>
 
             <div class=" input-group form-group">
-             <input type="postcode" class="mr-3 col-md-3 form-control" placeholder="Postcode" id="postcode" name="postcode">
+             <input type="postCode" class="mr-3 col-md-3 form-control" placeholder="Postcode" id="postCode" name="postCode">
               <input type="address" class="form-control" placeholder="roadAddress" id="roadAddress" name="roadAddress" required>
               <input type="hidden" class="form-control" placeholder="jibunAddress" id="jibunAddress" name="jibunAddress">
               <span class="form-control" id="guide" style="color:#999;display:none"></span>
@@ -150,11 +150,11 @@
               
 
               <label class="spam_sms">
-                <input type="checkbox" id="userSmsYn" name="userSmsYn" > By clicking the box, you agree to receive our latest news and special offers by phone!
+                <input type="checkbox" id="smsChk" name="smsChk" > By clicking the box, you agree to receive our latest news and special offers by phone!
               </label> 
 
               <label class="spam_email">
-                <input type="checkbox" id="userEmailYn" name="userEmailYn" > By clicking the box, you agree to receive our latest news and special offers by email!
+                <input type="checkbox" id="emailChk" name="emailChk" > By clicking the box, you agree to receive our latest news and special offers by email!
               </label>
             </div>
 
@@ -205,7 +205,7 @@
               }
 
               // 우편번호와 주소 정보를 해당 필드에 넣는다.
-              document.getElementById('postcode').value = data.zonecode;
+              document.getElementById('postCode').value = data.zonecode;
               document.getElementById("roadAddress").value = roadAddr;
               document.getElementById("jibunAddress").value = data.jibunAddress;
               

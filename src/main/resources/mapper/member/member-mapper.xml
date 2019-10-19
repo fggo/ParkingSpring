@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="member">
   <select id="selectUserCode" resultType="map" >
-    select * from member where userCode=#{userCode/
+    select * from member where userCode=#{userCode}
   </select>
   <select id="selectMemberEmail" resultType="member" >
     select * from member where userEmail=#{userEmail}

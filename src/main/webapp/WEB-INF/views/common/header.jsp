@@ -25,31 +25,6 @@
   * <style> attribute
   * <header> <nav> elements
 -------------------------->
-<%
-  Member loginMember = (Member)session.getAttribute("loginMember");
-
-  String mypageUrl = request.getContextPath();
-
-  if(loginMember != null){
-    if(loginMember.getUserEmail().equals("admin@com"))
-      mypageUrl += "/admin/memberList";
-    //else
-    //  mypageUrl += "/views/member";
-  }
-  else
-      mypageUrl += "/views/member/loginView.jsp";
-
-
-  String userCode = "";
-  if(loginMember != null)
-    userCode = loginMember.getUserCode();
-
-  String dropdownTxt ="";
-  if(loginMember != null)
-    dropdownTxt = "Hi! " + loginMember.getUserName();
-  else
-    dropdownTxt = "MyPage";
-%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -145,7 +120,7 @@
         <!-- Nav search bar -->
         <div id="nav-searchbar" class="col-lg-6 py-0 inline-block px-0 ml-0 mr-1">
           <form action="${path}/map/mapListView" method="POST" class='w-100'>
-            <input type="hidden" name="userCode" value="<%=userCode %>">
+            <input type="hidden" name="userCode" value="${sesssionScope.loginMember.userCode}">
             <div class="input-group">
               <input type="search" placeholder="   Where do you need parking?" aria-describedby="button-addon5" class="form-control" name="search" id="nav-search">
               <div class="input-group-append">
@@ -178,41 +153,39 @@
               </div>
             </li>
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle menu-item mt-1 mr-2 text-white" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%=dropdownTxt %></a>
+              <c:choose>
+                <c:when test="${sessionScope.loginMember == null}">
+                  <a class="nav-link dropdown-toggle menu-item mt-1 mr-2 text-white" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Page</a>
+                </c:when>
+                <c:otherwise>
+                  <a class="nav-link dropdown-toggle menu-item mt-1 mr-2 text-white" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Hi! ${loginMember.userName}</a>
+                </c:otherwise>
+
+              </c:choose>
 
               <div class="dropdown-menu mt-1" aria-labelledby="dropdown01">
 
-              <% if(loginMember == null) { %>
-              <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-cog">&nbsp;&nbsp;</i>Account Settings</a>
-              <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-bookmark">&nbsp;&nbsp;</i>Bookmark</a>
-              <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-edit">&nbsp;&nbsp;</i>My Reviews</a>
-              <!-- <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-calendar">&nbsp;&nbsp;</i>My Reservations</a>
-              <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-credit-card">&nbsp;&nbsp;</i>Payment Methods</a>
-              <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-won">&nbsp;&nbsp;</i>Credit Balance</a>
-              <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-car">&nbsp;&nbsp;</i>My Vehicle</a> -->
+              <c:choose>
+                <c:when test="${loginMember == null}">
+                  <a class="dropdown-item" href="${path }/member/loginView"><i class="fa fa-cog">&nbsp;&nbsp;</i>Account Settings</a>
+                  <a class="dropdown-item" href="${path }/member/loginView"><i class="fa fa-bookmark">&nbsp;&nbsp;</i>Bookmark</a>
+                  <a class="dropdown-item" href="${path }/member/loginView"><i class="fa fa-edit">&nbsp;&nbsp;</i>My Reviews</a>
+                
+                </c:when>
+                <c:otherwise>
+                  <a class="dropdown-item" href="${path}/member/memberView"><i class="fa fa-cog">&nbsp;&nbsp;</i>Settings</a>
+                  <a class="dropdown-item" href="${path}/bookmark/bookmarkView"><i class="fa fa-bookmark">&nbsp;&nbsp;</i>Bookmark</a>
+                  <a class="dropdown-item" href="${path}/board/reviewList"><i class="fa fa-edit">&nbsp;&nbsp;</i>My Reviews</a>
 
-              <% } else { %>
-                <a class="dropdown-item" href="${path}/views/member/memberView.jsp"><i class="fa fa-cog">&nbsp;&nbsp;</i>Settings</a>
-                <a class="dropdown-item" href="${path}/bookmark/bookmarkView"><i class="fa fa-bookmark">&nbsp;&nbsp;</i>Bookmark</a>
-                <a class="dropdown-item" href="${path}/board/reviewList"><i class="fa fa-edit">&nbsp;&nbsp;</i>My Reviews</a>
+                  <c:choose>
+                    <c:when test="${loginMember.userEmail == 'admin@com'}">
+                      <a class="dropdown-item" href="${path }/admin/memberList"><i class="fa fa-list">&nbsp;&nbsp;</i>Member List</a>
+                    </c:when>
+                  </c:choose>
 
-                <% if(loginMember.getUserEmail().equals("admin@com")) { %>
-                  <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-list">&nbsp;&nbsp;</i>Member List</a>
+                </c:otherwise>
+              </c:choose>
 
-                <% } else { %>
-                  <!-- <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-calendar">&nbsp;&nbsp;</i>My Reservations</a>
-                  <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-credit-card">&nbsp;&nbsp;</i>Payment Methods</a>
-                  <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-won">&nbsp;&nbsp;</i>Credit Balance</a>
-                  <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-car">&nbsp;&nbsp;</i>My Vehicle</a> -->
-                <% } %>
-              <% } %>
-
-              <style>
-                /* .navbar-collapse { margin-top: 0; }
-                @media (min-width:768px) {
-                  .navbar-collapse { margin-top: 60px; }
-                } */
-              </style>
               <script>
 
                 /**
@@ -241,30 +214,33 @@
               </div>
             </li>
 
-            <% if(loginMember != null) {%>
-              <li class="nav-item">
-                <form action="${path}/logout" method="post">
-                  <button type="submit" class="btn btn-sm btn-outline-light mt-2 mr-1" onclick="return logoutSnsAccount();" style="width: 71px;">Log Out</button>
-                </form>
-              </li>
+            <c:choose>
+              <c:when test="${loginMember != null}">
+                <li class="nav-item">
+                  <form action="${path}/logout" method="post">
+                    <button type="submit" class="btn btn-sm btn-outline-light mt-2 mr-1" onclick="return logoutSnsAccount();" style="width: 71px;">Log Out</button>
+                  </form>
+                </li>
 
-              <script>
-                function logoutSnsAccount(){
-                  googleLogout();
-                  return true;
-                }
-              </script>
+                <script>
+                  function logoutSnsAccount(){
+                    googleLogout();
+                    return true;
+                  }
+                </script>
+              </c:when>
+              <c:otherwise>
+                <li class="nav-item">
+                  <form action="${path}/member/loginView" method="post">
+                    <button type="submit" class="btn btn-sm btn-outline-light mt-2 mr-1" style="width:67px;">Log In</button>
+                  </form>
+                </li>
+                <li class="nav-item">
+                  <button class="btn btn-sm btn-outline-light mt-2" onclick='location.href="${path}/member/memberEnroll"' style="width:69px;">Sign Up</button>
+                </li>
+              </c:otherwise>
+            </c:choose>
 
-            <%} else{%>
-              <li class="nav-item">
-                <form action="${path}/member/loginView" method="post">
-                  <button type="submit" class="btn btn-sm btn-outline-light mt-2 mr-1" style="width:67px;">Log In</button>
-                </form>
-              </li>
-              <li class="nav-item">
-                <button class="btn btn-sm btn-outline-light mt-2" onclick='location.href="${path}/member/memberEnroll"' style="width:69px;">Sign Up</button>
-              </li>
-            <%} %>
           </ul>
         </div>
       </div>

@@ -3,7 +3,9 @@
 -- GRANT CONNECT, RESOURCE TO parking;
 -- CONN parking/1234;
 
-select * from member where username=NULL;
+delete from member where useremail='baba@com';
+commit;
+
 -----------------------------------------------------------------------------------
 SELECT usercode, useremail, userphone, username, useraddr,
   TO_CHAR(usercreateddate, 'yyyy-MM-dd hh24:mi:ss') AS created,
