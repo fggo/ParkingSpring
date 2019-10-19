@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class ParkingSlot {
-	private String ownerNo;
+	private String ownerBusinessNo;
 	private String ownerParkingCode;
 	private String slotUserCode;
 	private String slotBeginTime;

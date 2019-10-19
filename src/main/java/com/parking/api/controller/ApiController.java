@@ -3,7 +3,9 @@ package com.parking.api.controller;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -101,23 +103,25 @@ public class ApiController {
 		
 //		System.out.println(" search 서블릿 :" + addr);
 
-		ParkingApiServiceImpl parkingService = new ParkingApiServiceImpl();
+		//ParkingApiServiceImpl parkingService = new ParkingApiServiceImpl();
 		//주소 네임을 가져와서 서비스로 넘겨주고 데이터를 담는다
-		List<Parking> list = parkingService.selectParkingList(addr);
+		List<Parking> list = parkingApiService.selectParkingList(addr);
 		System.out.println("parking 사이즈" + list.size());
 		
+//		Map<String,Object> ownerList = new HashMap<String, Object>();
+//		ownerList.put("list", list);
 		
 		//사업자등록 리스트
-//		int resultCeo = parkingService.insertparkingOwner(list);
-//		
-//		if(resultCeo > 0)
-//			System.out.println("사업자등록완료");
-//		
-//		System.out.println("searchAddr 리스트 사이즈 : " +list.size());
+		int resultCeo = parkingApiService.insertparkingOwner(list);
+		
+		if(resultCeo > 0)
+			System.out.println("사업자등록완료");
+		
+		System.out.println("searchAddr 리스트 사이즈 : " +list.size());
 		
 		
 		
-		List<ParkingSlot> slotList = parkingService.selectParkingSlotList();
+		List<ParkingSlot> slotList = parkingApiService.selectParkingSlotList();
 		
 		if(slotList.isEmpty())
 			slotList = new ArrayList<ParkingSlot>();
@@ -186,7 +190,7 @@ public class ApiController {
 		//데이터 저장된 상태니 건들지 말것
 //		int result = 0;
 //		
-//		result = parkingService.insertParkingList(list);
+//		result = parkingApiService.insertParkingSeoul(list);
 //		
 //		if(result > 0)
 //			System.out.println("값 insert OK");
