@@ -4,12 +4,14 @@
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 <% 
   String snsEmail = (String)request.getAttribute("userEmail");
-  String snsAccount = (String)request.getAttribute("snsAccount");
-  if(snsAccount ==null  || snsAccount.isEmpty())
-    snsAccount ="N/A";
+  String userSnsAccount = (String)request.getAttribute("userSnsAccount");
+  if(userSnsAccount ==null  || userSnsAccount.isEmpty())
+    userSnsAccount ="N/A";
 %>
 
-  <link rel="stylesheet" href="<%=request.getContextPath() %>/css/signup.css">
+<c:set var="path" value="${pageContext.request.contextPath}" />
+
+  <link rel="stylesheet" href="${path }/resources/css/signup.css">
 
   <%if(snsEmail != null){ %>
   <div class="container sns">
@@ -19,31 +21,31 @@
           <h3>Sign Up</h3>
         </div>
         <div class="card-body">
-          <form action="<%=request.getContextPath() %>/memberEnrollEnd" method="post" onsubmit="return validateEnroll();">
+          <form action="${path}/member/memberEnrollEnd.do" method="post" onsubmit="return validateEnroll();">
             <div class="input-group form-group">
               <input type="text" class="form-control" placeholder="Username" name="userName" id="userName" required>
             </div>
 
             <div class="input-group form-group">
             
-              <input type="email" class="form-control form-group mr-3" placeholder="Email" id="email" name="email" value="<%=snsEmail%>" readonly>
+              <input type="email" class="form-control form-group mr-3" placeholder="Email" id="userEmail" name="userEmail" value="<%=snsEmail%>" readonly>
               <input type="button" class="btn btn-secondary form-group form-control" value="check duplication" onclick="checkEmailDuplicate();" disabled>
             </div>
 
             <div class="input-group form-group">
-              <input type="password" class="form-control" placeholder="Password" id="pwEnroll" name="pwEnroll" readonly>
+              <input type="password" class="form-control" placeholder="Password" id="userPw" name="userPw" readonly>
             </div>
 
             <div class="input-group form-group">
-              <input type="password" class="form-control" placeholder="Confirm password" id="pwEnrollChk" name="pwEnrollChk" readonly>
+              <input type="password" class="form-control" placeholder="Confirm password" id="userPwChk" name="userPwChk" readonly>
             </div>
 
             <div class="input-group form-group">
-              <input type="text" class="form-control" placeholder="Phone number" id="phone" name="phone" required>
+              <input type="text" class="form-control" placeholder="Phone number" id="userPhone" name="userPhone" required>
             </div>
 
             <div class=" input-group form-group">
-             <input type="postcode" class="mr-3 col-md-3 form-control" placeholder="Postcode" id="postcode" name="postcode">
+             <input type="postCode" class="mr-3 col-md-3 form-control" placeholder="Postcode" id="postCode" name="postCode">
               <input type="address" class="form-control" placeholder="roadAddress" id="roadAddress" name="roadAddress" required>
               <input type="hidden" class="form-control" placeholder="jibunAddress" id="jibunAddress" name="jibunAddress">
               <span class="form-control" id="guide" style="color:#999;display:none"></span>
@@ -57,11 +59,11 @@
               </label>
 
               <label class="spam_sms">
-                <input type="checkbox" id="smsYn" name="smsYn" > By clicking the box, you agree to receive our latest news and special offers by phone!
+                <input type="checkbox" id="smsChk" name="smsChk" > By clicking the box, you agree to receive our latest news and special offers by phone!
               </label> 
 
               <label class="spam_email">
-                <input type="checkbox" id="emailYn" name="emailYn" > By clicking the box, you agree to receive our latest news and special offers by email!
+                <input type="checkbox" id="emailChk" name="emailChk" > By clicking the box, you agree to receive our latest news and special offers by email!
               </label>
             </div>
 
@@ -69,8 +71,8 @@
               <input type="submit" value="submit" class="btn float-right submit_btn">
             </div>
 
-            <!-- snsAccount 'G', 'F' 'K' 'N/A' -->
-            <input type="hidden" id="snsAccount" name="snsAccount" value="<%=snsAccount %>" />
+            <!-- userSnsAccount 'G', 'F' 'K' 'N/A' -->
+            <input type="hidden" id="userSnsAccount" name="userSnsAccount" value="<%=userSnsAccount %>" />
 
           </form>
 
@@ -91,47 +93,47 @@
           <h3>Sign Up</h3>
         </div>
         <div class="card-body">
-          <form action="<%=request.getContextPath() %>/memberEnrollEnd" method="post" onsubmit="return validateEnroll();">
+          <form action="${path}/member/memberEnrollEnd.do" method="post" onsubmit="return validateEnroll();">
             <div class="input-group form-group">
               <input type="text" class="form-control" placeholder="Username" name="userName" id="userName" required>
             </div>
 
             <div class="input-group form-group">
       
-              	<input type="email" class="form-control form-group mr-3" placeholder="Email" id="email" name="email" required>      
+              	<input type="email" class="form-control form-group mr-3" placeholder="Email" id="userEmail" name="userEmail" required>      
               <input type="button" class="btn btn-secondary form-group form-control" value="check duplication" onclick="checkEmailDuplicate();">
             </div>
 
             <div class="input-group form-group">
-              <input type="password" class="form-control" placeholder="Password" id="pwEnroll" name="pwEnroll" required>
+              <input type="password" class="form-control" placeholder="Password" id="userPw" name="userPw" required>
             </div>
 
             <div class="input-group form-group">
-              <input type="password" class="form-control" placeholder="Confirm password" id="pwEnrollChk" name="pwEnrollChk" required>
+              <input type="password" class="form-control" placeholder="Confirm password" id="userPwChk" name="userPwChk" required>
             </div>
 
             <script>
-              console.log($('#snsAccount').val());
+              console.log($('#userSnsAccount').val());
               $(function(){
                 //check if pw and pw confirmation input match
-                $('#pwEnrollChk').blur(function(){
-                  var pwEnroll = $('#pwEnroll').val();
-                  var pwEnrollChk = $(this).val();
-                  if(pwEnrollChk != pwEnroll){
+                $('#userPwChk').blur(function(){
+                  var userPw = $('#userPw').val();
+                  var userPwChk = $(this).val();
+                  if(userPwChk != userPw){
                     alert("password does not match");
                     $(this).val("");
-                    $('#pwEnroll').val("").focus();
+                    $('#userPw').val("").focus();
                   }
                 });
               });
             </script>
 
             <div class="input-group form-group">
-              <input type="text" class="form-control" placeholder="Phone number" id="phone" name="phone" required>
+              <input type="text" class="form-control" placeholder="Phone number" id="userPhone" name="userPhone" required>
             </div>
 
             <div class=" input-group form-group">
-             <input type="postcode" class="mr-3 col-md-3 form-control" placeholder="Postcode" id="postcode" name="postcode">
+             <input type="postCode" class="mr-3 col-md-3 form-control" placeholder="Postcode" id="postCode" name="postCode">
               <input type="address" class="form-control" placeholder="roadAddress" id="roadAddress" name="roadAddress" required>
               <input type="hidden" class="form-control" placeholder="jibunAddress" id="jibunAddress" name="jibunAddress">
               <span class="form-control" id="guide" style="color:#999;display:none"></span>
@@ -142,17 +144,17 @@
             <div class="checkbox">
               
               <label class="privacy">
-                <input type="checkbox" id="termsChk" name="termsChk" required> I accept the <a href="<%=request.getContextPath() %>/views/member/termsofuse.jsp">Terms of Use</a> &<a href="<%=request.getContextPath() %>/views/member/privacypolicy.jsp"> Privacy Policy</a>
+                <input type="checkbox" id="termsChk" name="termsChk" required> I accept the <a href="${path}/termsofuse">Terms of Use</a> &<a href="${path}/privacyPolicy"> Privacy Policy</a>
                 
               </label>
               
 
               <label class="spam_sms">
-                <input type="checkbox" id="smsYn" name="smsYn" > By clicking the box, you agree to receive our latest news and special offers by phone!
+                <input type="checkbox" id="smsChk" name="smsChk" > By clicking the box, you agree to receive our latest news and special offers by phone!
               </label> 
 
               <label class="spam_email">
-                <input type="checkbox" id="emailYn" name="emailYn" > By clicking the box, you agree to receive our latest news and special offers by email!
+                <input type="checkbox" id="emailChk" name="emailChk" > By clicking the box, you agree to receive our latest news and special offers by email!
               </label>
             </div>
 
@@ -160,8 +162,8 @@
               <input type="submit" value="submit" class="btn float-right submit_btn">
             </div>
 
-            <!-- snsAccount 'G', 'F' 'K' 'N/A' -->
-            <input type="hidden" id="snsAccount" name="snsAccount" value="<%=snsAccount %>" />
+            <!-- userSnsAccount 'G', 'F' 'K' 'N/A' -->
+            <input type="hidden" id="userSnsAccount" name="userSnsAccount" value="<%=userSnsAccount %>" />
 
           </form>
 
@@ -203,7 +205,7 @@
               }
 
               // 우편번호와 주소 정보를 해당 필드에 넣는다.
-              document.getElementById('postcode').value = data.zonecode;
+              document.getElementById('postCode').value = data.zonecode;
               document.getElementById("roadAddress").value = roadAddr;
               document.getElementById("jibunAddress").value = data.jibunAddress;
               
@@ -235,7 +237,7 @@
     }
   
     function checkEmailDuplicate(){
-      if($("#email").val().trim() == ""){
+      if($("#userEmail").val().trim() == ""){
         alert("Type email!");
         return;
       }
@@ -243,10 +245,10 @@
       var title = "checkEmailDuplicate";
       var status = "left=500px, top=100px, width=300px, height=200px, menubar=n, status=no, scrollbars=yes";
       var popup = open("", title, status); //window.open()
-      var url = "<%=request.getContextPath() %>/checkEmailDuplicate";
+      var url = "${path}/checkEmailDuplicate";
 
       checkEmailDuplicateHiddenFrm.action = url;
-      checkEmailDuplicateHiddenFrm.emailHidden.value = $("#email").val().trim();
+      checkEmailDuplicateHiddenFrm.emailHidden.value = $("#userEmail").val().trim();
       checkEmailDuplicateHiddenFrm.target = title;
       checkEmailDuplicateHiddenFrm.submit();
     }
@@ -270,10 +272,10 @@
           min 6-char, at least one letter and one number 
           may contain special characters
       */
-      var result = regexCheckPw($('#pwEnrollChk').val());
-      if(result != "ok" && $('#snsAccount').val() == "N/A"){
-        $('#pwEnrollChk').val("");
-        $('#pwEnroll').val("").focus();
+      var result = regexCheckPw($('#userPwChk').val());
+      if(result != "ok" && $('#userSnsAccount').val() == "N/A"){
+        $('#userPwChk').val("");
+        $('#userPw').val("").focus();
         alert(result);
         return false;
       }

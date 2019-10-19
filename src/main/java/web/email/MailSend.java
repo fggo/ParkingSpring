@@ -20,7 +20,7 @@ import com.parking.member.model.vo.Member;
 
 public class MailSend {
 
-	public static String SendingMail(String email) {
+	public String SendingMail(String email) {
 		Properties prop = System.getProperties();
 		prop.put("mail.smtp.starttls.enable", "true");
 		prop.put("mail.smtp.host", "smtp.gmail.com");

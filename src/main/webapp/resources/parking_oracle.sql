@@ -3,16 +3,20 @@
 -- GRANT CONNECT, RESOURCE TO parking;
 -- CONN parking/1234;
 
+delete from member where useremail='baba@com';
+commit;
+
 -----------------------------------------------------------------------------------
-select * from member m join bookmark b ON m.usercode = b.bookmarkusercode;
 SELECT usercode, useremail, userphone, username, useraddr,
-  TO_CHAR(usercreateddate, 'yyyy-MM-dd hh24:mi:ss') AS createddate,
-  TO_CHAR(userlogindate, 'yyyy-MM-dd hh24:mi:ss') AS logindate,
+  TO_CHAR(usercreateddate, 'yyyy-MM-dd hh24:mi:ss') AS created,
+  TO_CHAR(userlogindate, 'yyyy-MM-dd hh24:mi:ss') AS logged,
   usersmsyn, useremailyn, useremailverified AS emailVerified, usersnsaccount AS sns,
   useroriginalfilename AS ori, userrenamedfilename AS re,
   userpw
 FROM MEMBER;
-kj
+
+select * from member m join bookmark b ON m.usercode = b.bookmarkusercode;
+
 select ps.*,h.*, TO_CHAR(h.userhistoryparkingdate, 'yyyy-MM-dd hh24:mi:ss')  from userhistory h join parkingseoul ps on h.userhistoryparkingcode = ps.psparkingcode 
 order by h.userhistoryparkingdate desc;
 --update member set useremailverified=1 where useremail='baba@com';
@@ -46,8 +50,9 @@ COMMIT;
 SELECT * FROM COUPON;
 SELECT * FROM PARKINGSEOUL;
 SELECT * FROM PARKINGOWNER;
---SELECT * FROM PARKINGSLOT;
+SELECT * FROM PARKINGSLOT;
 
+desc parkingslot;
 select * from tab;
 -- TABLE
 --DROP TABLE MEMBER CASCADE CONSTRAINTS;
@@ -178,7 +183,7 @@ CREATE TABLE PARKINGSLOT(
 );
 COMMENT ON COLUMN PARKINGSLOT.slotbusinessno IS '주차장사업자번호';
 COMMENT ON COLUMN PARKINGSLOT.slotusercode IS '회원코드';
-COMMENT ON COLUMN PARKINGSLOT.slotbegintime IS '주차시작시간';
+COMMENT ON COLUMN PARKINGSLOT.x`slotbegintime IS '주차시작시간';
 COMMENT ON COLUMN PARKINGSLOT.slotendtime IS '주차종료시간';
 
 ALTER TABLE PARKINGSLOT
