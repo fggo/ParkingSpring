@@ -34,9 +34,11 @@
         <section id="board-container">
           <div class="row d-flex">
             <h6 class="border-bottom border-gray pb-2 mb-0 mr-auto">&nbsp;&nbsp;Questions</h6>
-            <% if(loginMember != null){ %>
+            <c:if test="${!loginMember empty}">
+            <%-- <% if(loginMember != null){ %> --%>
               <input type="button" value="write" class= "btn btn-outline-primary mr-3 mb-2" id="qna-add" onclick="location.href='<%=request.getContextPath() %>/board/qnaboardWrite'">
-            <%} %>
+           <%--  <%} %> --%>
+            </c:if>
           </div>
 
           <table class="table table-sm" id='qna_table'>

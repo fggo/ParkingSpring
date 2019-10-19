@@ -13,6 +13,7 @@ import com.parking.api.dao.ParkingApiDao;
 import com.parking.api.dao.ParkingApiDaoImpl;
 import com.parking.api.model.vo.Coupon;
 import com.parking.api.model.vo.Parking;
+import com.parking.api.model.vo.ParkingOwner;
 import com.parking.api.model.vo.ParkingSeoul;
 import com.parking.api.model.vo.ParkingSlot;
 import com.parking.common.api.ParseJsonSeoulParking;
@@ -37,7 +38,7 @@ public class ParkingApiServiceImpl implements ParkingApiService {
 		// 할당될 페이지 수 cnt 1이고 뽑는 데이터가 1000개면 포문 한번돌고
 		// 몇개를 뽑든간에 그 데이터에 관해 카운트로 for문을 돌린다
 		// 추출해야 데이터가 많은량이면 카운트 수를 높인다.
-		int cnt = 15;
+		int cnt = 2;
 		list = seoulParking.parseJsonSeoulParkingApi(addrName, cnt);
 		
 		return list;
@@ -56,11 +57,16 @@ public class ParkingApiServiceImpl implements ParkingApiService {
 		// TODO Auto-generated method stub
 		int result = 0;
 		int count = 0;
+		ParkingOwner p = null;
 		for(int i = 0; i < list.size(); i++)
 		{					
-			dao.insertparkingOwner(session, list.get(i).getParkingCode());
+			p = new ParkingOwner();
+			p.setOwnerBusinessNo("p"+list.get(i).getParkingCode());
+			p.setOwnerParkingCode(list.get(i).getParkingCode());
+			
+			dao.insertparkingOwner(session, p);
 			count++;
-			session.close();
+			
 		}
 		
 		

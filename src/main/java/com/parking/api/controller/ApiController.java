@@ -112,12 +112,12 @@ public class ApiController {
 //		ownerList.put("list", list);
 		
 		//사업자등록 리스트
-		int resultCeo = parkingApiService.insertparkingOwner(list);
-		
-		if(resultCeo > 0)
-			System.out.println("사업자등록완료");
-		
-		System.out.println("searchAddr 리스트 사이즈 : " +list.size());
+//		int resultCeo = parkingApiService.insertparkingOwner(list);
+//		
+//		if(resultCeo > 0)
+//			System.out.println("사업자등록완료");
+//		
+//		System.out.println("searchAddr 리스트 사이즈 : " +list.size());
 		
 		
 		

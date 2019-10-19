@@ -18,6 +18,7 @@ import org.springframework.stereotype.Repository;
 
 import com.parking.api.model.vo.Coupon;
 import com.parking.api.model.vo.Parking;
+import com.parking.api.model.vo.ParkingOwner;
 import com.parking.api.model.vo.ParkingSeoul;
 import com.parking.api.model.vo.ParkingSlot;
 import com.parking.member.model.vo.Member;
@@ -33,9 +34,9 @@ public class ParkingApiDaoImpl implements ParkingApiDao {
 	}
 	
 	@Override
-	public int insertparkingOwner(SqlSessionTemplate session, String parkingCode) {
+	public int insertparkingOwner(SqlSessionTemplate session, ParkingOwner p) {
 		// TODO Auto-generated method stub
-		return session.insert("parking.insertparkingOwner", parkingCode);
+		return session.insert("parking.insertparkingOwner", p);
 	}
 	
 	@Override

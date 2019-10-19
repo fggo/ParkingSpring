@@ -6,8 +6,8 @@
   	select po.ownerbusinessno as ownerbusinessno,po.ownerparkingcode as ownerparkingcode,ps.slotusercode as slotusercode,ps.slotbegintime as slotbegintime,ps.slotendtime as slotendtime from parkingowner po right join parkingslot ps on po.ownerbusinessno = ps.slotbusinessno
   </select>
   
-  <insert id="insertparkingOwner" parameterType="String" >	
-  		INSERT INTO parkingowner VALUES(#{parkingCode},'p'+#{parkingCode})	
+  <insert id="insertparkingOwner" parameterType="com.parking.api.model.vo.ParkingOwner" >	
+  		INSERT INTO parkingowner VALUES(#{ownerBusinessNo},#{ownerParkingCode})	
   </insert>
   
   <insert id="insertParkingSeoul" parameterType="com.parking.api.model.vo.ParkingSeoul">
