@@ -1,6 +1,5 @@
 
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-  pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%
   Cookie[] cookies = request.getCookies();
@@ -16,8 +15,18 @@
   }
 %>
 
-<%@ include file="/WEB-INF/views/common/header.jsp" %>
- <!-- API -->
+  <!-- header -->
+  <jsp:include page="/WEB-INF/views/common/header.jsp">
+    <jsp:param name="pageTitle" value="Login" />
+  </jsp:include>
+
+  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+  <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+  <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
+  <c:set var="path" value="${pageContext.request.contextPath}" />
+
+  <!-- API -->
 
   <link rel="stylesheet" href="${path }/resources/css/login.css">
 
@@ -35,7 +44,7 @@
                     
                     
               <span id="googleSignIn"><i class="fa fa-google-plus-square"></i></span>
-             <!--   <span onclick="loginWithKakao()"><img src="<%=request.getContextPath() %>/images/kakaobutton.png" class="kakaobutton"></span>-->
+             <!--   <span onclick="loginWithKakao()"><img src="${path}/resources/images/kakaobutton.png" class="kakaobutton"></span>-->
               <input type="hidden" id="kakao-email" >
               
               <!-- <div class="fa fa-google-plus-square" data-onsuccess="onSignIn" data-theme="dark" id="myP"></div> -->
@@ -196,37 +205,71 @@
     }
       
       //계정이 없다면 팝업을 이용
-      function emailPopUp(snsEmail,snsAccount)
-      {
-      	var url="<%=request.getContextPath()%>/member/EmailPopUp?userEmail="+snsEmail + "&snsAccount=" + snsAccount;
-  		var title="signUpPopUp";
-  		var status="left=500px, top=200px, width=400px, height=210px";
-  		window.open(url,title,status);
+      // function emailPopUp(snsEmail,snsAccount)
+      // {
+      //   alert('emailpopup - obsolete');
+      // // 	var url="${path}/member/EmailPopUp?userEmail="+snsEmail + "&userSnsAccount=" + snsAccount;
+  		// // var title="signUpPopUp";
+  		// // var status="left=500px, top=200px, width=400px, height=210px";
+  		// // window.open(url,title,status);
+      //  	var url="${path}/member/EmailPopUp?userEmail="+snsEmail + "&userSnsAccount=" + snsAccount;
+      //   $('#myModal').modal('toggle');
+      // }
+
+      function validateLogin(){
+        if($('#userEmail').val().length==0){
+          alert("Please type Email for login");
+          $('#userEmail').focus();
+          return false; //prevent form submit
+        }
+        if($('#userPw').val().length==0){
+          alert("Please type Password for login");
+          $('#userPw').focus();
+          return false; //prevent form submit
+        }
+        return true;
       }
-      
-      function loginViewEmailCheck(snsEmail, snsAccount)
-      {
-      	location.href="${path}/memberEnroll?userEmail="+snsEmail +"&snsAccount=" + snsAccount;
+
+      function emailPopUpEmailCheck() {  		
+        var accountType;
+        if($('#snsAccountType').attr("value") == 'gmail')
+          accountType = 'G';
+
+      	location.href = "${path}/member/memberEnroll?"
+                      + "userEmail="+$('#snsEmailTxt').val() + "&userSnsAccount="+accountType;
       }
-      
-      function indexPage()
-      {
-      	location.href="${path}/member/checktrueEmail";
-      }
-  
-    function validateLogin(){
-      if($('#userEmail').val().length==0){
-        alert("Please type Email for login");
-        $('#userEmail').focus();
-        return false; //prevent form submit
-      }
-    	if($('#userPw').val().length==0){
-        alert("Please type Password for login");
-        $('#userPw').focus();
-        return false; //prevent form submit
-      }
-    	return true;
-    }
     </script>
+
+    <div class="modal fade" id="snsModal" tabindex="-1" role="dialog" aria-labelledby="snsModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Proceed to Sign up with Your SNS Account? Yes/No</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>SNS sign Up confirmation</p>
+            <form>
+              <div class="form-group">
+                <label for="snsAccountType" class="col-form-label">SNS Account</label>
+                <input type="text" class="form-control" id="snsAccountType" readonly disabled>
+              </div>
+              <div class="form-group">
+                <label for="snsEmailTxt" class="col-form-label">SNS Email</label>
+                <textarea class="form-control" id="snsEmailTxt" readonly disabled></textarea>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" onclick="emailPopUpEmailCheck();">Yes!</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#snsModal" data-whatever="@fat">Open modal for @fat</button> -->
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />

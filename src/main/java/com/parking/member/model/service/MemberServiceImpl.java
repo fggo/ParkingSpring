@@ -53,8 +53,9 @@ public class MemberServiceImpl implements MemberService {
   }
   
   @Override
-  public int activateaccount(String decryptedcode) {
-    return dao.activateaccount(session, decryptedcode);
+  public int activateaccount(Member m) {
+
+    return dao.activateaccount(session, m);
   }
 
   @Override

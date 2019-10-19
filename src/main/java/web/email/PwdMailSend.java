@@ -31,9 +31,9 @@ public class PwdMailSend {
 		Session session = Session.getDefaultInstance(prop, auth);
 		
 		MimeMessage msg = new MimeMessage(session);
-		String host = "https://rclass.iptime.org/Parking/";
-		String code = new AES256E().encrypt(email, "hi");
-		String htmlcode = "<h3>Please click the <a href='" +host+ "views/member/pwdresetend.jsp?code=" +code+"&email=" +email+"'>link</a> change your password </h3>";
+		String host = "http://localhost:9090/parking/";
+		String code = new AES256E().encrypt(email);
+		String htmlcode = "<h3>Please click the <a href='" +host+ "member/pwdresetend.jsp?code=" +code+"&email=" +email+"'>link</a> change your password </h3>";
 		 
 		
 

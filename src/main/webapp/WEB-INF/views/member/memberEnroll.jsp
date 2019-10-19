@@ -1,182 +1,184 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<%@ include file="/WEB-INF/views/common/header.jsp" %>
-<% 
-  String snsEmail = (String)request.getAttribute("userEmail");
-  String userSnsAccount = (String)request.getAttribute("userSnsAccount");
-  if(userSnsAccount ==null  || userSnsAccount.isEmpty())
-    userSnsAccount ="N/A";
-%>
+  <!-- header -->
+  <jsp:include page="/WEB-INF/views/common/header.jsp">
+    <jsp:param name="pageTitle" value="Sign Up" />
+  </jsp:include>
 
-<c:set var="path" value="${pageContext.request.contextPath}" />
+  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+  <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+  <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
+  <c:set var="path" value="${pageContext.request.contextPath}" />
 
   <link rel="stylesheet" href="${path }/resources/css/signup.css">
 
-  <%if(snsEmail != null){ %>
-  <div class="container sns">
-    <div class="d-flex justify-content-center h-100">
-      <div class="card">
-        <div class="card-header">
-          <h3>Sign Up</h3>
-        </div>
-        <div class="card-body">
-          <form action="${path}/member/memberEnrollEnd.do" method="post" onsubmit="return validateEnroll();">
-            <div class="input-group form-group">
-              <input type="text" class="form-control" placeholder="Username" name="userName" id="userName" required>
-            </div>
+  <c:if test="${userSnsAccount != null }">
 
-            <div class="input-group form-group">
-            
-              <input type="email" class="form-control form-group mr-3" placeholder="Email" id="userEmail" name="userEmail" value="<%=snsEmail%>" readonly>
-              <input type="button" class="btn btn-secondary form-group form-control" value="check duplication" onclick="checkEmailDuplicate();" disabled>
-            </div>
-
-            <div class="input-group form-group">
-              <input type="password" class="form-control" placeholder="Password" id="userPw" name="userPw" readonly>
-            </div>
-
-            <div class="input-group form-group">
-              <input type="password" class="form-control" placeholder="Confirm password" id="userPwChk" name="userPwChk" readonly>
-            </div>
-
-            <div class="input-group form-group">
-              <input type="text" class="form-control" placeholder="Phone number" id="userPhone" name="userPhone" required>
-            </div>
-
-            <div class=" input-group form-group">
-             <input type="postCode" class="mr-3 col-md-3 form-control" placeholder="Postcode" id="postCode" name="postCode">
-              <input type="address" class="form-control" placeholder="roadAddress" id="roadAddress" name="roadAddress" required>
-              <input type="hidden" class="form-control" placeholder="jibunAddress" id="jibunAddress" name="jibunAddress">
-              <span class="form-control" id="guide" style="color:#999;display:none"></span>
-              <input type="hidden" class="form-control" placeholder="extraAddress" id="extraAddress" name="extraAddress">
-              <span class="input-group-text" type="button" onclick="execdaumPostcode()"><i class="fa fa-search"></i></span>
-            </div>
-
-            <div class="checkbox">
-              <label class="privacy">
-                <input type="checkbox" id="termsChk" name="termsChk" required> I accept the <a href="#">Terms of Use</a> &<a href="#"> Privacy Policy</a>
-              </label>
-
-              <label class="spam_sms">
-                <input type="checkbox" id="smsChk" name="smsChk" > By clicking the box, you agree to receive our latest news and special offers by phone!
-              </label> 
-
-              <label class="spam_email">
-                <input type="checkbox" id="emailChk" name="emailChk" > By clicking the box, you agree to receive our latest news and special offers by email!
-              </label>
-            </div>
-
-            <div class="form-group">
-              <input type="submit" value="submit" class="btn float-right submit_btn">
-            </div>
-
-            <!-- userSnsAccount 'G', 'F' 'K' 'N/A' -->
-            <input type="hidden" id="userSnsAccount" name="userSnsAccount" value="<%=userSnsAccount %>" />
-
-          </form>
-
-          <form method="post" name="checkEmailDuplicateHiddenFrm">
-            <input type="hidden" name="emailHidden">
-          </form>
-
-        </div>
-
-      </div>
-    </div>
-  </div>
-  <%} else{ %>
     <div class="container sns">
-    <div class="d-flex justify-content-center h-100">
-      <div class="card">
-        <div class="card-header">
-          <h3>Sign Up</h3>
-        </div>
-        <div class="card-body">
-          <form action="${path}/member/memberEnrollEnd.do" method="post" onsubmit="return validateEnroll();">
-            <div class="input-group form-group">
-              <input type="text" class="form-control" placeholder="Username" name="userName" id="userName" required>
-            </div>
-
-            <div class="input-group form-group">
-      
-              	<input type="email" class="form-control form-group mr-3" placeholder="Email" id="userEmail" name="userEmail" required>      
-              <input type="button" class="btn btn-secondary form-group form-control" value="check duplication" onclick="checkEmailDuplicate();">
-            </div>
-
-            <div class="input-group form-group">
-              <input type="password" class="form-control" placeholder="Password" id="userPw" name="userPw" required>
-            </div>
-
-            <div class="input-group form-group">
-              <input type="password" class="form-control" placeholder="Confirm password" id="userPwChk" name="userPwChk" required>
-            </div>
-
-            <script>
-              console.log($('#userSnsAccount').val());
-              $(function(){
-                //check if pw and pw confirmation input match
-                $('#userPwChk').blur(function(){
-                  var userPw = $('#userPw').val();
-                  var userPwChk = $(this).val();
-                  if(userPwChk != userPw){
-                    alert("password does not match");
-                    $(this).val("");
-                    $('#userPw').val("").focus();
-                  }
-                });
-              });
-            </script>
-
-            <div class="input-group form-group">
-              <input type="text" class="form-control" placeholder="Phone number" id="userPhone" name="userPhone" required>
-            </div>
-
-            <div class=" input-group form-group">
-             <input type="postCode" class="mr-3 col-md-3 form-control" placeholder="Postcode" id="postCode" name="postCode">
-              <input type="address" class="form-control" placeholder="roadAddress" id="roadAddress" name="roadAddress" required>
-              <input type="hidden" class="form-control" placeholder="jibunAddress" id="jibunAddress" name="jibunAddress">
-              <span class="form-control" id="guide" style="color:#999;display:none"></span>
-              <input type="hidden" class="form-control" placeholder="extraAddress" id="extraAddress" name="extraAddress">
-              <span class="input-group-text" type="button" onclick="execdaumPostcode()"><i class="fa fa-search"></i></span>
-            </div>
-
-            <div class="checkbox">
+      <div class="d-flex justify-content-center h-100">
+        <div class="card">
+          <div class="card-header">
+            <h3>Sign Up</h3>
+          </div>
+          <div class="card-body">
+            <form action="${path}/member/memberEnrollEnd.do" method="post" onsubmit="return validateEnroll();">
+              <div class="input-group form-group">
+                <input type="text" class="form-control" placeholder="Username" name="userName" id="userName" required>
+              </div>
               
-              <label class="privacy">
-                <input type="checkbox" id="termsChk" name="termsChk" required> I accept the <a href="${path}/termsofuse">Terms of Use</a> &<a href="${path}/privacyPolicy"> Privacy Policy</a>
+              <div class="input-group form-group">
                 
-              </label>
+                <input type="email" class="form-control form-group mr-3" placeholder="Email" id="userEmail" name="userEmail" value="${userEmail}" readonly>
+                <input type="button" class="btn btn-secondary form-group form-control" value="check duplication" onclick="checkEmailDuplicate();" disabled>
+              </div>
               
+              <div class="input-group form-group">
+                <input type="password" class="form-control" placeholder="Password" id="userPw" name="userPw" readonly>
+              </div>
+              
+              <div class="input-group form-group">
+                <input type="password" class="form-control" placeholder="Confirm password" id="userPwChk" name="userPwChk" readonly>
+              </div>
 
-              <label class="spam_sms">
-                <input type="checkbox" id="smsChk" name="smsChk" > By clicking the box, you agree to receive our latest news and special offers by phone!
-              </label> 
+              <div class="input-group form-group">
+                <input type="text" class="form-control" placeholder="Phone number" id="userPhone" name="userPhone" required>
+              </div>
 
-              <label class="spam_email">
-                <input type="checkbox" id="emailChk" name="emailChk" > By clicking the box, you agree to receive our latest news and special offers by email!
-              </label>
-            </div>
+              <div class=" input-group form-group">
+              <input type="postCode" class="mr-3 col-md-3 form-control" placeholder="Postcode" id="postCode" name="postCode">
+              <input type="address" class="form-control" placeholder="roadAddress" id="roadAddress" name="roadAddress" required>
+                <input type="hidden" class="form-control" placeholder="jibunAddress" id="jibunAddress" name="jibunAddress">
+                <span class="form-control" id="guide" style="color:#999;display:none"></span>
+                <input type="hidden" class="form-control" placeholder="extraAddress" id="extraAddress" name="extraAddress">
+                <span class="input-group-text" type="button" onclick="execdaumPostcode()"><i class="fa fa-search"></i></span>
+              </div>
 
-            <div class="form-group">
-              <input type="submit" value="submit" class="btn float-right submit_btn">
-            </div>
+              <div class="checkbox">
+                <label class="privacy">
+                  <input type="checkbox" id="termsChk" name="termsChk" required> I accept the <a href="#">Terms of Use</a> &<a href="#"> Privacy Policy</a>
+                </label>
 
-            <!-- userSnsAccount 'G', 'F' 'K' 'N/A' -->
-            <input type="hidden" id="userSnsAccount" name="userSnsAccount" value="<%=userSnsAccount %>" />
+                <label class="spam_sms">
+                  <input type="checkbox" id="smsChk" name="smsChk" > By clicking the box, you agree to receive our latest news and special offers by phone!
+                </label> 
+                
+                <label class="spam_email">
+                  <input type="checkbox" id="emailChk" name="emailChk" > By clicking the box, you agree to receive our latest news and special offers by email!
+                </label>
+              </div>
+              
+              <div class="form-group">
+                <input type="submit" value="submit" class="btn float-right submit_btn">
+              </div>
 
-          </form>
+              <!-- userSnsAccount 'G', 'F' 'K' 'N/A' -->
+              <input type="hidden" id="userSnsAccount" name="userSnsAccount" value="${userSnsAccount}" />
+              
+            </form>
 
-          <form method="post" name="checkEmailDuplicateHiddenFrm">
-            <input type="hidden" name="emailHidden">
-          </form>
-
+            <form method="post" name="checkEmailDuplicateHiddenFrm">
+              <input type="hidden" name="emailHidden">
+            </form>
+            
+          </div>
+        
         </div>
-
       </div>
     </div>
-  </div>
-  <%} %>
+  </c:if>
+  <c:if test="${userSnsAccount == null}">
+    <div class="container sns">
+      <div class="d-flex justify-content-center h-100">
+        <div class="card">
+          <div class="card-header">
+            <h3>Sign Up</h3>
+          </div>
+          <div class="card-body">
+            <form action="${path}/member/memberEnrollEnd.do" method="post" onsubmit="return validateEnroll();">
+              <div class="input-group form-group">
+                <input type="text" class="form-control" placeholder="Username" name="userName" id="userName" required>
+              </div>
+
+              <div class="input-group form-group">
+        
+                  <input type="email" class="form-control form-group mr-3" placeholder="Email" id="userEmail" name="userEmail" required>      
+                <input type="button" class="btn btn-secondary form-group form-control" value="check duplication" onclick="checkEmailDuplicate();">
+              </div>
+
+              <div class="input-group form-group">
+                <input type="password" class="form-control" placeholder="Password" id="userPw" name="userPw" required>
+              </div>
+
+              <div class="input-group form-group">
+                <input type="password" class="form-control" placeholder="Confirm password" id="userPwChk" name="userPwChk" required>
+              </div>
+
+              <script>
+                console.log($('#userSnsAccount').val());
+                $(function(){
+                  //check if pw and pw confirmation input match
+                  $('#userPwChk').blur(function(){
+                    var userPw = $('#userPw').val();
+                    var userPwChk = $(this).val();
+                    if(userPwChk != userPw){
+                      alert("password does not match");
+                      $(this).val("");
+                      $('#userPw').val("").focus();
+                    }
+                  });
+                });
+              </script>
+
+              <div class="input-group form-group">
+                <input type="text" class="form-control" placeholder="Phone number" id="userPhone" name="userPhone" required>
+              </div>
+
+              <div class=" input-group form-group">
+              <input type="postCode" class="mr-3 col-md-3 form-control" placeholder="Postcode" id="postCode" name="postCode">
+                <input type="address" class="form-control" placeholder="roadAddress" id="roadAddress" name="roadAddress" required>
+                <input type="hidden" class="form-control" placeholder="jibunAddress" id="jibunAddress" name="jibunAddress">
+                <span class="form-control" id="guide" style="color:#999;display:none"></span>
+                <input type="hidden" class="form-control" placeholder="extraAddress" id="extraAddress" name="extraAddress">
+                <span class="input-group-text" type="button" onclick="execdaumPostcode()"><i class="fa fa-search"></i></span>
+              </div>
+
+              <div class="checkbox">
+                
+                <label class="privacy">
+                  <input type="checkbox" id="termsChk" name="termsChk" required> I accept the <a href="${path}/termsofuse">Terms of Use</a> &<a href="${path}/privacyPolicy"> Privacy Policy</a>
+                  
+                </label>
+                
+
+                <label class="spam_sms">
+                  <input type="checkbox" id="smsChk" name="smsChk" > By clicking the box, you agree to receive our latest news and special offers by phone!
+                </label> 
+
+                <label class="spam_email">
+                  <input type="checkbox" id="emailChk" name="emailChk" > By clicking the box, you agree to receive our latest news and special offers by email!
+                </label>
+              </div>
+
+              <div class="form-group">
+                <input type="submit" value="submit" class="btn float-right submit_btn">
+              </div>
+
+              <!-- userSnsAccount 'G', 'F' 'K' 'N/A' -->
+              <input type="hidden" id="userSnsAccount" name="userSnsAccount" value="${userSnsAccount }" />
+
+            </form>
+
+            <form method="post" name="checkEmailDuplicateHiddenFrm">
+              <input type="hidden" name="emailHidden">
+            </form>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </c:if>
 
   <script>
 //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.

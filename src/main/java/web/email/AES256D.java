@@ -1,38 +1,32 @@
 package web.email;
 
-import java.security.spec.KeySpec;
-import java.util.Base64;
 
 import javax.crypto.Cipher;
-import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
+import org.apache.commons.codec.binary.Base64;
+
 public class AES256D {
-	private static String secretKey = "hojunchoi";
-	private static String salt = "hojun";
+	private String key = "Bar12345Bar12345"; // 128 bit key
+  private String initVector = "RandomInitVector"; // 16 bytes IV
 	 
-	public String decrypt(String strToDecrypt, String secret) {
-	    try
-	    {	byte[] base64decodedbyte = (Base64.getDecoder().decode(strToDecrypt));
-	        byte[] iv = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-	        IvParameterSpec ivspec = new IvParameterSpec(iv);
-	         
-	        SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-	        KeySpec spec = new PBEKeySpec(secretKey.toCharArray(), salt.getBytes(), 65536, 256);
-	        SecretKey tmp = factory.generateSecret(spec);
-	        SecretKeySpec secretKey = new SecretKeySpec(tmp.getEncoded(), "AES");
-	         
-	        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-	        cipher.init(Cipher.DECRYPT_MODE, secretKey, ivspec);
-	        return new String(cipher.doFinal(base64decodedbyte));
-	    }
-	    catch (Exception e) {
-	        System.out.println("Error while decrypting: " + e.toString());
-	    }
-	    return null;
+	public String decrypt(String encrypted) {
+	  try {
+      IvParameterSpec iv = new IvParameterSpec(initVector.getBytes("UTF-8"));
+      SecretKeySpec skeySpec = new SecretKeySpec(key.getBytes("UTF-8"), "AES");
+
+      Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
+      cipher.init(Cipher.DECRYPT_MODE, skeySpec, iv);
+
+      byte[] original = cipher.doFinal(Base64.decodeBase64(encrypted));
+
+      return new String(original);
+    } catch (Exception ex) {
+        ex.printStackTrace();
+    }
+
+    return null;
 	}
 
 }

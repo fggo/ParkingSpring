@@ -43,15 +43,3 @@
    </update>
 
 </mapper>
-
-<!--
-selectUserCode=select * from member where userCode=?
-selectEmail=select * from member where userEmail=?
-selectEmailPw=select * from member where userEmail=? and userPw=?
-insertMember=insert into member values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)
-deleteMember=delete from member where userCode=?
-updateLoginDate=update member set userlogindate=? where userEmail=?
-updateMember=update member set userphone=?, username=?, useraddr=?, usersmsyn=?, userEmailyn=?, useroriginalfilename=?, userrenamedfilename=? where userCode=?
-activateMember = update member set userEmailverified=1 where userEmail=?
-changepassword= update member set userPw=? where userEmail=?
--->

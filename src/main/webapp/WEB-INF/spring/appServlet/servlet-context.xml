@@ -41,6 +41,27 @@
     </interceptor>
   </interceptors>
 	
+  <!-- jsonView 등록하기 -->
+  <beans:bean id="viewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
+    <beans:property name="order" value="1" />
+  </beans:bean>
+   <!-- jsonView 등록하기 -->
+  <beans:bean id="jasonView" class="net.sf.json.spring.web.servlet.view.JsonView">
+  </beans:bean>
+  
+  <!-- jackson -->
+  <beans:bean id="jacksonMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+  </beans:bean>
+  
+  <!-- jackson handler -->
+  <beans:bean id="" class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+    <beans:property name="messageConverters">
+      <beans:list>
+        <beans:ref bean="jacksonMessageConverter" />
+      </beans:list>
+    </beans:property>
+  </beans:bean>
+  
 	
 	
 </beans:beans>

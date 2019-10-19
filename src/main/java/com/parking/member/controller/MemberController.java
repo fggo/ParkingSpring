@@ -20,10 +20,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.oreilly.servlet.MultipartRequest;
 import com.parking.common.file.rename.MyFileRenamePolicy;
@@ -49,10 +52,13 @@ public class MemberController {
   @RequestMapping("/emailverification")
   public ModelAndView accountActivation(HttpServletRequest request) {
 
-    String encryptedcode = request.getParameter("code");
-    String decryptedcode = new AES256D().decrypt(encryptedcode, "hi");
+    String encryptedEmail = request.getParameter("code");
+    String decryptedEmail = new AES256D().decrypt(encryptedEmail);
 
-    int result = service.activateaccount(decryptedcode);
+    Member m = new Member();
+    m.setUserEmail(decryptedEmail);
+
+    int result = service.activateaccount(m);
     String msg ="";
     String loc = "/";
     
@@ -64,6 +70,21 @@ public class MemberController {
     mv.addObject("msg", msg);
     mv.addObject("loc", loc);
     mv.setViewName("common/msg");
+    
+    return mv;
+  }
+
+  @RequestMapping("/member/emailverificationPopup")
+  public ModelAndView emailPopUp(HttpServletRequest request, HttpServletResponse response) {
+    String encryptedEmail = request.getParameter("code");
+    String snsAccount = request.getParameter("email");
+    
+    
+    ModelAndView mv = new ModelAndView();
+
+    mv.addObject("code", encryptedEmail);
+    mv.addObject("email", snsAccount);
+    mv.setViewName("member/emailverificationpopup");
     
     return mv;
   }
@@ -89,37 +110,42 @@ public class MemberController {
     return mv;
   }
 
-  @RequestMapping("/member/EmailPopUp")
-  public ModelAndView emailPopUp(HttpServletRequest request, HttpServletResponse response) {
-    String email = request.getParameter("userEmail");
-    String snsAccount = request.getParameter("snsAccount");
-    
-    
-    ModelAndView mv = new ModelAndView();
-
-    mv.addObject("userEmail", email);
-    mv.addObject("snsAccount", snsAccount);
-    mv.setViewName("member/emailPopUp");
-    
-    return mv;
-  }
-
-  //
   @RequestMapping("/member/JsonMemberEmailcheck")
-  public ModelAndView jsonMemberEmailCheck(Member m, HttpServletResponse response) throws IOException {
-    Map<String,Object> map = service.selectEmail(m);
+  @ResponseBody
+  public String jsonMemberEmailCheck(Member m, HttpServletResponse response)
+      throws JsonProcessingException, IOException {
+    Member foundMember = service.selectMemberEmail(m.getUserEmail());
 
     List<Member> list = new ArrayList<Member>();
 
-    if(map != null && map.size() > 0)
-      list.add(m);
+    if( foundMember != null && foundMember.getUserSnsAccount() != null)
+      list.add(foundMember);
     else
       list.add(new Member());
 
     response.setContentType("application/json;charset=UTF-8");
 
+    //jackson은 gson과 비슷한 역할, better functionality
+    //mapper.readValue(json값, vo클래스);
+    ObjectMapper mapper = new ObjectMapper();
+
+    return mapper.writeValueAsString(list);
+  }
+
+  @RequestMapping("/member/snsAutoLogin.do")
+  public ModelAndView snsAutoLogin(Member m, HttpSession session) {
+
     ModelAndView mv = new ModelAndView();
-    mv.addObject(new Gson().toJson(list));
+
+    Member loginMember = service.selectMemberEmail(m.getUserEmail());
+
+    loginMember.setUserLoginDate(new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
+    service.updateLoginDate(loginMember);
+
+    session.setAttribute("loginMember", loginMember);
+    mv.addObject("msg", "SNS user login successful!");
+    mv.addObject("loc", "/");
+    mv.setViewName("common/msg");
 
     return mv;
   }
@@ -199,10 +225,10 @@ public class MemberController {
 
     ModelAndView mv = new ModelAndView();
 
-    String decryptedEmail = new AES256D().decrypt(encryptedcode, "hi");
+    String decryptedEmail = new AES256D().decrypt(encryptedcode);
     Member m = new Member();
     m.setUserEmail(decryptedEmail);
-    m.setUserPw(password);
+    m.setUserPw(pwEncoder.encode(password));
     
     int result = service.changepassword(m);
 
@@ -221,36 +247,34 @@ public class MemberController {
     return mv;
   }
   
-	public String generateUserCode() {
-	  int rand = 0;
-	  String randDigit ="";
-	  Member m = null;
-	  Map<String, Object> map = null;
+  public String generateUserCode() {
+    int rand = 0;
+    String randDigit ="";
+    Member m = null;
+    Map<String, Object> map = null;
 
-	  do {
+    do {
       // assign 'user_code' unique random digit string : 000001 ~ 999999
-	    rand = ThreadLocalRandom.current().nextInt(1, 999999 + 1);
-	    randDigit = String.format("%06d",  rand);
+      rand = ThreadLocalRandom.current().nextInt(1, 999999 + 1);
+      randDigit = String.format("%06d",  rand);
 
-	    m = new Member();
-	    m.setUserCode(randDigit);
+      m = new Member();
+      m.setUserCode(randDigit);
 
-	    map = service.selectUserCode(m);
-	  } while(map != null && map.get("USEREMAIL") !=null);
+      map = service.selectUserCode(m);
+    } while(map != null && map.get("USEREMAIL") !=null);
 
-	  return randDigit;
-	}
+    return randDigit;
+  }
 
   @RequestMapping("/member/memberEnroll")
-  public ModelAndView memberEnroll(@RequestParam(value = "userEmail", required=false) String userEmail,
-                                   @RequestParam(value = "snsAccount", required=false) String snsAccount) {
+  public ModelAndView memberEnroll(Member m ) {
 
     ModelAndView mv = new ModelAndView();
 
-    if(userEmail !=null) {
-      mv.addObject("userEmail", userEmail);
-      mv.addObject("snsAccount", snsAccount);
-        
+    if(m !=null) {
+      mv.addObject("userEmail", m.getUserEmail());
+      mv.addObject("userSnsAccount", m.getUserSnsAccount());
     }
     mv.setViewName("member/memberEnroll");
     return mv;
@@ -258,28 +282,30 @@ public class MemberController {
   
   @RequestMapping("/member/memberEnrollEnd.do")
   public ModelAndView memberEnrollEnd(Member m, 
-                                      @RequestParam(value = "roadAddress") String roadAddress,
-                                      @RequestParam(value = "postCode") String postCode,
-                                      @RequestParam(value = "smsChk", required=false) String smsChk,
-                                      @RequestParam(value = "emailChk", required=false) String emailChk) {
+      @RequestParam(value = "roadAddress") String roadAddress,
+      @RequestParam(value = "postCode") String postCode,
+      @RequestParam(value = "smsChk", required=false) String smsChk,
+      @RequestParam(value = "emailChk", required=false) String emailChk,
+      @RequestParam(value = "userSnsAccount", required=false, defaultValue = "N/A") String userSnsAccount) {
 
-	  m.setUserCode(this.generateUserCode());
-	  m.setUserAddr(roadAddress + postCode);
-	  m.setUserPw(pwEncoder.encode(m.getUserPw()));
-	  m.setUserSmsYn(smsChk !=null? 1:0);
-	  m.setUserEmailYn(emailChk != null? 1:0);
-	  m.setUserEmailVerified(0);
-	  m.setUserCreatedDate(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
+    m.setUserCode(this.generateUserCode());
+    m.setUserAddr(roadAddress + postCode);
+    m.setUserPw(pwEncoder.encode(m.getUserPw()));
+    m.setUserSmsYn(smsChk !=null? 1:0);
+    m.setUserEmailYn(emailChk != null? 1:0);
+    m.setUserEmailVerified(0);
+    m.setUserCreatedDate(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
+    m.setUserSnsAccount(userSnsAccount);
 
-	  int result = service.insertMember(m);
-	  
-	  MailSend ms = new MailSend();
-	  ms.SendingMail(m.getUserEmail());
+    int result = service.insertMember(m);
+    
+    MailSend ms = new MailSend();
+    ms.SendingMail(m.getUserEmail());
 
-	
-	  String msg = result > 0? "Hello "+m.getUserName() + ". Please check your email to activate your account!" : "Sign up Failed!";
-	  String loc = "/";
-//	  if(result >0)
+  
+    String msg = result > 0? "Hello "+m.getUserName() + ". Please check your email to activate your account!" : "Sign up Failed!";
+    String loc = "/";
+//    if(result >0)
 //    {
 //        //쿠폰생성 잠시사용
 //         int resultCoupon = 0;
@@ -302,13 +328,13 @@ public class MemberController {
 //         if(result > 0)
 //            System.out.println("쿠폰등록완료");
 //    }
-//	  
-	  ModelAndView mv = new ModelAndView();
-	  mv.addObject("msg", msg);
-	  mv.addObject("loc", loc);
-	  mv.setViewName("common/msg");
+//    
+    ModelAndView mv = new ModelAndView();
+    mv.addObject("msg", msg);
+    mv.addObject("loc", loc);
+    mv.setViewName("common/msg");
 
-	  return mv;
+    return mv;
   }
 
   @RequestMapping("privacyPolicy")
@@ -334,10 +360,10 @@ public class MemberController {
       msg = "Successfully Deleted Account!";
       loc = "/logout";
 
-	    //delete profile picture
-	    String saveDir = request.getServletContext().getRealPath(File.separator + "upload" + File.separator + "member");
-	    File remove = new File(saveDir + File.separator + m.getUserRenamedFilename());
-	    remove.delete();
+      //delete profile picture
+      String saveDir = request.getServletContext().getRealPath(File.separator + "upload" + File.separator + "member");
+      File remove = new File(saveDir + File.separator + m.getUserRenamedFilename());
+      remove.delete();
     }
     else {
       msg = "Failed to Delete Account...";
@@ -368,28 +394,28 @@ public class MemberController {
   @RequestMapping("/member/memberUpdateEnd.do")
   public ModelAndView memberUpdateEnd(HttpServletRequest request, HttpSession session) throws IOException {
     ModelAndView mv = new ModelAndView();
-	  if(!ServletFileUpload.isMultipartContent(request)) {
-	    mv.addObject("msg", "enctype ERROR");
-	    mv.addObject("loc", "/");
-	    mv.setViewName("common/msg");
-	    return mv;
-	  }
-	  
-	  String saveDir = request.getServletContext().getRealPath(File.separator + "upload" + File.separator + "member");
-	  File dir = new File(saveDir);
-	  if(!dir.exists()) {
-	    dir.mkdirs(); //mkdirs 서브 dir 경로까지 전부
-	  }
-	  
-	  int maxSize = 1024*1024*1024; // 1GB
-	  
-	  //MultipartRequest객체 생성
-	  MultipartRequest mr = new MultipartRequest(
-	      request,
-	      saveDir,
-	      maxSize,
-	      "UTF-8",
-	      new MyFileRenamePolicy()); //new DefaultRenamePolicy() 대신 커스텀 rename policy
+    if(!ServletFileUpload.isMultipartContent(request)) {
+      mv.addObject("msg", "enctype ERROR");
+      mv.addObject("loc", "/");
+      mv.setViewName("common/msg");
+      return mv;
+    }
+    
+    String saveDir = request.getServletContext().getRealPath(File.separator + "upload" + File.separator + "member");
+    File dir = new File(saveDir);
+    if(!dir.exists()) {
+      dir.mkdirs(); //mkdirs 서브 dir 경로까지 전부
+    }
+    
+    int maxSize = 1024*1024*1024; // 1GB
+    
+    //MultipartRequest객체 생성
+    MultipartRequest mr = new MultipartRequest(
+        request,
+        saveDir,
+        maxSize,
+        "UTF-8",
+        new MyFileRenamePolicy()); //new DefaultRenamePolicy() 대신 커스텀 rename policy
 
     String userPhone = mr.getParameter("phone");
     String userName = mr.getParameter("name");
@@ -417,7 +443,7 @@ public class MemberController {
     String loc = "";
 
     if(result > 0) {
-	    //update 성공하여 이전 파일 삭제 (update할 새로운 파일을 지정한 경우에만 삭제)
+      //update 성공하여 이전 파일 삭제 (update할 새로운 파일을 지정한 경우에만 삭제)
       msg ="Member update Successful!";
       loc = "/member/memberView";
 
@@ -429,7 +455,7 @@ public class MemberController {
       session.setAttribute("loginMember", m);
     }
     else {
-	    //update 실패했으니 MultipartRequest로 생성된 파일을 지워줌
+      //update 실패했으니 MultipartRequest로 생성된 파일을 지워줌
       msg ="Member update Failed.";
       loc = "/member/memberUpdate";
 

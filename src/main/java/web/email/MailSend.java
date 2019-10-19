@@ -1,8 +1,7 @@
 package web.email;
 
 import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.Properties;
 
@@ -14,9 +13,6 @@ import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-
-import com.parking.member.model.service.MemberService;
-import com.parking.member.model.vo.Member;
 
 public class MailSend {
 
@@ -32,16 +28,16 @@ public class MailSend {
 		Session session = Session.getDefaultInstance(prop, auth);
 		
 		MimeMessage msg = new MimeMessage(session);
-		String host = "https://rclass.iptime.org/Parking/";
+		String host = "http://localhost:9090/parking/";
 //		System.out.println("email :" +email);
-		String code = new AES256E().encrypt(email, "hi");
-		String htmlcode = "<h3> Please click the <a href='" +host+ "views/member/emailverificationpopup.jsp?code=" +code +"&email=" +email+"'>link</a> to activate your account</h3>";
+		String code = new AES256E().encrypt(email);
+		String htmlcode = "<h3> Please click the <a href='" +host+ "member/emailverificationPopup?code=" +code +"&email=" +email+"'>link</a> to activate your account</h3>";
 		 
 		
 
 		try {
 			msg.setSentDate(new Date());
-			msg.setFrom(new InternetAddress("94hojun@gmaizl.com", "Illegal Parking"));
+			msg.setFrom(new InternetAddress("94hojun@gmail.com", "Illegal Parking"));
 			InternetAddress to = new InternetAddress(email);
 			msg.setRecipient(Message.RecipientType.TO, to);
 			msg.setSubject("제목", "UTF-8");

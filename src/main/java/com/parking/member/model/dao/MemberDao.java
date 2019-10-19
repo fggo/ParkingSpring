@@ -23,7 +23,7 @@ public interface MemberDao{
 
   int deleteMember(SqlSessionTemplate session, Member m);
 
-  int activateaccount(SqlSessionTemplate session, String decryptedcode);
+  int activateaccount(SqlSessionTemplate session, Member m);
 
   int changepassword(SqlSessionTemplate session, Member m);
 }

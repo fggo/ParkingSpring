@@ -12,6 +12,6 @@ public interface MemberService {
   public boolean updateLoginDate(Member m);
   public int updateMember(Member m);
   public int deleteMember(Member m);
-  public int activateaccount(String decryptedcode);
+  public int activateaccount(Member m);
 	public int changepassword(Member m);
 }

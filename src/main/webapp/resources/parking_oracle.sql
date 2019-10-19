@@ -3,7 +3,8 @@
 -- GRANT CONNECT, RESOURCE TO parking;
 -- CONN parking/1234;
 
-delete from member where useremail='baba@com';
+--delete from member where useremail='baba@com';
+--delete from member where useremail='lopehih@gmail.com';
 commit;
 
 -----------------------------------------------------------------------------------
