@@ -8,7 +8,7 @@ DB서버는 AWS를 가용 현재는 프리웨어 만료로인해 사용중지
 * [Parking pdf 링크](https://github.com/YoonYeoSong/YoonYeoSong.github.io/blob/master/pdf/Semi-Project.pdf)
 
 - 사용 기술 및 툴
-  - JAVA, JS, HTML, Jquery, CSS, BootStrap4, JSP, SpringFrameWork, AWS(ubuntu), Tomcat 8.5, Git, Oracle, OpenAPI(REST or JS)
+  - JAVA, JS, HTML, Jquery, CSS, BootStrap4, Mybatis, JSP, SpringFrameWork, AWS(ubuntu), Tomcat 8.5, Git, Oracle, OpenAPI(REST or JS)
   - Ecripes, vsCode, git Bash, SQL Developer, window10
 <img src="https://github.com/YoonYeoSong/YoonYeoSong.github.io/blob/master/images/mainPage.png?raw=true" /><br>
 <img src="https://github.com/YoonYeoSong/YoonYeoSong.github.io/blob/master/images/searchPage.png?raw=true"/><br>
