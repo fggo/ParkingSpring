@@ -1,13 +1,17 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-  pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-  <%@ include file="/WEB-INF/views/common/header.jsp" %>
-  <!-- JQUERY -->
-  <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<jsp:include page="/WEB-INF/views/common/header.jsp">
+  <jsp:param name="pageTitle" value="MyPage - ${subpage}" />
+</jsp:include>
 
+  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+  <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+  <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
+  <c:set var="path" value="${pageContext.request.contextPath}" />
 
   <!-- CSS -->
-  <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/avatar.css">
+  <link rel="stylesheet" href="${path}/resources/css/avatar.css">
   <style>
     #listScroll{
       font-size: 13px;
@@ -21,18 +25,15 @@
       <div class="col-lg-3">
         <div class="list-group mt-4 mb-3">
           <a href="javascript:;" class="list-group-item" onclick="ajaxMypageContentLoad('/member/memberView');"><i class="fa fa-cog">&nbsp;&nbsp;</i>Settings</a>
-          <a href="javascript:;" class="list-group-item" onclick="location.href='<%=request.getContextPath() %>/bookmark/bookmarkView'"><i class="fa fa-bookmark">&nbsp;&nbsp;</i>Bookmark</a>
-          <a href="javascript:;" class="list-group-item" onclick="location.href='<%=request.getContextPath() %>/board/reviewList'"><i class="fa fa-edit">&nbsp;&nbsp;</i>My Reviews</a>
-          <% if(loginMember.getUserEmail().equals("admin@com")){ %>
-            <a href="javascript:;" class="list-group-item" onclick="ajaxMypageContentLoad('/admin/memberList');"><i class="fa fa-list">&nbsp;&nbsp;</i>Member List</a>
-          <%} else { %>
-            <!-- <a href="javascript:;" class="list-group-item" onclick="ajaxMypageContentLoad('');"><i class="fa fa-credit-card">&nbsp;&nbsp;</i>Payment Methods</a> -->
-            <!-- <a href="javascript:;" class="list-group-item" onclick="ajaxMypageContentLoad('');"><i class="fa fa-calendar">&nbsp;&nbsp;</i>Reservations</a> -->
-            <!-- <a href="javascript:;" class="list-group-item" onclick="ajaxMypageContentLoad('');"><i class="fa fa-car">&nbsp;&nbsp;</i>My Vehicle</a> -->
-            <!-- <a href="javascript:;" class="list-group-item" onclick="ajaxMypageContentLoad('');"><i class="fa fa-won">&nbsp;&nbsp;</i>Credit Balance</a> -->
-          <% } %>
+          <a href="javascript:;" class="list-group-item" onclick="location.href='${path}/bookmark/bookmarkView'"><i class="fa fa-bookmark">&nbsp;&nbsp;</i>Bookmark</a>
+          <a href="javascript:;" class="list-group-item" onclick="location.href='${path}/board/reviewList'"><i class="fa fa-edit">&nbsp;&nbsp;</i>My Reviews</a>
+
+          <c:if test="${loginMember.userCode == 'admin@com'}">
+          <a href="javascript:;" class="list-group-item" onclick="ajaxMypageContentLoad('/admin/memberList');"><i class="fa fa-list">&nbsp;&nbsp;Member List</i>
+            </a>
+          </c:if>
         </div>
-        
+              
         <div class="card-text text-center overflow-auto mb-1" id="listScrollTitle" >
         </div>
         <div class="card-text shadow-sm text-left overflow-auto" id="listScroll" >
@@ -61,8 +62,8 @@
 
           $.ajax({
             type: "POST",
-            url: "<%=request.getContextPath() %>" + urlMapping,
-            data:{userCode: "<%=loginMember.getUserCode() %>"},
+            url: "${path}" + urlMapping,
+            data:{userCode: "${loginMember.userCode}"},
             dataType: "html",
             success: function(data){
               html = $('<div>').html(data);

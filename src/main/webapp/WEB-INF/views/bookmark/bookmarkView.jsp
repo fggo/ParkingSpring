@@ -1,9 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<%@ page import="com.parking.member.model.vo.Member" %>
+<jsp:include page="/WEB-INF/views/common/mypageHeader.jsp">
+  <jsp:param name="pageTitle" value="Bookmark" />
+</jsp:include>
 
-<%@ include file="/WEB-INF/views/common/mypageHeader.jsp" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
+<c:set var="path" value="${pageContext.request.contextPath}" />
 
   <section class="py-4 subMenu-container">
 
@@ -22,11 +28,6 @@
       <div class="card-body">
         <!-- .media -->
         <div class="media mb-2">
-          <!-- <div class="user-avatar user-avatar-xl fileinput-button">
-            <div class="fileinput-button-label">Change photo</div>
-            <img src="<%=request.getContextPath() %>/images/profile.png" alt="User Avatar">
-            <input id="fileupload-avatar" type="file" name="avatar"> </div> -->
-          <!-- .media-body -->
           <div class="media-body pl-3">
             <h3 class="card-title">Bookmark list</h3>
             <h6 class="card-subtitle text-muted">Saved Parking locations</h6>
@@ -105,9 +106,9 @@
             var positions = [];
 
             $.ajax({
-              url: "<%=request.getContextPath()%>/bookmark/bookmarkList",
+              url: "${path}/bookmark/bookmarkList",
               type: "POST",
-              data: { "userCode": "<%=loginMember.getUserCode()%>" },
+              data: { "userCode": "${loginMember.userCode}" },
               dataType: "JSON",
               success: function (data) {
                 var listScroll = $("#listScroll");
@@ -138,7 +139,7 @@
                                         + "id='parking" + d + "'>"
                                         + "Details</button>";
                   var infoBtn = $(btnStr);
-                  var input = $("<button type='button' class='btn btn-sm btn-info pay' onclick='location.href=\"<%=request.getContextPath()%>/board/reviewList\"'"  
+                  var input = $("<button type='button' class='btn btn-sm btn-info pay' onclick='location.href=\"${path}/board/reviewList\"'"  
                                       + "value=''><i class='fa fa-chevron-right'>&nbsp;Review"
                               + "</button>");
                   div.append(infoBtn).append(input);
@@ -257,12 +258,12 @@
             for (var i = 0; i < positions.length; i ++) {
               // 마커 이미지를 생성합니다    
               if(positions[i].title == "curLoc"){
-                imageSrc = '<%=request.getContextPath() %>/images/imhere.png', // 마커이미지의 주소입니다    
+                imageSrc = '${path}/resources/images/imhere.png', // 마커이미지의 주소입니다    
                 imageSize = new kakao.maps.Size(42, 42); 
                 markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
               }
               else{
-                imageSrc = "<%=request.getContextPath() %>/images/sign.png";
+                imageSrc = "${path}/resources/images/sign.png";
                 imageSize = new kakao.maps.Size(30, 30); 
                 markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
               }
@@ -435,4 +436,4 @@
 
   </section>
 
-<%@ include file="/WEB-INF/views/common/mypageFooter.jsp" %>
+<jsp:include page="/WEB-INF/views/common/mypageFooter.jsp" />
