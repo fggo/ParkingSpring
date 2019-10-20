@@ -1,7 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="bookmark" >
-	<select id="selectBookmarkList" parameterType="string" resultType="map">
-		select * FROM bookmark b where b.bookmarkusercode=#{userCode}
-	</select>  
+
+  <select id="selectBookmarkList" parameterType="string" resultType="map">
+    select * FROM bookmark b where b.bookmarkusercode=#{userCode}
+  </select>
+  
+  <select id="selectBookmarkParkingList" parameterType="map" resultType="list">
+    select ps.* from bookmark b JOIN parkingseoul ps ON b.bookmarkparkingcode = ps.psparkingcode
+      where b.bookmarkusercode= #{userCode}
+  </select>
+  
+  <insert id="insertBookmark">
+    insert into bookmark values(DEFAULT, #{bookmarkUserCode}, #{bookmarkParkingCode})
+  </insert>
+  
+  <delete id="deleteBookmark">
+    delete from bookmark
+    where bookmarkusercode= #{bookmarkUserCode}
+      and bookmarkparkingcode= #{bookmarkParkingCode}
+  </delete>
+  
 </mapper>

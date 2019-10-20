@@ -11,7 +11,6 @@
 
 <% /* List<Parking> list = (List)request.getAttribute("list"); */
 	String search = (String)request.getAttribute("search");
-  List<Bookmark> bookmarkList = (ArrayList<Bookmark>)request.getAttribute("bookmarkList");
 	Object[] obj = null;
 %>
 <%
@@ -36,6 +35,13 @@
     dropdownTxt = "MyPage";
 %>
 <!-- overflow:auto 사용하여 list 내용이 잘릴때 스크롤 사용  -->
+
+
+  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+  <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+  <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
+  <c:set var="path" value="${pageContext.request.contextPath}" />
 
 <head>
 
@@ -295,7 +301,7 @@
 
         <div class='py-0 mr-auto inline-block' id="navbar-logo">
           <a class="navbar-brand " href="<%=request.getContextPath() %>">
-            <img src="<%=request.getContextPath() %>/images/logo_white.png">
+            <img src="${path}/resources/images/logo_white.png">
           </a>
         </div>
 
@@ -356,31 +362,26 @@
                 id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%=dropdownTxt %></a>
 
               <div class="dropdown-menu mt-1" aria-labelledby="dropdown01">
-
-              <% if(loginMember == null) { %>
-              <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-cog">&nbsp;&nbsp;</i>Account Settings</a>
-              <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-bookmark">&nbsp;&nbsp;</i>Bookmark</a>
-              <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-edit">&nbsp;&nbsp;</i>My Reviews</a>
-              <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-calendar">&nbsp;&nbsp;</i>My Reservations</a>
-              <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-credit-card">&nbsp;&nbsp;</i>Payment Methods</a>
-              <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-won">&nbsp;&nbsp;</i>Credit Balance</a>
-              <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-car">&nbsp;&nbsp;</i>My Vehicle</a>
-
-              <% } else { %>
-                <a class="dropdown-item" href="<%=request.getContextPath() %>/views/member/memberView.jsp"><i class="fa fa-cog">&nbsp;&nbsp;</i>Settings</a>
-                <a class="dropdown-item" href="<%=request.getContextPath() %>/views/bookmark/bookmarkView.jsp"><i class="fa fa-bookmark">&nbsp;&nbsp;</i>Bookmark</a>
-
-                <% if(loginMember != null && loginMember.getUserEmail().equals("admin@com")) { %>
-                  <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-list">&nbsp;&nbsp;</i>Member List</a>
-
-                <%}else if(loginMember != null && !loginMember.getUserEmail().equals("admin@com")) { %>
-                  <a class="dropdown-item" href="<%=request.getContextPath() %>/views/board/review.jsp"><i class="fa fa-edit">&nbsp;&nbsp;</i>My Reviews</a>
-                  <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-calendar">&nbsp;&nbsp;</i>My Reservations</a>
-                  <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-credit-card">&nbsp;&nbsp;</i>Payment Methods</a>
-                  <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-won">&nbsp;&nbsp;</i>Credit Balance</a>
-                  <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-car">&nbsp;&nbsp;</i>My Vehicle</a>
-                <% } %>
-              <% } %>
+              <c:choose>
+                <c:when test="${loginMember ==null}">
+                  <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-cog">&nbsp;&nbsp;</i>Account Settings</a>
+                  <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-bookmark">&nbsp;&nbsp;</i>Bookmark</a>
+                  <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-edit">&nbsp;&nbsp;</i>My Reviews</a>
+                </c:when>
+                <c:otherwise>
+                  <a class="dropdown-item" href="<%=request.getContextPath() %>/views/member/memberView.jsp"><i class="fa fa-cog">&nbsp;&nbsp;</i>Settings</a>
+                  <a class="dropdown-item" href="<%=request.getContextPath() %>/views/bookmark/bookmarkView.jsp"><i class="fa fa-bookmark">&nbsp;&nbsp;</i>Bookmark</a>
+                  
+                  <c:if test="${loginMember != null && loginMember.userEmail == 'admin@com'}">
+                    <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-list">&nbsp;&nbsp;</i>Member List</a>
+                  </c:if>
+                  <c:if test="${loginMember != null && !loginMember.userEmail == 'admin@com'}">
+                    <a class="dropdown-item" href="<%=request.getContextPath() %>/views/board/review.jsp"><i class="fa fa-edit">&nbsp;&nbsp;</i>My Reviews</a>
+                    <a class="dropdown-item" href="<%=mypageUrl %>"><i class="fa fa-calendar">&nbsp;&nbsp;</i>My Reservations</a>
+                  </c:if>
+                </c:otherwise>
+              </c:choose>
+                
 
                 <form action="" name="mypageSubMenuFrm">
                   <input type="hidden" name="subMenu" id="subMenu">
@@ -1208,14 +1209,13 @@
             }
           }
           else{
-            <% if(bookmarkList != null){
-              for (int i=0; i<bookmarkList.size(); i++) { %>
-                console.log(<%= bookmarkList.get(i).getBookmarkParkingCode() %>);
-                parkingCodeArr.push(<%= bookmarkList.get(i).getBookmarkParkingCode() %>);
-                if(parkingCode == "<%= bookmarkList.get(i).getBookmarkParkingCode() %>")
+            <c:if test="${bookmarkList != null}">
+              <c:forEach var="b" items="${bookmarkList}" varStatus="status">
+                parkingCodeArr.push("${b.bookmarkParkingCode}");
+                if(parkingCode == "${b.bookmarkParkingCode}")
                   isBookmarked = true;
-              <% } %>
-            <% } %>
+              </c:forEach>
+            </c:if>
           }
 
           if(parkingCodeArr == null || parkingCodeArr.length == 0)
@@ -1336,7 +1336,15 @@
 
 
 
-<!-- Modal -->
+<!-- Bootstrap Modal -->
+<!-- This modal is for showing detailed information of each parking lot 
+  since each list of parking lot is dynamically created, click button event is assigned 
+  at the time of creation.
+
+
+  
+  
+ -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="modalLabelParkingName" aria-hidden="true" data-keyboard="false" data-backdrop="static">
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
@@ -1367,34 +1375,37 @@
 
                 <script>
                   $(function(){
-                    <% if(loginMember == null){ %>
-                      console.log("not logged!");
-                      $('#toggleTooltip').attr({"data-toggle" : "tooltip",
-                                                "title" : "login required!"});
-                    <% }else{ %>
-                      $('#toggleTooltip').removeAttr("data-toggle");
-                      $('#toggleTooltip').removeAttr("title");
-                    <% } %>
-
+                    <c:choose>
+                      <c:when test="${loginMember == null}">
+                        $('#toggleTooltip').attr({"data-toggle" : "tooltip",
+                                                  "title" : "login required!"});
+                      </c:when>
+                      <c:otherwise>
+                        alert("toggle script1");
+                        $('#toggleTooltip').removeAttr("data-toggle");
+                        $('#toggleTooltip').removeAttr("title");
+                      </c:otherwise>
+                    </c:choose>
                     $('#bookmarkToggleBtn').click(function(){
                       var toggleOption = "";
-                      <% if(loginMember != null){ %>
-
+                      <c:if test="${loginMember != null}">
                         if($('i#bookmarkIcon').hasClass("fa-star")){
                           toggleOption = "delete";
+                          alert("toggle script2");
                           $('i#bookmarkIcon').removeClass("fa-star").addClass("fa-star-o");
                         }
                         else if($('i#bookmarkIcon').hasClass("fa-star-o")){
                           toggleOption = "insert";
+                          alert("toggle script3");
                           $('i#bookmarkIcon').removeClass("fa-star-o").addClass("fa-star");
                         }
 
                         $.ajax({
-                          url: "<%=request.getContextPath()%>/bookmark/toggleBookmark",
+                          url: "${path}/bookmark/toggleBookmark",
                           type: "POST",
                           dataType: "JSON",
                           data: {"toggleOption" : toggleOption,
-                                  userCode: "<%=loginMember.getUserCode() %>",
+                                  userCode: "${loginMember.userCode}",
                                   parkingCode: $('input#parkingCode').val() },
                           success: function (data) {
                             console.log("bookmark toggle successful!");
@@ -1408,7 +1419,8 @@
                             console.log("bookmark toggle failed!");
                           }
                         });
-                      <% } %>
+                      </c:if>
+
                       //enable tooltips on the page
                       $('[data-toggle="tooltip"]').tooltip();
                     });
@@ -1489,4 +1501,3 @@
     $('#myInput').trigger('focus')
   })
 </script>
-<!-- %@ include file="../common/footer.jsp"%-->

@@ -27,7 +27,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 import com.oreilly.servlet.MultipartRequest;
 import com.parking.common.file.rename.MyFileRenamePolicy;
 import com.parking.member.model.service.MemberService;

@@ -3,6 +3,6 @@ package com.parking.board.controller;
 import org.springframework.stereotype.Controller;
 
 @Controller
-public class BoardController {
+public class HelpBoardController {
 
 }

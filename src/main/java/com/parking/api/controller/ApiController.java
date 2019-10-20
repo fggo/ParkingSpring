@@ -23,6 +23,7 @@ import com.parking.api.model.vo.Parking;
 import com.parking.api.model.vo.ParkingSlot;
 import com.parking.bookmark.model.service.BookmarkService;
 import com.parking.bookmark.model.vo.Bookmark;
+import com.parking.member.model.vo.Member;
 
 @Controller
 public class ApiController {
@@ -61,7 +62,9 @@ public class ApiController {
 //	    }
 
 	    //retrieve parking lot Bookmark list of a user w/ 'userCode'
-	    List<Bookmark> bookmarkList = bookmarkService.selectBookmarkList(userCode);
+	    Member m = new Member();
+	    m.setUserCode(userCode);
+	    List<Bookmark> bookmarkList = bookmarkService.selectBookmarkList(m);
 //	    System.out.println(bookmarkList.size());
 
 	    if (bookmarkList == null)

@@ -7,6 +7,7 @@
   </settings>
   <typeAliases>
     <typeAlias type="com.parking.member.model.vo.Member" alias="member" />
+    <typeAlias type="com.parking.bookmark.model.vo.Bookmark" alias="bookmark" />
     <!-- <typeAlias type="com.parking.common.ArrayTypeHandler" alias="arrType" /> -->
   </typeAliases>
   
