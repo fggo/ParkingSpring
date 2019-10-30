@@ -1,13 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-
-<jsp:include page="/WEB-INF/views/common/mypageHeader.jsp">
-  <jsp:param name="pageTitle" value="Bookmark" />
-</jsp:include>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
+<jsp:include page="/WEB-INF/views/common/mypageHeader.jsp">
+  <jsp:param name="subpage" value="Bookmark" />
+</jsp:include>
+
 
 <c:set var="path" value="${pageContext.request.contextPath}" />
 
@@ -15,11 +15,11 @@
 
     <!-- CSS -->
     <style>
-      <%for(int i = 1; i < 1000; i++){%>
-        object#daum\:roadview\:<%=i%> {
+      <c:forEach begin="0" end="1000" varStatus="loop">
+        object#daum\:roadview\:${loop.index}{
           position: relative !important;
         }
-      <%}%>
+      </c:forEach>
     </style>
 
     <div class="card card-fluid">
@@ -85,7 +85,7 @@
           function loadMapInfo(){
             navigator.geolocation.getCurrentPosition(function(pos){
 
-              loadParkingList(pos);
+              loadBookmarkList(pos);
 
             }, geo_error, geo_options);
           }
@@ -101,7 +101,7 @@
             timeout           : 27000
           };
 
-          function loadParkingList(pos){
+          function loadBookmarkList(pos){
             // marker : bookmarked locations
             var positions = [];
 
@@ -124,11 +124,11 @@
 
                   var aTag = $("<a class='list-group-item list-group-item-action'>");
                   var span0 = $("<span id="+d+">");
-                  var span1 = $("<span id='pName'>").html((Number(d)+1)+". "+data[d]["parkingName"]+"<br>");
-                  var span2 = $("<span>").html("&nbsp;&nbsp;&nbsp;&nbsp;Addr. : "+data[d]["addr"]+"<br>");
-                  var span3 = $("<span>").html("&nbsp;&nbsp;&nbsp;&nbsp;Parking Code : "+data[d]["parkingCode"]+"<br>");
-                  var span4 = $("<span>").html("&nbsp;&nbsp;&nbsp;&nbsp;LAT. : "+data[d]["latitude"]+"<br>");
-                  var span5 = $("<span>").html("&nbsp;&nbsp;&nbsp;&nbsp;LNG. : "+data[d]["longitude"]+"<br>");
+                  var span1 = $("<span id='pName'>").html((Number(d)+1)+". "+data[d]["psName"]+"<br>");
+                  var span2 = $("<span>").html("&nbsp;&nbsp;&nbsp;&nbsp;Addr. : "+data[d]["psAddr"]+"<br>");
+                  var span3 = $("<span>").html("&nbsp;&nbsp;&nbsp;&nbsp;Parking Code : "+data[d]["psParkingCode"]+"<br>");
+                  var span4 = $("<span>").html("&nbsp;&nbsp;&nbsp;&nbsp;LAT. : "+data[d]["psLatitude"]+"<br>");
+                  var span5 = $("<span>").html("&nbsp;&nbsp;&nbsp;&nbsp;LNG. : "+data[d]["psLongitude"]+"<br>");
                   var div = $("<div class='mt-2'>");
                   // var btnStr = "<button class='btn btn-sm btn-outline-info mr-1' "
                   //                       // + "data-toggle='modal' "
@@ -148,17 +148,17 @@
                   listScroll.append(aTag);	
 
                   //Marker : ParkingList
-                  var lat = data[d]["latitude"];
-                  var lng = data[d]["longitude"];
+                  var lat = data[d]["psLatitude"];
+                  var lng = data[d]["psLongitude"];
 
-                  positions.push({title: data[d]["parkingName"], latlng: new kakao.maps.LatLng(lat, lng)});
+                  positions.push({title: data[d]["psName"], latlng: new kakao.maps.LatLng(lat, lng)});
 
                   $('#parking'+d).click(function(){
-                    var parkingName = data[d]["parkingName"];
-                    var addr = data[d]["addr"];
-                    var parkingCode = data[d]["parkingCode"];
-                    var latitude = data[d]["latitude"];
-                    var longitude = data[d]["longitude"];
+                    var parkingName = data[d]["psName"];
+                    var addr = data[d]["psAddr"];
+                    var parkingCode = data[d]["psParkingCode"];
+                    var latitude = data[d]["psLatitude"];
+                    var longitude = data[d]["psLongitude"];
 
 
                     //show bootstrap modal
@@ -347,9 +347,12 @@
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="modalLabelParkingName" aria-hidden="true" data-keyboard="false" data-backdrop="static">
       <script>
         $(function(){
-          <% for(int i =0 ; i<1000; i++) { %>
-            $('object#daum\\:roadview\:<%=i %>').css({"position": "relative !important"});
-          <% } %>
+
+          for(var i =0; i<=1000; i++) {
+            $('object#daum\\:roadview\:'+i).css({
+              'position': 'relative !important',
+            });
+          }
 
         });
       </script>

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-  <jsp:param name="pageTitle" value="MyPage - ${subpage}" />
+  <jsp:param name="pageTitle" value="MyPage - ${param.subpage}" />
 </jsp:include>
 
   <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>

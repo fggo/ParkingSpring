@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,6 +22,7 @@ public class BookmarkController {
   private BookmarkService service;
 
   @RequestMapping("/bookmark/bookmarkList")
+  @ResponseBody
   public String bookmarkList(Member m) throws JsonProcessingException{
     // String userCode = request.getParameter("userCode");
     

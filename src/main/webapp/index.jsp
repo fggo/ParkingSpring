@@ -21,6 +21,7 @@
           <form id="main-searchbar" action="${path }/map/mapListView" class="" role="form">
             <div class="input-group" id="main-searchbar">
               <input type="search" class="form-control" name="search" placeholder="   Where do you need parking?" aria-describedby="button-addon5" id="main-search" list="searchData">
+              <input type="hidden" name="userCode" value="${loginMember.userCode}">
               <datalist id="searchData"></datalist>
               <div class="input-group-append">
                 <button id="button-addon5" class="btn btn-primary" id="main-searchbar-btn"><i class="fa fa-search"></i></button>

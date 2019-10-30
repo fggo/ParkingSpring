@@ -1,43 +1,35 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-  pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<%@ page import="java.util.List" %>
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="java.util.HashMap" %>
-<%@ page import="java.util.Iterator" %>
-<%@ page import="java.util.Map" %>
-<%@ page import="com.parking.board.model.vo.Review" %>
-<%@ page import="com.parking.history.model.vo.UserHistory" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<%
-  List<Review> list = (ArrayList<Review>)request.getAttribute("reviewList");
-  List<UserHistory> userHistoryList = (ArrayList<UserHistory>)request.getAttribute("userHistoryList");
-  String pageBar = (String)request.getAttribute("pageBar");
-  int cPage = (Integer)request.getAttribute("cPage");
-%>
+<c:set var="path" value="${pageContext.request.contextPath}" />
 
-<%@ include file="/WEB-INF/views/common/mypageHeader.jsp" %>
+<!-- header -->
+<jsp:include page="/WEB-INF/views/common/mypageHeader.jsp">
+  <jsp:param name="subpage" value="Review" />
+</jsp:include>
+
   <section class="py-4 subMenu-container">
 
     <!-- CSS -->
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="<%=request.getContextPath() %>/css/review.css">
+    <link rel="stylesheet" href="${path }/resources/css/review.css">
 
     <style>
-      <%for(int i = 1; i < 1000; i++){%>
-        object#daum\:roadview\:<%=i%> {
+      <c:forEach begin="0" end="1000" varStatus="loop">
+        object#daum\:roadview\:${loop.index}{
           position: relative !important;
         }
-      <%}%>
+      </c:forEach>
     </style>
 
     <div class="card card-fluid">
 
       <h6 class="card-header">
         <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-primary rounded shadow-sm">
-          <!-- <img class="mr-3" src="" alt="" width="48" height="48"> -->
-          <!-- <img src="<%=request.getContextPath() %>/images/qna.png" class="mr-3" width="60px"> -->
           <i class="fa fa-edit text-white mr-3 my-2" style="font-size:42px;"></i>
           <div class="lh-100 ml-2">
             <p class="h5 mb-0 text-white lh-100">&nbsp;&nbsp;Review</p>
@@ -49,22 +41,22 @@
       <div class="card-body">
         <!-- .media -->
         <div class="media mb-2">
-          <!-- <div class="user-avatar user-avatar-xl fileinput-button">
+          <div class="user-avatar user-avatar-xl fileinput-button">
             <div class="fileinput-button-label">Change photo</div>
-            <img src="<%=request.getContextPath() %>/images/profile.png" alt="User Avatar">
-            <input id="fileupload-avatar" type="file" name="avatar"> </div> -->
+            <img src="${path }/resources/images/profile.png" alt="User Avatar">
+            <input id="fileupload-avatar" type="file" name="avatar"> </div>
           <!-- .media-body -->
           <div class="media-body pl-3 my-0 py-0">
             <h3 class="card-title">Review list</h3>
-            <h6 class="card-subtitle text-muted">Reviews by <b><%=loginMember.getUserName() %></b></h6>
+            <h6 class="card-subtitle text-muted">Reviews by <b>${loginMember.userName}</b></h6>
             <p class="card-text">
               <small>You have visited <b id="parkingNum"></b>&nbsp; parking lots.</small>
             </p>
           </div>
           <div class="row d-flex mt-5">
-            <% if(loginMember != null){ %>
-              <!-- <input type="button" value="write" class= "btn btn-sm btn-outline-primary mr-4 mb-1" id="write-add" onclick=""> -->
-            <%} %>
+            <c:if test="${loginMember != null }">
+              <input type="button" value="write" class= "btn btn-sm btn-outline-primary mr-4 mb-1" id="write-add" onclick="">
+            </c:if>
           </div>
           <!-- /.media-body -->
         </div>
@@ -85,82 +77,63 @@
             
             <script>
             </script>
-            <% for(Review r : list){ %>
+
+           <c:forEach var="r" items="${list}" varStatus="status">
             <tr>
-              <td class="text-center"><%=r.getReviewUserHistoryNo() %> </td>
+              <td class="text-center">${r.reviewUserHistoryNo} </td>
               <td class="text-center">
                 <div class="media text-muted pt-3">
-                  <% if(loginMember.getUserRenamedFilename() != null) { %>
-                  <img class="profile-pic" src="<%=request.getContextPath()%>/upload/member/<%=loginMember.getUserRenamedFilename() %>" width="32" height="32" style="border-radius: 20%; border:1px solid white;" />
-                  <% } else { %>
+                  <c:if test="${loginMember.userRenamedFilename != null}" >
+                  <img class="profile-pic" src="${path}/upload/member/${loginMember.userRenamedFilename}" width="32" height="32" style="border-radius: 20%; border:1px solid white;" />
+                  </c:if>
+                  <c:if test="${loginMember.userRenamedFilename == null}" >
                   <svg class="bd-placeholder-img mr-2 rounded " width="32" height="32" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32"> <title>Placeholder</title><rect width="100%" height="100%" fill="#132535" class="bg-secondary"></rect>
                     <text x="50%" y="50%" fill="#132535" dy=".3em">32x32</text>
                   </svg>
-                  <% } %>
-                  <!-- <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray"> -->
+                  </c:if>
                   <p class="media-body pb-4 mb-0 small lh-125">
-                    <strong class="d-block text-gray-dark"><%=loginMember.getUserName() %></strong>
+                    <strong class="d-block text-gray-dark">${loginMember.userName}</strong>
                   </p>
                 </div>
               </td>
               <td class="text-center">
-                <a href="<%=request.getContextPath() %>/board/reviewContentView?reviewNo=<%=r.getReviewNo() %>">
-                  <%=r.getReviewTitle() %>
+                <a href="${path }/board/reviewContentView?reviewNo=${r.reviewNo}">
+                  ${r.getReviewTitle}
                 </a>
               </td>
               <script>
-                // function ajaxViewReviewContent(){
-                //   $.ajax({
-                //     type: "POST",
-                //     url: "<%=request.getContextPath() %>/board/reviewContentView",
-                //     dataType: "JSON",
-                //     data: {"no": "<%=r.getReviewNo()%>"},
-                //     success: function(data){
-                //       var html = $('<div>').html(data);
+                 function ajaxViewReviewContent(){
+                   $.ajax({
+                     type: "POST",
+                     url: "${path}/board/reviewContentView",
+                     dataType: "JSON",
+                     data: {"no": "${r.reviewNo}"},
+                     success: function(data){
+                       var html = $('<div>').html(data);
 
-                //       $('div#mypage-container').html(html.find('section#subMenu-container'));
-                //     },
-                //     error: function (data) { // 데이터 통신에 실패
-                //       console.log("JSON data failed to retrieve!");
-                //     }
-                //   });
-                // }
+                       $('div#mypage-container').html(html.find('section#subMenu-container'));
+                     },
+                     error: function (data) { // 데이터 통신에 실패
+                       console.log("JSON data failed to retrieve!");
+                     }
+                   });
+                 }
               </script>
               <td>
-                  <%= r.getReviewContent().substring(0, java.lang.Math.min(80,r.getReviewContent().length())) %>
+                  ${r.reviewContent.substring(0, java.lang.Math.min(80,r.getReviewContent().length())) }
                 </a>
               </td>
-              <!-- <td> -->
-                <%-- <% if(r.getReviewOriginalFile() != null){ %>
-                  <img src="<%=request.getContextPath() %>/images/file.png" width="16px">
-                <% } %> --%>
-              <!-- </td> -->
+              <td>
+              <c:if test="${r.reviewOriginalFile != null}" >
+                <img src="${path}/resources/images/file.png" width="16px">
+              </c:if>
+              </td>
               <td class="text-center">
-                  <!-- String []checkedArr = new String[5];
-                  int rating = r.getReviewRating();
-                  System.out.println(rating);
-
-                  for(int i=0; i < checkedArr.length; i++){
-                    if(i < rating-1)
-                      checkedArr[i]="";
-                    else
-                      checkedArr[i]="checked";
-                    System.out.print(checkedArr[i] + " ");
-                  }
-                    System.out.println(); -->
-                  <%=r.getReviewRating() %>
-            <!-- star ratings -->
-                  <%-- <span class="starrating risingstar d-flex justify-content-center flex-row-reverse">
-                    <input type="radio" id="star5" name="reviewRating" value="5" <%=checkedArr[4]%> disabled readonly /><label for="star5" title="5 star"></label>
-                    <input type="radio" id="star4" name="reviewRating" value="4" <%=checkedArr[3]%> disabled readonly /><label for="star4" title="4 star"></label>
-                    <input type="radio" id="star3" name="reviewRating" value="3" <%=checkedArr[2]%> disabled readonly /><label for="star3" title="3 star"></label>
-                    <input type="radio" id="star2" name="reviewRating" value="2" <%=checkedArr[1]%> disabled readonly /><label for="star2" title="2 star"></label>
-                    <input type="radio" id="star1" name="reviewRating" value="1" <%=checkedArr[0]%> disabled readonly /><label for="star1" title="1 star"></label>
-                  </span>	 --%>
+                  ${r.getReviewRating() }
               </td>
                 
             </tr>
-            <% } %>
+           </c:forEach>
           </tbody>
         </table>
         <script>
@@ -179,13 +152,12 @@
 
         <nav aria-label="Page navigation example">
           <ul class="pagination justify-content-center">
-            <%=pageBar %>
+            ${pageBar}
           </ul>
         </nav>
-          <!-- <a class="dropdown-item" href="javascript:;" onclick="ajaxRequestPage();"><i class="fa fa-question-circle-o">&nbsp;&nbsp;</i>Q&A Board</a> -->
         <script>
           function ajaxRequestPage(pageNo){
-            var url = "<%=request.getContextPath() %>/board/reviewList";
+            var url = "${path}/board/reviewList";
             $.ajax({
               type: "POST",
               url: url,
@@ -197,7 +169,7 @@
                 // var tag = $("<h3>").html(data).css("color", "blue");
                 // $('#content').append(tag);
                 // $('#qna_table tbody')
-                  // location.href="<%=request.getContextPath() %>/board/qnaBoardList?cPage=" + pageNo;
+                  location.href="${path}/board/qnaBoardList?cPage=" + pageNo;
 
                 $('main#review-main').html(html.find('div#review-container'));
               },
@@ -220,9 +192,9 @@
 
           function loadParkingList(mapping){
             $.ajax({
-              url: "<%=request.getContextPath()%>/history/" + mapping,
+              url: "${path}/history/" + mapping,
               type: "POST",
-              data: { "userCode": "<%=loginMember.getUserCode()%>" },
+              data: { "userCode": "${loginMember.userCode}" },
               dataType: "JSON",
               success: function (data) {
                 var listScroll = $("#listScroll");
@@ -314,22 +286,17 @@
           }
 
           function writeReview(parkingCode){
-            var url = "<%=request.getContextPath() %>/board/reviewWrite";
+            var url = "${path}/board/reviewWrite";
             $.ajax({
               type: "POST",
               url: url,
               dataType: "html",
-              data: {userCode: "<%=loginMember.getUserCode() %>",
-                     parkingCode: parkingCode},
+              data: {'userCode': "${loginMember.userCode}",
+                     'parkingCode': parkingCode},
               success: function(data){
                 html = $('<div>').html(data);
 
                 $('div#mypage-container').html(html.find('section.subMenu-container'));
-
-                // <div id="rw-modal-container"></div>
-                // $('div#rw-modal-container').html(
-                //   html.find('section.subMenu-container > div#reviewWriteModel')
-                // );
 
                 $('#reviewWriteModal').modal('show');
 
@@ -393,9 +360,11 @@
   <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="modalLabelParkingName" aria-hidden="true" data-keyboard="false" data-backdrop="static">
     <script>
       $(function(){
-        <% for(int i =0 ; i<1000; i++) { %>
-          $('object#daum\\:roadview\:<%=i %>').css({"position": "relative !important"});
-        <% } %>
+        for(var i =0; i<=1000; i++) {
+          $('object#daum\\:roadview\:'+i).css({
+            'position': 'relative !important',
+          });
+        }
 
       });
     </script>
@@ -480,4 +449,4 @@
     </div>
   </div>
 
-<%@ include file="/WEB-INF/views/common/mypageFooter.jsp" %>
+<jsp:include page="/WEB-INF/views/common/mypageFooter.jsp">

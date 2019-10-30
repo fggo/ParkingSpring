@@ -6,7 +6,7 @@
     select * FROM bookmark b where b.bookmarkusercode=#{userCode}
   </select>
   
-  <select id="selectBookmarkParkingList" parameterType="map" resultType="list">
+  <select id="selectBookmarkParkingList" parameterType="member" resultType="parkingSeoul">
     select ps.* from bookmark b JOIN parkingseoul ps ON b.bookmarkparkingcode = ps.psparkingcode
       where b.bookmarkusercode= #{userCode}
   </select>

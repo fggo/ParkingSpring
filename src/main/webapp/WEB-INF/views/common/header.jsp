@@ -120,7 +120,7 @@
         <!-- Nav search bar -->
         <div id="nav-searchbar" class="col-lg-6 py-0 inline-block px-0 ml-0 mr-1">
           <form action="${path}/map/mapListView" method="POST" class='w-100'>
-            <input type="hidden" name="userCode" value="${sesssionScope.loginMember.userCode}">
+            <input type="hidden" name="userCode" value="${loginMember.userCode}">
             <div class="input-group">
               <input type="search" placeholder="   Where do you need parking?" aria-describedby="button-addon5" class="form-control" name="search" id="nav-search">
               <div class="input-group-append">

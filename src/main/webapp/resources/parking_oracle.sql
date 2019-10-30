@@ -7,7 +7,9 @@
 --delete from member where useremail='lopehih@gmail.com';
 commit;
 
+select * from parkingseoul where psparkingcode= '1033125';
 -----------------------------------------------------------------------------------
+
 SELECT usercode, useremail, userphone, username, useraddr,
   TO_CHAR(usercreateddate, 'yyyy-MM-dd hh24:mi:ss') AS created,
   TO_CHAR(userlogindate, 'yyyy-MM-dd hh24:mi:ss') AS logged,
@@ -15,6 +17,9 @@ SELECT usercode, useremail, userphone, username, useraddr,
   useroriginalfilename AS ori, userrenamedfilename AS re,
   userpw
 FROM MEMBER;
+
+select ps.* from bookmark b JOIN parkingseoul ps ON b.bookmarkparkingcode = ps.psparkingcode where b.bookmarkusercode= '1033125';
+
 
 select * from member m join bookmark b ON m.usercode = b.bookmarkusercode;
 

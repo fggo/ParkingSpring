@@ -1,14 +1,14 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<%@ page import="com.parking.member.model.vo.Member" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<%@ include file="/WEB-INF/views/common/mypageHeader.jsp" %>
+<jsp:include page="/WEB-INF/views/common/mypageHeader.jsp">
+  <jsp:param name="subpage" value="Account Update" />
+</jsp:include>
 
-<%
-  String smsChk = loginMember.getUserSmsYn() ==1? "checked": "";
-  String emailChk = loginMember.getUserEmailYn() ==1? "checked": "";
-%>
+<c:set var="path" value="${pageContext.request.contextPath}" />
 
   <section class="py-4 subMenu-container">
     <div class="card card-fluid">
@@ -21,24 +21,25 @@
           <div class="media mb-3">
             <!-- avatar -->
             <div class="avatar-wrapper my-0 mx-3">
-              <% if(loginMember.getUserRenamedFilename() != null) { %>
-              <img class="profile-pic" src="<%=request.getContextPath()%>/upload/member/<%=loginMember.getUserRenamedFilename() %>" />
-              <% } else { %>
-              <img class="profile-pic" src="" />
-              <% } %>
+              <c:if test="${loginMember.userRenamedFilename != null}">
+                <img class="profile-pic" src="${path}/upload/member/${loginMember.userRenamedFilename}" />
+              </c:if>
+              <c:if test="${loginMember.userRenamedFilename == null}">
+                <img class="profile-pic" src="" />
+              </c:if>
 
               <div class="upload-button">
                 <i class="fa fa-camera" aria-hidden="true"></i>
               </div>
               <input class="file-upload form-control" type="file" accept="image/*" name="new_up_file" />
-              <input class="" type="hidden" name="old_up_file_ori" value="<%=loginMember.getUserOriginalFilename() %>" />
-              <input class="" type="hidden" name="old_up_file_re" value="<%=loginMember.getUserRenamedFilename() %>" />
+              <input class="" type="hidden" name="old_up_file_ori" value="${loginMember.userOriginalFilename}" />
+              <input class="" type="hidden" name="old_up_file_re" value="${loginMember.userRenamedFilename}" />
             </div>
             <!-- /avatar -->
 
             <!-- .media-body -->
             <div class="media-body pl-3">
-              <h3 class="card-title"><%=loginMember.getUserName() %>'s Profile</h3>
+              <h3 class="card-title">${loginMember.userName}'s Profile</h3>
               <p class="card-text">
                 <small class="card-subtitle text-muted"> Click the avatar to change your photo. <br>
                   JPG, GIF or PNG 400x400, &lt; 2 MB.</small>
@@ -57,7 +58,7 @@
             <!-- /form column -->
             <!-- form column -->
             <div class="col-md-9 mb-3">
-              <input type="text" class="form-control" name="phone" id="phone" value="<%=loginMember.getUserPhone() %>">
+              <input type="text" class="form-control" name="phone" id="phone" value="${loginMember.userPhone}">
             </div>
             <!-- /form column -->
           </div>
@@ -67,7 +68,7 @@
             <!-- /form column -->
             <!-- form column -->
             <div class="col-md-9 mb-3">
-              <input type="text" class="form-control" name="name" id="name" value="<%=loginMember.getUserName() %>">
+              <input type="text" class="form-control" name="name" id="name" value="${loginMember.userName}">
             </div>
             <!-- /form column -->
           </div>
@@ -77,7 +78,7 @@
             <!-- /form column -->
             <!-- form column -->
             <div class="col-md-9 mb-3">
-              <textarea type="text" class="form-control" id="addr" name="addr" rows="3" style="resize:none;"><%=loginMember.getUserAddr() %></textarea>
+              <textarea type="text" class="form-control" id="addr" name="addr" rows="3" style="resize:none;">${loginMember.userAddr}</textarea>
               <small class="text-muted">Appears on your profile page, 300 chars max.</small>
             </div>
             <!-- /form column -->
@@ -86,7 +87,8 @@
             <label class="col-md-3">SMS</label>
             <div class="col-md-9 mb-3">
               <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" name="smsYn" id="smsYn" <%=smsChk %> />
+                <input type="checkbox" class="custom-control-input" name="smsYn" id="smsYn" 
+                  <c:if test="${loginMember.userSmsYn==1}">checked</c:if> />
                 <label class="custom-control-label" for="smsYn">Subscribe to SMS</label>
               </div>
             </div>
@@ -95,8 +97,10 @@
             <label class="col-md-3">Email</label>
             <div class="col-md-9 mb-3">
               <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" name="emailYn" id="emailYn" <%=emailChk %> />
+                <input type="checkbox" class="custom-control-input" name="emailYn" id="emailYn"
+                  <c:if test="${loginMember.userEmailYn==1}">checked</c:if> />
                 <label class="custom-control-label" for="emailYn">Subscribe to Email</label>
+
               </div>
             </div>
           </div>
@@ -152,7 +156,7 @@
           var frm = $('form#updateFrm');
 
           if(confirm("Are you sure to Update?")){
-            var url="<%=request.getContextPath() %>/member/memberUpdateEnd";
+            var url="${path}/member/memberUpdateEnd";
             frm.attr({"action" : url});
             frm.submit();
           }
@@ -161,14 +165,14 @@
           var frm = $('form#updateFrm');
 
           if(confirm("Are you sure to DELETE Your Account?")){
-            var url="<%=request.getContextPath() %>/member/memberDelete";
+            var url="${path}/member/memberDelete";
             frm.attr({"action" : url});
             frm.submit();
           }
         })
 
         $('button#cancelBtn').on('click', function(){
-          location.href="<%=request.getContextPath() %>/member/memberView";
+          location.href="${path}/member/memberView";
         })
       });
 

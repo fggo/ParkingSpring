@@ -1,10 +1,10 @@
-<%@page import="com.parking.api.model.vo.Parking"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-  pageEncoding="UTF-8"%>
+pageEncoding="UTF-8"%>
 <%@ page import="java.util.List"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="com.parking.member.model.vo.Member"%>
 <%@ page import="com.parking.board.model.vo.QnaBoard"%>
+<%@page import="com.parking.api.model.vo.Parking"%>
 
 <jsp:include page="/WEB-INF/views/common/header.jsp">
   <jsp:param name="pageTitle" value="Search" />
